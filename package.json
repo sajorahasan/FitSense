@@ -11,14 +11,15 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "check-types": "turbo check-types",
-    "dev:native": "turbo -F native dev",
+    "dev:native": "turbo -F @fitsense/mobile dev",
     "dev:web": "turbo -F web dev",
     "dev:server": "turbo -F @fitsense/backend dev",
     "dev:setup": "turbo -F @fitsense/backend dev:setup",
-    "mobile": "turbo -F native dev",
+    "mobile": "turbo -F @fitsense/mobile dev",
     "backend": "turbo -F @fitsense/backend dev",
     "clean": "turbo clean && rm -rf node_modules pnpm-lock.yaml",
-    "reset": "pnpm clean && pnpm install"
+    "reset": "pnpm clean && pnpm install",
+    "setup": "./scripts/setup-dev.sh"
   },
   "dependencies": {},
   "devDependencies": {

@@ -94,7 +94,7 @@ FitSense is a cross-platform wellness app implementing AI-powered health trackin
 ```
 /Users/Hasan/Desktop/Hasan/Workspace/FitSense/
 ├── apps/                # Monorepo apps directory
-│   └── native/          # React Native + Expo app (convexpo template)
+│   └── native/          # React Native + Expo app (@fitsense/mobile)
 │       ├── app/         # Expo Router screens and layouts
 │       │   ├── _layout.tsx
 │       │   ├── (root)/

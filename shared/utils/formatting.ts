@@ -65,10 +65,7 @@ export function formatHeartRate(bpm: number): string {
 /**
  * Format blood pressure
  */
-export function formatBloodPressure(
-  systolic: number,
-  diastolic: number,
-): string {
+export function formatBloodPressure(systolic: number, diastolic: number): string {
   return `${systolic}/${diastolic} mmHg`;
 }
 
@@ -121,7 +118,7 @@ export function formatGoalCategory(category: string): string {
  */
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength - 3) + "...";
+  return `${text.substring(0, maxLength - 3)}...`;
 }
 
 /**

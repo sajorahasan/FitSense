@@ -1,8 +1,10 @@
-# Convexpo
+# FitSense
 
-## Convex + Better Auth + Expo (React Native) + Hero UI Native
+## AI-Powered Wellness App
 
-This project was bootstrapped with **[Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack)**, a modern TypeScript stack combining Convex, Expo/React Native, Tailwind (NativeWind), Turborepo, and more. For architecture and deeper patterns, refer to the Better-T-Stack repo and docs.
+FitSense is a comprehensive health and fitness tracking application built with modern React Native, powered by AI insights and real-time data synchronization.
+
+This project uses a modern TypeScript stack combining Convex, Expo/React Native, Tailwind (NativeWind), Turborepo, and AI integrations for personalized wellness recommendations.
 
 > To reproduce a similar starter, run:
 >
@@ -23,28 +25,53 @@ This project was bootstrapped with **[Better-T-Stack](https://github.com/AmanVar
 ## Tech Stack
 
 * **TypeScript** — static typing for safety and DX
-* **[React Native (Expo)](https://expo.dev/)** — SDK 54 cross-platform development 🚧 *Beta*
+* **[React Native (Expo)](https://expo.dev/)** — SDK 54 cross-platform development
 * **[Tailwind (NativeWind)](https://www.nativewind.dev/)** — Tailwind for React Native
-* **[Hero UI Native](https://github.com/heroui-inc/heroui-native)** — modern React Native UI library 🚧 *Alpha*
+* **[Hero UI Native](https://github.com/heroui-inc/heroui-native)** — modern React Native UI library
 * **[Convex](https://docs.convex.dev/)** — reactive backend-as-a-service
-* **[Better Auth](https://convex-better-auth.netlify.app/)** — auth primitives on Convex 🚧 *Alpha — community testing welcome*
+* **[Better Auth](https://convex-better-auth.netlify.app/)** — secure authentication system
+* **[OpenAI](https://openai.com/)** — AI-powered insights and recommendations
 * **[Biome](https://biomejs.dev/)** — fast formatting and linting
 * **[Turborepo](https://turbo.build/repo/docs)** — monorepo build system
+
+## 🚀 Features
+
+- **AI-Powered Insights**: Personalized workout and nutrition recommendations
+- **Cross-Platform**: iOS, Android, and Web support via Expo
+- **Real-Time Sync**: Offline-first architecture with Convex backend
+- **Secure Authentication**: Better Auth with email/password and OAuth
+- **Modern UI**: HeroUI Native components with Tailwind CSS
+- **Health Tracking**: Workouts, meals, vital signs, and goals
+- **Smart Notifications**: Personalized reminders and achievements
 
 ---
 
 ## Project Structure
 
 ```text
-convexpo/
+fitsense/
 ├─ apps/
-│  └─ native/          # React Native (Expo) app
-└─ packages/
-   └─ backend/         # Convex backend (functions, schema, auth routes)
+│  └─ native/          # React Native (Expo) mobile app
+│     ├── app/          # Expo Router screens and navigation
+│     ├── components/   # Reusable UI components
+│     ├── contexts/     # React contexts (theme, auth)
+│     ├── lib/          # Utilities and configurations
+│     └── providers/    # App providers (Convex, etc.)
+├─ packages/
+│  └─ backend/         # Convex backend (functions, schema, auth)
+│     └── convex/       # Convex functions and database schema
+├─ shared/              # Shared TypeScript types and utilities
+│  ├── types/           # Type definitions for all entities
+│  └── utils/           # Shared utility functions
+└─ specs/               # Project specifications and documentation
+   ├── contracts/       # API contracts and test specifications
+   ├── data-model.md    # Data model documentation
+   └── plan.md          # Implementation plan
 ```
 
-* The **backend** exposes Better Auth HTTP routes and emails via Resend.
-* The **native** app uses Expo Router and consumes Better Auth’s client APIs.
+* The **backend** handles authentication, data persistence, and AI processing
+* The **native** app provides the mobile interface with offline capabilities
+* The **shared** package contains common types and utilities across workspaces
 
 ---
 
