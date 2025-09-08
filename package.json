@@ -1,0 +1,29 @@
+{
+  "name": "fitsense",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "shared"
+  ],
+  "scripts": {
+    "check": "biome check --write .",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F @fitsense/backend dev",
+    "dev:setup": "turbo -F @fitsense/backend dev:setup",
+    "mobile": "turbo -F native dev",
+    "backend": "turbo -F @fitsense/backend dev",
+    "clean": "turbo clean && rm -rf node_modules pnpm-lock.yaml",
+    "reset": "pnpm clean && pnpm install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "@biomejs/biome": "^2.2.0"
+  },
+  "packageManager": "pnpm@10.15.0"
+}
