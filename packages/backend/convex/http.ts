@@ -16,11 +16,11 @@ betterAuthComponent.registerRoutes(http, createAuth, { cors: true });
  * ONLY USED IN PRODUCTION
  */
 http.route({
-	path: "/resend-webhook",
-	method: "POST",
-	handler: httpAction(async (ctx, req) => {
-		return await resendHandler.handleResendEventWebhook(ctx, req);
-	}),
+  path: "/resend-webhook",
+  method: "POST",
+  handler: httpAction(async (ctx, req) => {
+    return await resendHandler.handleResendEventWebhook(ctx, req);
+  }),
 });
 
 export default http;

@@ -3,7 +3,10 @@
 /**
  * Format a date for display
  */
-export function formatDate(date: Date, options?: Intl.DateTimeFormatOptions): string {
+export function formatDate(
+  date: Date,
+  options?: Intl.DateTimeFormatOptions,
+): string {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",

@@ -65,7 +65,10 @@ export function formatHeartRate(bpm: number): string {
 /**
  * Format blood pressure
  */
-export function formatBloodPressure(systolic: number, diastolic: number): string {
+export function formatBloodPressure(
+  systolic: number,
+  diastolic: number,
+): string {
   return `${systolic}/${diastolic} mmHg`;
 }
 

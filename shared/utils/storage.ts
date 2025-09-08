@@ -59,7 +59,9 @@ export class SyncStatusManager {
   constructor(private storage: StorageAdapter) {}
 
   async getStatus(): Promise<SyncStatusData> {
-    const data = await this.storage.get<SyncStatusData>(STORAGE_KEYS.SYNC_STATUS);
+    const data = await this.storage.get<SyncStatusData>(
+      STORAGE_KEYS.SYNC_STATUS,
+    );
     return (
       data || {
         status: "idle",
@@ -127,7 +129,9 @@ export interface QueuedOperation {
 export class OfflineQueueManager {
   constructor(private storage: StorageAdapter) {}
 
-  async addOperation(operation: Omit<QueuedOperation, "id" | "timestamp" | "retryCount">): Promise<void> {
+  async addOperation(
+    operation: Omit<QueuedOperation, "id" | "timestamp" | "retryCount">,
+  ): Promise<void> {
     const queue = await this.getQueue();
     const newOperation: QueuedOperation = {
       ...operation,
@@ -140,7 +144,9 @@ export class OfflineQueueManager {
   }
 
   async getQueue(): Promise<QueuedOperation[]> {
-    const queue = await this.storage.get<QueuedOperation[]>(STORAGE_KEYS.OFFLINE_QUEUE);
+    const queue = await this.storage.get<QueuedOperation[]>(
+      STORAGE_KEYS.OFFLINE_QUEUE,
+    );
     return queue || [];
   }
 
@@ -216,7 +222,9 @@ export class SettingsManager {
   constructor(private storage: StorageAdapter) {}
 
   async getSettings(): Promise<AppSettings> {
-    const settings = await this.storage.get<AppSettings>(STORAGE_KEYS.APP_SETTINGS);
+    const settings = await this.storage.get<AppSettings>(
+      STORAGE_KEYS.APP_SETTINGS,
+    );
     return settings || DEFAULT_SETTINGS;
   }
 
@@ -229,7 +237,11 @@ export class SettingsManager {
   private deepMerge<T>(target: T, source: Partial<T>): T {
     const result = { ...target };
     for (const key in source) {
-      if (source[key] && typeof source[key] === "object" && !Array.isArray(source[key])) {
+      if (
+        source[key] &&
+        typeof source[key] === "object" &&
+        !Array.isArray(source[key])
+      ) {
         result[key] = this.deepMerge(result[key], source[key] as any);
       } else {
         result[key] = source[key] as any;

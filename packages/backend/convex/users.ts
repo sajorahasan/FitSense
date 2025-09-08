@@ -9,16 +9,16 @@ import * as Users from "./model/user";
  * Returns null if user is not authenticated or has been deleted
  */
 export const getAllUserDataQuery = query({
-	args: {},
-	returns: v.union(
-		v.object({
-			user: v.any(),
-			userMetaData: v.any(),
-		}),
-		v.null(),
-	),
-	handler: async (ctx) => {
-		const user = await Users.getAllUserData(ctx);
-		return user;
-	},
+  args: {},
+  returns: v.union(
+    v.object({
+      user: v.any(),
+      userMetaData: v.any(),
+    }),
+    v.null(),
+  ),
+  handler: async (ctx) => {
+    const user = await Users.getAllUserData(ctx);
+    return user;
+  },
 });

@@ -20,7 +20,10 @@ export function isValidPassword(password: string): boolean {
 /**
  * Required field validation
  */
-export function isRequired(value: any, fieldName: string): ValidationError | null {
+export function isRequired(
+  value: any,
+  fieldName: string,
+): ValidationError | null {
   if (!value || (typeof value === "string" && value.trim() === "")) {
     return { field: fieldName, message: `${fieldName} is required` };
   }
@@ -30,7 +33,12 @@ export function isRequired(value: any, fieldName: string): ValidationError | nul
 /**
  * Numeric range validation
  */
-export function isInRange(value: number, min: number, max: number, fieldName: string): ValidationError | null {
+export function isInRange(
+  value: number,
+  min: number,
+  max: number,
+  fieldName: string,
+): ValidationError | null {
   if (value < min || value > max) {
     return {
       field: fieldName,
@@ -43,7 +51,10 @@ export function isInRange(value: number, min: number, max: number, fieldName: st
 /**
  * Positive number validation
  */
-export function isPositive(value: number, fieldName: string): ValidationError | null {
+export function isPositive(
+  value: number,
+  fieldName: string,
+): ValidationError | null {
   if (value <= 0) {
     return { field: fieldName, message: `${fieldName} must be positive` };
   }
@@ -53,7 +64,10 @@ export function isPositive(value: number, fieldName: string): ValidationError | 
 /**
  * Future date validation
  */
-export function isFutureDate(date: Date, fieldName: string): ValidationError | null {
+export function isFutureDate(
+  date: Date,
+  fieldName: string,
+): ValidationError | null {
   if (date <= new Date()) {
     return { field: fieldName, message: `${fieldName} must be in the future` };
   }
@@ -85,7 +99,12 @@ export function validateWorkoutSession(data: any): ValidationError[] {
 
   // Perceived effort validation
   if (data.perceivedEffort !== undefined) {
-    const effortError = isInRange(data.perceivedEffort, 1, 10, "Perceived effort");
+    const effortError = isInRange(
+      data.perceivedEffort,
+      1,
+      10,
+      "Perceived effort",
+    );
     if (effortError) errors.push(effortError);
   }
 
@@ -209,7 +228,10 @@ export function validateGoal(data: any): ValidationError[] {
 
   // Target date validation
   if (data.targetDate) {
-    const futureDateError = isFutureDate(new Date(data.targetDate), "Target date");
+    const futureDateError = isFutureDate(
+      new Date(data.targetDate),
+      "Target date",
+    );
     if (futureDateError) errors.push(futureDateError);
   }
 

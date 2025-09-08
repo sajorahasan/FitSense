@@ -1,8 +1,8 @@
 export default function generateVerifyOTP({ code }: { code: string }): {
-	html: string;
-	text: string;
+  html: string;
+  text: string;
 } {
-	const html = `
+  const html = `
 		<h1>Verify your Project Account</h1>
 
 		<p>
@@ -16,7 +16,7 @@ export default function generateVerifyOTP({ code }: { code: string }): {
 		</p>
 	`;
 
-	const text = `Verify your Project Account\n\nEnter this verification code to verify your email address:\n\n${code}\n\nIf you didn't create an account, you can safely ignore this email.`;
+  const text = `Verify your Project Account\n\nEnter this verification code to verify your email address:\n\n${code}\n\nIf you didn't create an account, you can safely ignore this email.`;
 
-	return { html, text };
+  return { html, text };
 }

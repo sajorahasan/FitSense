@@ -1,8 +1,8 @@
 export default function generateVerifyEmail({ url }: { url: string }): {
-	html: string;
-	text: string;
+  html: string;
+  text: string;
 } {
-	const html = `
+  const html = `
 		<h1>Confirm Project Sign up</h1>
 
 		<a href="${url}">
@@ -14,7 +14,7 @@ export default function generateVerifyEmail({ url }: { url: string }): {
 		</p>
 	`;
 
-	const text = `Confirm Project Sign up\n\nVerify your email address: ${url}\n\nIf you didn't create an account, you can safely ignore this email.`;
+  const text = `Confirm Project Sign up\n\nVerify your email address: ${url}\n\nIf you didn't create an account, you can safely ignore this email.`;
 
-	return { html, text };
+  return { html, text };
 }

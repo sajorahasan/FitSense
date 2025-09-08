@@ -16,8 +16,18 @@ export interface UserProfile {
 
   // Fitness Profile
   fitnessLevel: "beginner" | "intermediate" | "advanced";
-  activityLevel: "sedentary" | "lightly_active" | "moderately_active" | "very_active" | "extremely_active";
-  primaryGoal: "weight_loss" | "muscle_gain" | "maintenance" | "endurance" | "health_management";
+  activityLevel:
+    | "sedentary"
+    | "lightly_active"
+    | "moderately_active"
+    | "very_active"
+    | "extremely_active";
+  primaryGoal:
+    | "weight_loss"
+    | "muscle_gain"
+    | "maintenance"
+    | "endurance"
+    | "health_management";
 
   // Health Conditions & Preferences
   healthConditions: string[];
@@ -44,7 +54,12 @@ export interface UserProfile {
 export interface UserProfileUpdate {
   displayName?: string;
   fitnessLevel?: "beginner" | "intermediate" | "advanced";
-  primaryGoal?: "weight_loss" | "muscle_gain" | "maintenance" | "endurance" | "health_management";
+  primaryGoal?:
+    | "weight_loss"
+    | "muscle_gain"
+    | "maintenance"
+    | "endurance"
+    | "health_management";
   healthConditions?: string[];
   privacyLevel?: "private" | "friends_only" | "public";
   notifications?: Partial<UserProfile["notifications"]>;

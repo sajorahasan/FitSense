@@ -1,8 +1,8 @@
 export default function generateResetPasswordEmail({ url }: { url: string }): {
-	html: string;
-	text: string;
+  html: string;
+  text: string;
 } {
-	const html = `
+  const html = `
 		<h1>Project Reset Password</h1>
 
 		<a href="${url}">
@@ -14,7 +14,7 @@ export default function generateResetPasswordEmail({ url }: { url: string }): {
 		</p>
 	`;
 
-	const text = `Project Reset Password\n\nReset your password: ${url}\n\nIf you didn't request a password reset, you can safely ignore this email.`;
+  const text = `Project Reset Password\n\nReset your password: ${url}\n\nIf you didn't request a password reset, you can safely ignore this email.`;
 
-	return { html, text };
+  return { html, text };
 }
