@@ -33,16 +33,16 @@
 FitSense is a cross-platform wellness app implementing AI-powered health tracking with local-first architecture. React Native + Expo frontend integrates with Convex backend for real-time sync, featuring encrypted local storage via MMKV, OpenAI integration for personalized insights, and comprehensive accessibility features. The solution prioritizes user privacy, offline functionality, and scalable performance for health-conscious users across beginner to advanced fitness levels.
 
 ## Technical Context
-**Language/Version**: TypeScript 5.x (React Native 0.81+, Node.js 18+)  
-**Primary Dependencies**: React Native 0.81+, Expo SDK 54 beta, Convex 1.x, React Navigation 7.x  
-**Storage**: Convex (cloud) + MMKV (encrypted local) for offline-first architecture  
-**Testing**: Jest + React Native Testing Library (unit), Detox (E2E), Postman/Newman (API contract)  
-**Target Platform**: iOS 15+, Android API 24+, Web (Expo web)  
-**Project Type**: Mobile + Backend (detected cross-platform mobile app with BaaS)  
-**Performance Goals**: <100ms local queries, <2s AI responses, <500ms sync on reconnection  
-**Constraints**: Offline-capable, HIPAA-inspired security, GDPR compliance, <50MB app size  
-**Scale/Scope**: 10k+ users, 1M+ data points/month, real-time sync across devices  
-**Integration Requirements**: OpenAI API, Nutritionix API, Expo device sensors, Better Auth
+**Language/Version**: TypeScript 5.x (React Native 0.81.1+, Node.js 18+)
+**Primary Dependencies**: React Native 0.81.1+, Expo SDK 54.0.0-preview.14, Convex 1.25.4, React Navigation 7.x
+**Storage**: Convex (cloud) + MMKV (encrypted local) for offline-first architecture
+**Testing**: Jest + React Native Testing Library (unit), Detox (E2E), Postman/Newman (API contract)
+**Target Platform**: iOS 15+, Android API 24+, Web (Expo web)
+**Project Type**: Mobile + Backend (convexpo template provides complete monorepo structure)
+**Performance Goals**: <100ms local queries, <2s AI responses, <500ms sync on reconnection
+**Constraints**: Offline-capable, HIPAA-inspired security, GDPR compliance, <50MB app size
+**Scale/Scope**: 10k+ users, 1M+ data points/month, real-time sync across devices
+**Integration Requirements**: OpenAI API, Nutritionix API, Expo device sensors, Better Auth (all supported)
 
 ## Constitution Check
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
@@ -90,40 +90,65 @@ FitSense is a cross-platform wellness app implementing AI-powered health trackin
 └── tasks.md             # Phase 2 output (/tasks command - NOT created by /plan)
 ```
 
-### Source Code (repository root)
+### Source Code (repository root - convexpo template structure)
 ```
 /Users/Hasan/Desktop/Hasan/Workspace/FitSense/
-├── mobile/              # React Native + Expo app
-│   ├── src/
-│   │   ├── components/  # Reusable UI components
-│   │   ├── screens/     # App screens (Dashboard, Logging, etc.)
-│   │   ├── hooks/       # Custom React hooks
-│   │   ├── services/    # API clients, local storage
-│   │   └── types/       # Shared TypeScript interfaces
-│   ├── tests/
-│   │   ├── unit/
-│   │   ├── integration/
-│   │   └── e2e/
-│   └── package.json
-├── backend/             # Convex backend
-│   ├── convex/
-│   │   ├── schema.ts    # Database schema
-│   │   ├── queries.ts   # Data fetching
-│   │   ├── mutations.ts # Data mutations
-│   │   └── functions/   # Serverless functions
-│   ├── tests/
-│   └── convex.json
-├── shared/              # Shared types and utilities
-│   ├── types/
-│   └── utils/
-├── ai-service/          # OpenAI integration
-│   ├── src/
-│   └── tests/
-├── scripts/             # Build and deployment scripts
-└── package.json         # Monorepo root with Turborepo
+├── apps/                # Monorepo apps directory
+│   └── native/          # React Native + Expo app (convexpo template)
+│       ├── app/         # Expo Router screens and layouts
+│       │   ├── _layout.tsx
+│       │   ├── (root)/
+│       │   │   ├── _layout.tsx
+│       │   │   ├── (auth)/        # Authentication screens
+│       │   │   │   ├── signin.tsx
+│       │   │   │   ├── signup.tsx
+│       │   │   │   └── (reset)/    # Password reset flows
+│       │   │   └── (main)/        # Main app screens
+│       │   │       ├── _layout.tsx
+│       │   │       ├── index.tsx   # Dashboard
+│       │   │       └── settings.tsx
+│       ├── components/  # Reusable UI components
+│       │   ├── app-text.tsx
+│       │   ├── form.tsx
+│       │   ├── screen-scroll-view.tsx
+│       │   ├── theme-selector.tsx
+│       │   └── theme-toggle.tsx
+│       ├── contexts/    # React contexts
+│       │   └── app-theme-context.tsx
+│       ├── hooks/       # Custom React hooks
+│       ├── lib/         # Utilities and integrations
+│       │   ├── better-auth/    # Auth client setup
+│       │   ├── constants.ts
+│       │   ├── utils.ts
+│       │   └── use-color-scheme.ts
+│       ├── providers/   # React providers
+│       │   └── ConvexProvider.tsx
+│       ├── themes/      # Theme configurations
+│       │   └── pastel-themes.ts
+│       └── package.json
+├── packages/            # Monorepo packages
+│   └── backend/         # Convex backend package
+│       ├── convex/      # Convex functions and schema
+│       │   ├── _generated/     # Auto-generated types
+│       │   ├── auth.config.ts  # Better Auth configuration
+│       │   ├── auth.ts         # Auth functions
+│       │   ├── schema.ts       # Database schema
+│       │   ├── users.ts        # User management
+│       │   ├── util.ts
+│       │   └── lib/
+│       │       ├── auth/       # Auth utilities
+│       │       └── resend/     # Email integration
+│       └── package.json
+├── shared/              # Shared types and utilities (to be created)
+│   ├── types/           # TypeScript interfaces
+│   └── utils/           # Shared utilities
+├── pnpm-workspace.yaml # Workspace configuration
+├── turbo.json          # Build system configuration
+├── package.json        # Root package.json
+└── biome.json          # Linting configuration
 ```
 
-**Structure Decision**: Mobile + Backend (justified for cross-platform mobile app with BaaS integration)
+**Structure Decision**: Mobile + Backend (convexpo template provides production-ready monorepo with pnpm, Turbo, and Biome)
 
 ## Phase 0: Outline & Research
 1. **Extract unknowns from Technical Context** above:
@@ -230,7 +255,7 @@ FitSense is a cross-platform wellness app implementing AI-powered health trackin
 - [x] Phase 0: Research complete (/plan command)
 - [x] Phase 1: Design complete (/plan command)
 - [x] Phase 2: Task planning approach defined (/plan command)
-- [ ] Phase 3: Tasks generated (/tasks command)
+- [x] Phase 3: Tasks generated (/tasks command)
 - [ ] Phase 4: Implementation complete
 - [ ] Phase 5: Validation passed
 
