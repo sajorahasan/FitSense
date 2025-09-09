@@ -212,34 +212,6 @@ pnpm run dev
 
 ---
 
-## Apple Login
-
-If you want Apple Sign-In with Better Auth, see: [Better Auth Apple Docs](https://www.better-auth.com/docs/authentication/apple)
-
-**Status:** prototype; functions will be cleaned up soon.
-
-Uncomment Apple in `packages/backend/convex/lib/auth/index.ts`:
-
-```ts
-// socialProviders: {
-//   apple: {
-//     clientId: requireEnv("APPLE_CLIENT_ID"),
-//     clientSecret: requireEnv("APPLE_CLIENT_SECRET"),
-//     appBundleIdentifier: requireEnv("APPLE_APP_BUNDLE_IDENTIFIER"),
-//   },
-// },
-```
-
-Expo usage lives in:
-
-```
-apps/native/lib/better-auth/oauth/applehandler.ts
-```
-
-If you want a step-by-step, please open an **Issue** and I’ll add a guide.
-
----
-
 ## Google Login
 
 Docs: [Better Auth Google Docs](https://www.better-auth.com/docs/authentication/google)
