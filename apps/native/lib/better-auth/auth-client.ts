@@ -8,8 +8,8 @@ export const authClient = createAuthClient({
   plugins: [
     convexClient(),
     expoClient({
-      scheme: "native", // scheme from app.json
-      storagePrefix: "native", // can be anything
+      scheme: "fitsense", // scheme from app.json
+      storagePrefix: "fitsense", // can be anything
       storage: SecureStore,
     }),
   ],
