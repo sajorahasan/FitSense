@@ -22,7 +22,7 @@
     "setup": "./scripts/setup-dev.sh"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.3",
+    "@biomejs/biome": "^2.2.4",
     "turbo": "^2.5.6"
   },
   "packageManager": "pnpm@10.15.0"
