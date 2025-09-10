@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, Spinner, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Alert, ScrollView } from "react-native";
+import { toast } from "sonner-native";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function SettingsRoute() {
@@ -22,7 +23,7 @@ export default function SettingsRoute() {
         },
         onError: (ctx) => {
           console.error(ctx.error);
-          Alert.alert("Error", ctx.error.message || "Failed to sign out");
+          toast.error(ctx.error.message || "Failed to sign out");
         },
       },
     );
@@ -45,7 +46,7 @@ export default function SettingsRoute() {
         onError: (ctx) => {
           setIsDeletingUser(false);
           console.error(ctx.error);
-          Alert.alert("Error", ctx.error.message || "Failed to delete user");
+          toast.error(ctx.error.message || "Failed to delete user");
         },
       },
     );

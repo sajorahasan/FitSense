@@ -2,7 +2,7 @@ import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { Link } from "expo-router";
 import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { authClient } from "@/lib/better-auth/auth-client";
 
@@ -21,11 +21,11 @@ export default function SignInRoute() {
      * but this is just a base for you to get started
      */
     if (!email.trim()) {
-      Alert.alert("Error", "Please enter your email");
+      toast.error("Please enter your email");
       return;
     }
     if (!password) {
-      Alert.alert("Error", "Please enter your password");
+      toast.error("Please enter your password");
       return;
     }
 
@@ -42,7 +42,7 @@ export default function SignInRoute() {
 
         onError: (ctx) => {
           setIsLoading(false);
-          Alert.alert("Error", ctx.error.message || "Failed to sign in");
+          toast.error(ctx.error.message || "Failed to sign in");
         },
         onSuccess: () => {
           setIsLoading(false);

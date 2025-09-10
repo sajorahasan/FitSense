@@ -2,7 +2,8 @@ import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { authClient } from "@/lib/better-auth/auth-client";
 
@@ -34,17 +35,17 @@ export default function ResetPasswordRoute() {
      * but this is just a base for you to get started
      */
     if (!password) {
-      Alert.alert("Error", "Please enter your new password");
+      toast.error("Please enter your new password");
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords don't match");
+      toast.error("Passwords don't match");
       return;
     }
 
     if (password.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters");
+      toast.error("Password must be at least 6 characters");
       return;
     }
     const { error, data } = await authClient.resetPassword(
@@ -59,12 +60,12 @@ export default function ResetPasswordRoute() {
 
         onError: (ctx) => {
           setIsLoading(false);
-          Alert.alert("Error", ctx.error.message || "Failed to reset password");
+          toast.error(ctx.error.message || "Failed to reset password");
         },
         onSuccess: () => {
           setIsLoading(false);
           console.log("success!");
-          Alert.alert("Success", "Password reset successfully");
+          toast.success("Password reset successfully");
           /**
            * i have a thought to better the ui
            *

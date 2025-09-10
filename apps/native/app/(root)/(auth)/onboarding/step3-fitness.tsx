@@ -3,7 +3,8 @@ import { useMutation } from "convex/react";
 import { Link, router } from "expo-router";
 import { Button, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { api } from "~/backend/_generated/api";
 
@@ -71,18 +72,12 @@ export default function OnboardingFitness() {
 
   const handleContinue = async () => {
     if (!selectedLevel) {
-      Alert.alert(
-        "Fitness Level Required",
-        "Please select your fitness level to continue.",
-      );
+      toast.error("Please select your fitness level to continue.");
       return;
     }
 
     if (!selectedGoal) {
-      Alert.alert(
-        "Goal Required",
-        "Please select your primary goal to continue.",
-      );
+      toast.error("Please select your primary goal to continue.");
       return;
     }
 
@@ -95,10 +90,7 @@ export default function OnboardingFitness() {
       });
       router.push("/(root)/(auth)/onboarding/step4-preferences");
     } catch (error) {
-      Alert.alert(
-        "Error",
-        `Failed to save your fitness profile. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
-      );
+      toast.error(`Failed to save your fitness profile. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
     } finally {
       setIsLoading(false);
     }

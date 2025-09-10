@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert } from "react-native";
+import { toast } from "sonner-native";
 import { authClient } from "../auth-client";
 
 /* ------------------------------ core handler ------------------------------ */
@@ -49,7 +49,7 @@ export const useGoogleSignIn = (options: UseGoogleSignInOptions = {}) => {
       }
       // Handle error
       if (showAlert && result.error) {
-        Alert.alert("Google Sign In Error", result.error.message);
+        toast.error(`Google Sign In Error: ${result.error.message}`);
       }
       if (result.error) {
         onError?.(result.error);

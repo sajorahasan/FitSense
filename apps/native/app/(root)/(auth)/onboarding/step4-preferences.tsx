@@ -2,7 +2,8 @@ import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useMutation } from "convex/react";
 import { Button, Switch, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { api } from "~/backend/_generated/api";
@@ -77,10 +78,7 @@ export default function OnboardingPreferences() {
       // Navigate to main app
       // router.replace("/(root)/(main)/index");
     } catch (error) {
-      Alert.alert(
-        "Error",
-        `Failed to complete setup. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
-      );
+      toast.error(`Failed to complete setup. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
     } finally {
       setIsLoading(false);
     }

@@ -3,7 +3,8 @@ import { useMutation } from "convex/react";
 import { Link, router } from "expo-router";
 import { Button, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { api } from "~/backend/_generated/api";
 
@@ -18,10 +19,7 @@ export default function OnboardingPersonal() {
 
   const handleContinue = async () => {
     if (!height.trim() || !weight.trim()) {
-      Alert.alert(
-        "Required Information",
-        "Please enter your height and weight to continue.",
-      );
+      toast.error("Please enter your height and weight to continue.");
       return;
     }
 
@@ -40,10 +38,7 @@ export default function OnboardingPersonal() {
       await updateProfile(updates);
       router.push("/(root)/(auth)/onboarding/step3-fitness");
     } catch (error) {
-      Alert.alert(
-        "Error",
-        `Failed to save your information. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
-      );
+      toast.error(`Failed to save your information. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
     } finally {
       setIsLoading(false);
     }

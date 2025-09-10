@@ -2,7 +2,8 @@ import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { Link } from "expo-router";
 import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Alert, Text } from "react-native";
+import { Text } from "react-native";
+import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
 import { authClient } from "@/lib/better-auth/auth-client";
 
@@ -23,22 +24,22 @@ export default function SignUpRoute() {
      * but this is just a base for you to get started
      */
     if (!name.trim()) {
-      Alert.alert("Error", "Please enter your name");
+      toast.error("Please enter your name");
       return;
     }
 
     if (!email.trim()) {
-      Alert.alert("Error", "Please enter your email");
+      toast.error("Please enter your email");
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords don't match");
+      toast.error("Passwords don't match");
       return;
     }
 
     if (password.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters");
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
@@ -55,7 +56,7 @@ export default function SignUpRoute() {
 
         onError: (ctx) => {
           setIsLoading(false);
-          Alert.alert("Error", ctx.error.message || "Failed to sign up");
+          toast.error(ctx.error.message || "Failed to sign up");
         },
         onSuccess: () => {
           setIsLoading(false);
