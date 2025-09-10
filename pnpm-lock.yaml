@@ -9,10 +9,10 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: ^2.2.0
+        specifier: ^2.2.3
         version: 2.2.3
       turbo:
-        specifier: ^2.5.4
+        specifier: ^2.5.6
         version: 2.5.6
 
   apps/native:
@@ -155,16 +155,16 @@ importers:
         version: 1.3.9(better-auth@1.3.9)
       '@convex-dev/better-auth':
         specifier: ^0.7.18
-        version: 0.7.18(better-auth@1.3.9)(convex@1.27.0)(react-dom@19.1.0)(react@19.1.0)(typescript@5.9.2)
+        version: 0.7.18(better-auth@1.3.9)(convex@1.27.0)(react-dom@19.1.1)(react@19.1.1)(typescript@5.9.2)
       '@convex-dev/resend':
         specifier: ^0.1.12
-        version: 0.1.12(convex-helpers@0.1.104)(convex@1.27.0)(react@19.1.0)
+        version: 0.1.12(convex-helpers@0.1.104)(convex@1.27.0)(react@19.1.1)
       better-auth:
         specifier: 1.3.9
-        version: 1.3.9(react-dom@19.1.0)(react@19.1.0)
+        version: 1.3.9(react-dom@19.1.1)(react@19.1.1)
       convex:
         specifier: ^1.27.0
-        version: 1.27.0(react@19.1.0)
+        version: 1.27.0(react@19.1.1)
     devDependencies:
       '@types/node':
         specifier: ^24.3.0
@@ -1297,7 +1297,7 @@ packages:
     dev: true
     optional: true
 
-  /@convex-dev/better-auth@0.7.18(better-auth@1.3.9)(convex@1.27.0)(react-dom@19.1.0)(react@19.1.0)(typescript@5.9.2):
+  /@convex-dev/better-auth@0.7.18(better-auth@1.3.9)(convex@1.27.0)(react-dom@19.1.1)(react@19.1.1)(typescript@5.9.2):
     resolution: {integrity: sha512-lZwJcRJncmeKZfDQk7PJrJ+8z/S8rmO5rUfPWZd2gOjC+1sbd/JUZiTVPGLxeP5VEGG74TkRTUavK7s+wmKhwg==}
     peerDependencies:
       better-auth: 1.3.8
@@ -1305,13 +1305,13 @@ packages:
       react: ^18.3.1 || ^19.0.0
       react-dom: ^18.3.1 || ^19.0.0
     dependencies:
-      better-auth: 1.3.9(react-dom@19.1.0)(react@19.1.0)
+      better-auth: 1.3.9(react-dom@19.1.1)(react@19.1.1)
       common-tags: 1.8.2
-      convex: 1.27.0(react@19.1.0)
-      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.0)(typescript@5.9.2)(zod@3.25.76)
+      convex: 1.27.0(react@19.1.1)
+      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.1)(typescript@5.9.2)(zod@3.25.76)
       is-network-error: 1.1.0
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
       type-fest: 4.41.0
       zod: 3.25.76
     transitivePeerDependencies:
@@ -1320,7 +1320,7 @@ packages:
       - typescript
     dev: false
 
-  /@convex-dev/rate-limiter@0.2.12(convex@1.27.0)(react@19.1.0):
+  /@convex-dev/rate-limiter@0.2.12(convex@1.27.0)(react@19.1.1):
     resolution: {integrity: sha512-Z7YXDSPa28/8eqVJYUWQBwK9hTiJcXfWY2qZ44Im3VpuBFJZCqYjem7QWjvoTlBjVGqK7FKw26xRneei09hm2w==}
     peerDependencies:
       convex: ~1.16.5 || >=1.17.0 <1.35.0
@@ -1329,20 +1329,20 @@ packages:
       react:
         optional: true
     dependencies:
-      convex: 1.27.0(react@19.1.0)
-      react: 19.1.0
+      convex: 1.27.0(react@19.1.1)
+      react: 19.1.1
     dev: false
 
-  /@convex-dev/resend@0.1.12(convex-helpers@0.1.104)(convex@1.27.0)(react@19.1.0):
+  /@convex-dev/resend@0.1.12(convex-helpers@0.1.104)(convex@1.27.0)(react@19.1.1):
     resolution: {integrity: sha512-afdoRqYwBVRwB/gD+xUHko8937xcw3EVzTPGN6CS7xEjEsgRnIpl11LRxxqdLzfMpXHR7pkDUsHhlW3zTPrRyw==}
     peerDependencies:
       convex: ^1.23.0
       convex-helpers: ^0.1.99
     dependencies:
-      '@convex-dev/rate-limiter': 0.2.12(convex@1.27.0)(react@19.1.0)
+      '@convex-dev/rate-limiter': 0.2.12(convex@1.27.0)(react@19.1.1)
       '@convex-dev/workpool': 0.2.18(convex-helpers@0.1.104)(convex@1.27.0)
-      convex: 1.27.0(react@19.1.0)
-      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.0)(typescript@5.9.2)(zod@3.25.76)
+      convex: 1.27.0(react@19.1.1)
+      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.1)(typescript@5.9.2)(zod@3.25.76)
       remeda: 2.31.1
       svix: 1.76.1
     transitivePeerDependencies:
@@ -1355,8 +1355,8 @@ packages:
       convex: '>=1.25.0 <1.35.0'
       convex-helpers: ^0.1.94
     dependencies:
-      convex: 1.27.0(react@19.1.0)
-      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.0)(typescript@5.9.2)(zod@3.25.76)
+      convex: 1.27.0(react@19.1.1)
+      convex-helpers: 0.1.104(convex@1.27.0)(react@19.1.1)(typescript@5.9.2)(zod@3.25.76)
     dev: false
 
   /@egjs/hammerjs@2.0.17:
@@ -3408,6 +3408,36 @@ packages:
       zod: 4.1.5
     dev: false
 
+  /better-auth@1.3.9(react-dom@19.1.1)(react@19.1.1):
+    resolution: {integrity: sha512-Ty6BHzuShlqSs7I4RMlBRQ3duOWNB7WWriIu2FJVGjQAOtTVvamzFCR4/j5ROFLoNkpvNTRF7BJozsrMICL1gw==}
+    peerDependencies:
+      '@lynx-js/react': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@lynx-js/react':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      '@better-auth/utils': 0.2.6
+      '@better-fetch/fetch': 1.1.18
+      '@noble/ciphers': 2.0.0
+      '@noble/hashes': 2.0.0
+      '@simplewebauthn/browser': 13.1.2
+      '@simplewebauthn/server': 13.1.2
+      better-call: 1.0.18
+      defu: 6.1.4
+      jose: 6.1.0
+      kysely: 0.28.5
+      nanostores: 0.11.4
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
+      zod: 4.1.5
+    dev: false
+
   /better-call@1.0.18:
     resolution: {integrity: sha512-Ojyck3P3fs/egBmCW50tvfbCJorNV5KphfPOKrkCxPfOr8Brth1ruDtAJuhHVHEUiWrXv+vpEgWQk7m7FzhbbQ==}
     dependencies:
@@ -3753,7 +3783,7 @@ packages:
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  /convex-helpers@0.1.104(convex@1.27.0)(react@19.1.0)(typescript@5.9.2)(zod@3.25.76):
+  /convex-helpers@0.1.104(convex@1.27.0)(react@19.1.1)(typescript@5.9.2)(zod@3.25.76):
     resolution: {integrity: sha512-7CYvx7T3K6n+McDTK4ZQaQNNGBzq5aWezpjzsKbOxPXx7oNcTP9wrpef3JxeXWFzkByJv5hRCjseh9B7eNJ7Ig==}
     hasBin: true
     peerDependencies:
@@ -3775,8 +3805,8 @@ packages:
       zod:
         optional: true
     dependencies:
-      convex: 1.27.0(react@19.1.0)
-      react: 19.1.0
+      convex: 1.27.0(react@19.1.1)
+      react: 19.1.1
       typescript: 5.9.2
       zod: 3.25.76
     dev: false
@@ -3801,6 +3831,28 @@ packages:
       jwt-decode: 4.0.0
       prettier: 3.6.2
       react: 19.1.0
+    dev: false
+
+  /convex@1.27.0(react@19.1.1):
+    resolution: {integrity: sha512-IHkqZX3GtY4nKFPTAR4mvWHHhDiQX9PM7EjpEv0pJWoMoq0On6oOL3iZ7Xz4Ls96dF7WJd4AjfitJsg2hUnLSQ==}
+    engines: {node: '>=18.0.0', npm: '>=7.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@auth0/auth0-react': ^2.0.1
+      '@clerk/clerk-react': ^4.12.8 || ^5.0.0
+      react: ^18.0.0 || ^19.0.0-0 || ^19.0.0
+    peerDependenciesMeta:
+      '@auth0/auth0-react':
+        optional: true
+      '@clerk/clerk-react':
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      esbuild: 0.25.4
+      jwt-decode: 4.0.0
+      prettier: 3.6.2
+      react: 19.1.1
     dev: false
 
   /core-js-compat@3.45.1:
@@ -6203,6 +6255,15 @@ packages:
       scheduler: 0.26.0
     dev: false
 
+  /react-dom@19.1.1(react@19.1.1):
+    resolution: {integrity: sha512-Dlq/5LAZgF0Gaz6yiqZCf6VCcZs1ghAJyrsu84Q/GT0gV+mCxbfmKNoGRKBYMJ8IEdGPqu49YWXD02GCknEDkw==}
+    peerDependencies:
+      react: ^19.1.1
+    dependencies:
+      react: 19.1.1
+      scheduler: 0.26.0
+    dev: false
+
   /react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
     dev: false
@@ -6517,6 +6578,11 @@ packages:
 
   /react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /react@19.1.1:
+    resolution: {integrity: sha512-w8nqGImo45dmMIfljjMwOGtbmC/mk4CMYhWIicdSflH91J9TyCyczcPFXJzrZ/ZXcgGRFeP6BU0BEJTw6tZdfQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
