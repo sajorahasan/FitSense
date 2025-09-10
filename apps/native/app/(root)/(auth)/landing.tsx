@@ -1,4 +1,5 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Button, useTheme } from "heroui-native";
 import { Text, View } from "react-native";
@@ -18,10 +19,8 @@ export default function Landing() {
       <View className="flex-1 px-8 pt-16">
         {/* Hero section */}
         <View className="flex-1 items-center justify-center">
-          {/* App icon placeholder */}
-          <View className="mb-8 h-24 w-24 items-center justify-center rounded-3xl bg-accent/20">
-            <Ionicons name="fitness" size={48} color={colors.accent} />
-          </View>
+          {/* App logo */}
+          <Image source={require("../../../assets/app-logo.png")} style={{width: "40%", height: "40%"}} contentFit="cover" />
 
           {/* App title and description */}
           <View className="mb-16 items-center">
