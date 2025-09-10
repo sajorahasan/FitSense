@@ -1,5 +1,6 @@
 import { useConvexAuth, useQuery } from "convex/react";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { useNavigationOptions } from "@/hooks/useNavigationOptions";
@@ -10,7 +11,7 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const { isAuthenticated } = useConvexAuth();
+  const { isAuthenticated, isLoading } = useConvexAuth();
   const { root } = useNavigationOptions();
   const { syncThemeFromUser } = useAppTheme();
 
@@ -24,6 +25,16 @@ export default function RootLayout() {
       syncThemeFromUser(user.themeId);
     }
   }, [user?.themeId, syncThemeFromUser]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      SplashScreen.hide();
+    }
+  }, [isLoading]);
+
+  if (isLoading) {
+    return null;
+  }
 
   /* --------------------------------- return --------------------------------- */
   return (

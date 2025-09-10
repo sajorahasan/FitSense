@@ -10,9 +10,16 @@ import {
   ReanimatedLogLevel,
 } from "react-native-reanimated";
 import { Toaster } from "sonner-native";
+import * as SplashScreen from 'expo-splash-screen';
 
 import { AppThemeProvider, useAppTheme } from "@/contexts/app-theme-context";
 import ConvexProvider from "@/providers/ConvexProvider";
+
+SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  fade: true,
+});
 
 // Disable Reanimated strict mode warnings
 configureReanimatedLogger({
