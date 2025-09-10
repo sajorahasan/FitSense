@@ -1,17 +1,3 @@
 packages:
   - "apps/*"
   - "packages/*"
-
-# Dependency hoisting settings for React Native compatibility
-shamefullyHoist: true
-hoist: true
-hoistWorkspacePackages: true
-
-# Public hoist pattern for React Native specific packages
-publicHoistPattern:
-  - "*react-native*"
-  - "*expo*"
-  - "*@react-navigation*"
-  - "*@tanstack*"
-  - "*@expo/metro-runtime*"
-  - "*semver*"

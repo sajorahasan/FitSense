@@ -23,7 +23,8 @@
       "!**/.wrangler",
       "!**/.alchemy",
       "!**/wrangler.jsonc",
-      "!**/.source"
+      "!**/.source",
+      "!**/packages/backend/convex/_generated"
     ]
   },
   "formatter": {
@@ -62,7 +63,8 @@
       "suspicious": {
         "noUnknownAtRules": {
           "level": "off"
-        }
+        },
+        "noExplicitAny": "off"
       }
     }
   },

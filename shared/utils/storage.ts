@@ -84,7 +84,7 @@ export class SyncStatusManager {
   }
 
   async markSyncSuccess(): Promise<void> {
-    const current = await this.getStatus();
+    const _current = await this.getStatus();
     await this.updateStatus({
       status: "success",
       pendingChanges: 0,

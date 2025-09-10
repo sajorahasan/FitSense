@@ -9,8 +9,8 @@ const config = withTurborepoManagedCache(
     withNativeWind(getDefaultConfig(__dirname), {
       input: "./global.css",
       configPath: "./tailwind.config.js",
-    })
-  )
+    }),
+  ),
 );
 
 config.resolver.unstable_enablePackageExports = true;
@@ -38,12 +38,7 @@ function withMonorepoPaths(config) {
   config.resolver.nodeModulesPaths = [
     path.resolve(projectRoot, "node_modules"),
     path.resolve(workspaceRoot, "node_modules"),
-    path.resolve(workspaceRoot, "node_modules/.pnpm/node_modules"),
   ];
-
-  // #3 - Add additional resolver options for pnpm compatibility
-  config.resolver.resolverMainFields = ["react-native", "browser", "main"];
-  config.resolver.platforms = ["ios", "android", "native", "web"];
 
   return config;
 }
@@ -57,6 +52,8 @@ function withMonorepoPaths(config) {
  * @returns {import('expo/metro-config').MetroConfig}
  */
 function withTurborepoManagedCache(config) {
-  config.cacheStores = [new FileStore({ root: path.join(__dirname, ".cache/metro") })];
+  config.cacheStores = [
+    new FileStore({ root: path.join(__dirname, ".cache/metro") }),
+  ];
   return config;
 }

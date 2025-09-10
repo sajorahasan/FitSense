@@ -1,9 +1,29 @@
-import { Slot } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "../global.css";
+// import "expo-dev-client";
+
+import { Slot } from "expo-router";
 import { HeroUINativeProvider } from "heroui-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from "react-native-reanimated";
+import { Toaster } from "sonner-native";
+
 import { AppThemeProvider, useAppTheme } from "@/contexts/app-theme-context";
 import ConvexProvider from "@/providers/ConvexProvider";
+
+// Disable Reanimated strict mode warnings
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
 
 /* ------------------------------ themed route ------------------------------ */
 function ThemedLayout() {
@@ -11,7 +31,7 @@ function ThemedLayout() {
   return (
     <HeroUINativeProvider
       config={{
-        colorScheme: "dark",
+        colorScheme: "system",
         theme: currentTheme,
         textProps: {
           allowFontScaling: false,
@@ -27,9 +47,12 @@ export default function Layout() {
   return (
     <ConvexProvider>
       <GestureHandlerRootView className="flex-1">
-        <AppThemeProvider>
-          <ThemedLayout />
-        </AppThemeProvider>
+        <KeyboardProvider>
+          <AppThemeProvider>
+            <ThemedLayout />
+            <Toaster position="top-center" duration={3000} />
+          </AppThemeProvider>
+        </KeyboardProvider>
       </GestureHandlerRootView>
     </ConvexProvider>
   );

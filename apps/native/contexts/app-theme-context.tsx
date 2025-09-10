@@ -7,12 +7,17 @@ import {
   useMemo,
   useState,
 } from "react";
+import { MMKV } from "react-native-mmkv";
 import { pastelThemes, type ThemeId } from "../themes/pastel-themes";
+
+const storage = new MMKV();
+const THEME_STORAGE_KEY = "fitsense_theme_id";
 
 interface AppThemeContextType {
   currentThemeId: ThemeId;
   currentTheme: ThemeConfig | undefined;
   setThemeById: (id: ThemeId) => void;
+  syncThemeFromUser: (userThemeId?: string) => void;
   availableThemes: typeof pastelThemes;
 }
 
@@ -22,11 +27,27 @@ const AppThemeContext = createContext<AppThemeContextType | undefined>(
 export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>("default");
+  // Initialize theme from storage or default
+  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>(() => {
+    const storedTheme = storage.getString(THEME_STORAGE_KEY) as ThemeId;
+    return storedTheme || "default";
+  });
 
   const setThemeById = useCallback((id: ThemeId) => {
     setCurrentThemeId(id);
+    storage.set(THEME_STORAGE_KEY, id);
   }, []);
+
+  const syncThemeFromUser = useCallback(
+    (userThemeId?: string) => {
+      if (userThemeId && userThemeId !== currentThemeId) {
+        const validThemeId = userThemeId as ThemeId;
+        setCurrentThemeId(validThemeId);
+        storage.set(THEME_STORAGE_KEY, validThemeId);
+      }
+    },
+    [currentThemeId],
+  );
 
   const currentTheme = useMemo(() => {
     const theme = pastelThemes.find((t) => t.id === currentThemeId);
@@ -38,9 +59,10 @@ export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       currentThemeId,
       currentTheme,
       setThemeById,
+      syncThemeFromUser,
       availableThemes: pastelThemes,
     }),
-    [currentThemeId, currentTheme, setThemeById],
+    [currentThemeId, currentTheme, setThemeById, syncThemeFromUser],
   );
 
   return (

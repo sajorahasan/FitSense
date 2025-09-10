@@ -3,7 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "~/backend/*": ["../../packages/backend/convex/*"],
+      "~/shared/*": ["../../shared/*"]
     }
   },
   "include": [

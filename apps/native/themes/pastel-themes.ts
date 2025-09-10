@@ -298,9 +298,107 @@ export const skyDreamTheme: ThemeConfig = {
   },
 };
 
+// Default theme config - provides basic structure when no custom theme is selected
+export const defaultTheme: ThemeConfig = {
+  light: {
+    colors: {
+      background: "hsl(0 0% 100%)",
+      foreground: "hsl(0 0% 3.9%)",
+      panel: "hsl(0 0% 98%)",
+
+      muted: "hsl(0 0% 45%)",
+      mutedForeground: "hsl(0 0% 55%)",
+
+      surface: "hsl(0 0% 96%)",
+      surfaceForeground: "hsl(0 0% 11%)",
+
+      default: "hsl(0 0% 97%)",
+      defaultForeground: "hsl(0 0% 25%)",
+
+      accent: "hsl(0 0% 9%)",
+      accentForeground: "hsl(0 0% 98%)",
+
+      accentSoft: "hsl(0 0% 91%)",
+      accentSoftForeground: "hsl(0 0% 16%)",
+
+      success: "hsl(142 76% 36%)",
+      successForeground: "hsl(355 7% 97%)",
+
+      warning: "hsl(48 96% 53%)",
+      warningForeground: "hsl(26 83% 14%)",
+
+      danger: "hsl(0 84% 60%)",
+      dangerForeground: "hsl(0 0% 98%)",
+
+      surface1: "hsl(0 0% 100%)",
+      surface2: "hsl(0 0% 97%)",
+      surface3: "hsl(0 0% 94%)",
+
+      border: "hsl(0 0% 89%)",
+      divider: "hsl(0 0% 84%)",
+      link: "hsl(0 0% 9%)",
+    },
+    borderRadius: {
+      DEFAULT: "12px",
+      panel: "10px",
+      "panel-inner": "8px",
+    },
+    opacity: {
+      disabled: 0.5,
+    },
+  },
+  dark: {
+    colors: {
+      background: "hsl(0 0% 3.9%)",
+      foreground: "hsl(0 0% 98%)",
+      panel: "hsl(0 0% 9%)",
+
+      muted: "hsl(0 0% 40%)",
+      mutedForeground: "hsl(0 0% 60%)",
+
+      surface: "hsl(0 0% 14%)",
+      surfaceForeground: "hsl(0 0% 90%)",
+
+      default: "hsl(0 0% 16%)",
+      defaultForeground: "hsl(0 0% 80%)",
+
+      accent: "hsl(0 0% 98%)",
+      accentForeground: "hsl(0 0% 9%)",
+
+      accentSoft: "hsl(0 0% 25%)",
+      accentSoftForeground: "hsl(0 0% 75%)",
+
+      success: "hsl(150 100% 6%)",
+      successForeground: "hsl(0 85% 97%)",
+
+      warning: "hsl(64 100% 6%)",
+      warningForeground: "hsl(46 87% 65%)",
+
+      danger: "hsl(0 63% 31%)",
+      dangerForeground: "hsl(0 85% 97%)",
+
+      surface1: "hsl(0 0% 3.9%)",
+      surface2: "hsl(0 0% 9%)",
+      surface3: "hsl(0 0% 14%)",
+
+      border: "hsl(0 0% 20%)",
+      divider: "hsl(0 0% 25%)",
+      link: "hsl(0 0% 98%)",
+    },
+    borderRadius: {
+      DEFAULT: "12px",
+      panel: "10px",
+      "panel-inner": "8px",
+    },
+    opacity: {
+      disabled: 0.5,
+    },
+  },
+};
+
 // Export all themes in an array for easy access
 export const pastelThemes = [
-  { name: "Default", config: undefined, id: "default" },
+  { name: "Default", config: defaultTheme, id: "default" },
   { name: "Lavender Dream", config: lavenderDreamTheme, id: "lavender" },
   { name: "Mint Garden", config: mintGardenTheme, id: "mint" },
   { name: "Sky Dream", config: skyDreamTheme, id: "sky" },

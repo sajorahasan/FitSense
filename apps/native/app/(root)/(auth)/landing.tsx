@@ -3,42 +3,107 @@ import { Link } from "expo-router";
 import { Button, useTheme } from "heroui-native";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { useGoogleSignIn } from "@/lib/better-auth/oauth/googleHandler";
+import { useGoogleSignIn } from "@/lib/better-auth/oauth/googleHandler";
 
 export default function Landing() {
   const { colors } = useTheme();
-  // const { gSignIn } = useGoogleSignIn();
+  const { gSignIn } = useGoogleSignIn();
 
   return (
-    <SafeAreaView className="flex-1 gap-4 px-8">
-      <View className="flex-1 justify-end">
-        <Text className="font-extrabold text-6xl text-foreground">Convexpo</Text>
-        <Text className="text-muted-foreground text-xl">Convex + Better Auth + Expo + Heroui = 🚀</Text>
-      </View>
+    <SafeAreaView className="flex-1">
+      {/* Background gradient overlay */}
+      <View className="absolute inset-0" />
 
-      <View className="w-full flex-row gap-4">
-        {/* google */}
-        <Button
-          className="flex-1 overflow-hidden rounded-full"
-          size="lg"
-          variant="secondary"
-          onPress={() => {
-            console.warn("Google Setup Needed");
-            // gSignIn();
-          }}
-        >
-          <Button.StartContent>
-            <Ionicons name="logo-google" size={20} color={colors.defaultForeground} />
-          </Button.StartContent>
-          <Button.LabelContent>Google</Button.LabelContent>
-        </Button>
+      {/* Main content container */}
+      <View className="flex-1 px-8 pt-16">
+        {/* Hero section */}
+        <View className="flex-1 items-center justify-center">
+          {/* App icon placeholder */}
+          <View className="mb-8 h-24 w-24 items-center justify-center rounded-3xl bg-accent/20">
+            <Ionicons name="fitness" size={48} color={colors.accent} />
+          </View>
+
+          {/* App title and description */}
+          <View className="mb-16 items-center">
+            <Text
+              className="mb-4 font-black text-7xl text-foreground tracking-tight"
+              accessibilityRole="header"
+            >
+              FitSense
+            </Text>
+            <Text
+              className="max-w-sm text-center text-muted-foreground text-xl leading-7"
+              accessibilityRole="text"
+            >
+              Your AI-Powered Fitness Companion for a Healthier Tomorrow
+            </Text>
+          </View>
+        </View>
+
+        {/* Action buttons section */}
+        <View className="gap-4 pb-8">
+          {/* Primary CTA - Email */}
+          <Link href="/(root)/(auth)/email/signin" asChild>
+            <Button
+              className="h-14 w-full rounded-2xl"
+              size="lg"
+              accessibilityLabel="Continue with Email"
+              accessibilityHint="Navigate to email sign in page"
+            >
+              <Button.LabelContent className="font-semibold text-lg">
+                Continue with Email
+              </Button.LabelContent>
+            </Button>
+          </Link>
+
+          {/* Secondary CTA - Google */}
+
+          <Button
+            className="h-14 w-full rounded-2xl border-2"
+            size="lg"
+            // variant="secondary"
+            accessibilityLabel="Continue with Google"
+            accessibilityHint="Sign in using your Google account"
+            onPress={() => {
+              console.warn("Google Setup Needed");
+              gSignIn();
+            }}
+          >
+            <Button.StartContent>
+              <Ionicons
+                name="logo-google"
+                size={24}
+                color={colors.accentForeground}
+              />
+            </Button.StartContent>
+            <Button.LabelContent className="font-medium text-lg">
+              Continue with Google
+            </Button.LabelContent>
+          </Button>
+
+          {/* Divider */}
+          <View className="my-6 flex-row items-center">
+            <View className="h-px flex-1 bg-border" />
+            <Text className="px-4 text-muted-foreground text-sm">or</Text>
+            <View className="h-px flex-1 bg-border" />
+          </View>
+
+          {/* Test onboarding link */}
+          <Link href="/(root)/(auth)/onboarding/step1-welcome" asChild>
+            <Button
+              variant="secondary"
+              className="h-12 w-full rounded-2xl"
+              size="lg"
+              accessibilityLabel="Try Demo Onboarding"
+              accessibilityHint="Experience the app onboarding flow"
+            >
+              <Button.LabelContent className="text-muted-foreground">
+                Try Demo Onboarding
+              </Button.LabelContent>
+            </Button>
+          </Link>
+        </View>
       </View>
-      {/* email + password route */}
-      <Link href="/(root)/(auth)/email/signin" asChild>
-        <Button className="w-full rounded-full" size="lg">
-          <Button.LabelContent>Email</Button.LabelContent>
-        </Button>
-      </Link>
     </SafeAreaView>
   );
 }

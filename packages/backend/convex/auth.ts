@@ -15,13 +15,32 @@ export const { createUser, deleteUser, updateUser, createSession } =
       /**
        * function on user created
        *
-       * copy the user's name to the
-       * application users table
-       *
-       * onUpdateUser to keep it synced.
+       * Create a comprehensive user profile for FitSense
+       * with default values for onboarding flow
        */
       const userId = await ctx.db.insert("users", {
-        name: user.name || "new user",
+        // Basic auth fields
+        name: user.name ?? "new user",
+        ...(user.image && { image: user.image }),
+        tokenIdentifier: user.email,
+
+        // Onboarding defaults
+        onboardingCompleted: false,
+        onboardingStep: 1,
+
+        // Default preferences
+        privacyLevel: "private",
+        dataRetention: "forever",
+        notifications: {
+          workoutReminders: true,
+          mealReminders: true,
+          goalCelebrations: true,
+          aiInsights: true,
+          weeklyReports: true,
+        },
+
+        // Technical defaults
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       });
       return userId;
     },

@@ -1,0 +1,248 @@
+
+# FitSense Mobile App Development Rules
+
+You are an expert in TypeScript, React Native, Expo, Convex, Better Auth, and HeroUI Native development for the FitSense AI-powered wellness app.
+
+## Project Architecture
+- **Monorepo Structure**: Use workspace references with `~/backend/*` and `~/shared/*` absolute imports
+- **Backend**: Convex for real-time database, authentication, and serverless functions
+- **Frontend**: React Native + Expo Router + HeroUI Native + NativeWind
+- **Auth**: Better Auth with Convex adapter for secure authentication
+- **State**: React Query for server state, React Context for client state
+- **Storage**: MMKV for secure local storage (HIPAA-compliant)
+
+## Code Style and Structure
+- Write concise, technical TypeScript code with accurate examples
+- Use functional and declarative programming patterns; avoid classes
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError, hasCompletedOnboarding)
+- Structure files: exported component, subcomponents, helpers, static content, types
+- Follow Expo's official documentation: https://docs.expo.dev/
+
+## Naming Conventions
+- Use lowercase with dashes for directories (e.g., `components/auth-wizard`, `app/(root)/(auth)`)
+- Favor named exports for components
+- Use PascalCase for React components and interfaces
+- Use camelCase for functions, variables, and props
+- Use SCREAMING_SNAKE_CASE for constants
+
+## TypeScript Usage
+- Use TypeScript for all code; prefer interfaces over types for object shapes
+- Avoid enums; use const objects with `as const` assertion instead
+- Use functional components with TypeScript interfaces
+- Use strict mode in TypeScript for better type safety
+- Import shared types from `~/shared/types/*`
+- Use Convex-generated types from `~/backend/_generated/*`
+
+## HeroUI Native Components
+- **Primary UI Library**: Use HeroUI Native components as the foundation
+- **Available Components**: Button, TextField, Switch, Spinner, Card, Badge, Progress, etc.
+- **Theme Integration**: Use `useTheme()` hook to access colors and design tokens
+- **Color System**: Use theme colors (accent, foreground, background, muted, etc.) instead of hardcoded colors
+- **Component Structure**: Follow HeroUI patterns with proper content components:
+  ```tsx
+  <Button>
+    <Button.StartContent><Icon /></Button.StartContent>
+    <Button.LabelContent>Text</Button.LabelContent>
+    <Button.EndContent><Icon /></Button.EndContent>
+  </Button>
+  ```
+- **Form Components**: Use HeroUI TextField with proper input content structure
+- **Styling**: Combine HeroUI components with NativeWind classes for custom styling
+- **Accessibility**: HeroUI components come with built-in accessibility; enhance with additional props when needed
+
+## UI and Styling
+- **Primary**: HeroUI Native components for consistent design system
+- **Secondary**: NativeWind (Tailwind CSS) for custom styling and layouts
+- **Icons**: Use `@expo/vector-icons/build/Ionicons` for consistency
+- **Theme Colors**: Always use theme colors from `useTheme()` hook:
+  - `colors.accent` (primary brand color - varies by theme: purple/teal/cyan)
+  - `colors.foreground` (main text)
+  - `colors.background` (main background)
+  - `colors.muted` / `colors.mutedForeground` (secondary text/elements)
+  - `colors.surface` / `colors.panel` (card/panel backgrounds)
+  - `colors.success` / `colors.warning` / `colors.danger` (status colors)
+  - `colors.border` / `colors.divider` (separators and outlines)
+- **Theme-Aware Design**: Leverage the three pastel themes (Lavender Dream, Mint Garden, Sky Dream) for personalized user experiences
+- **Semantic Color Usage**: Use appropriate semantic colors (success for achievements, warning for alerts, etc.)
+- **Responsive Design**: Use NativeWind responsive classes (sm:, md:, lg:)
+- **Accessibility**: Ensure high a11y standards with ARIA roles and native props
+- **Animations**: Use react-native-reanimated for performant animations
+
+  Safe Area Management
+  - Use SafeAreaProvider from react-native-safe-area-context to manage safe areas globally in your app.
+  - Wrap top-level components with SafeAreaView to handle notches, status bars, and other screen insets on both iOS and Android.
+  - Use SafeAreaScrollView for scrollable content to ensure it respects safe area boundaries.
+  - Avoid hardcoding padding or margins for safe areas; rely on SafeAreaView and context hooks.
+
+  Performance Optimization
+  - Minimize the use of useState and useEffect; prefer context and reducers for state management.
+  - Use Expo's AppLoading and SplashScreen for optimized app startup experience.
+  - Optimize images: use WebP format where supported, include size data, implement lazy loading with expo-image.
+  - Implement code splitting and lazy loading for non-critical components with React's Suspense and dynamic imports.
+  - Profile and monitor performance using React Native's built-in tools and Expo's debugging features.
+  - Avoid unnecessary re-renders by memoizing components and using useMemo and useCallback hooks appropriately.
+
+## Convex Integration
+- **Real-time Data**: Use `useQuery` for real-time data fetching
+- **Mutations**: Use `useMutation` for data updates with optimistic updates
+- **API Structure**: Import from `~/backend/_generated/api`
+- **Error Handling**: Implement proper error boundaries for Convex operations
+- **Authentication**: Use Convex auth context with Better Auth integration
+- **File Organization**: Keep Convex functions organized by feature (users, workouts, meals, etc.)
+
+## Better Auth Integration
+- **Client Setup**: Use `authClient` from `@/lib/better-auth/auth-client`
+- **Authentication Flow**: Email/password with optional OAuth (Google, Apple)
+- **Session Management**: Leverage Convex auth context for session state
+- **User Profile**: Extend user model with comprehensive fitness profile data
+- **Security**: Use secure storage for tokens and sensitive data
+
+## Navigation (Expo Router)
+- **File-based Routing**: Use Expo Router's file-based navigation
+- **Layout Structure**: Implement nested layouts with proper guards
+- **Authentication Guards**: Use `Stack.Protected` for auth-required routes
+- **Onboarding Flow**: Implement progressive onboarding with step tracking
+- **Deep Linking**: Support universal links for better UX
+
+## State Management
+- **Server State**: React Query (TanStack Query) for Convex data
+- **Client State**: React Context and useReducer for local state
+- **Forms**: TanStack Form with Zod validation
+- **Caching**: Leverage React Query's caching for offline-first experience
+- **Optimistic Updates**: Implement optimistic updates for better UX
+
+  Error Handling and Validation
+  - Use Zod for runtime validation and error handling.
+  - Prioritize error handling and edge cases:
+    - Handle errors at the beginning of functions.
+    - Use early returns for error conditions to avoid deeply nested if statements.
+    - Avoid unnecessary else statements; use if-return pattern instead.
+    - Implement global error boundaries to catch and handle unexpected errors.
+
+## Zod Validation
+- **Schema Definition**: Define schemas close to where they're used or in dedicated schema files
+- **Type Inference**: Use `z.infer<typeof Schema>` to extract TypeScript types
+- **Parsing Methods**: 
+  - Use `.parse()` for throwing errors on validation failure
+  - Use `.safeParse()` for non-throwing validation with result objects
+  - Use `.parseAsync()` / `.safeParseAsync()` for async validation
+- **Schema Composition**: Build complex schemas from simpler ones using `.extend()`, `.pick()`, `.omit()`
+- **Custom Validation**: Use `.refine()` and `.superRefine()` for custom validation logic
+- **Transforms**: Use `.transform()` to convert validated data to different formats
+- **Error Handling**: Always handle `ZodError` instances with proper user-friendly messages
+- **Form Integration**: Integrate Zod schemas with TanStack Form for comprehensive validation
+
+
+## TanStack React Query Integration
+- **Query Keys**: Use consistent, hierarchical query keys with proper typing
+- **Query Functions**: Keep query functions pure and focused on data fetching
+- **Error Handling**: Implement proper error boundaries and retry logic
+- **Optimistic Updates**: Use optimistic updates for better UX with `onMutate`
+- **Cache Management**: Leverage query invalidation and cache updates strategically
+- **Loading States**: Use `isLoading`, `isFetching`, and `isPending` appropriately
+- **Infinite Queries**: Use `useInfiniteQuery` for paginated data
+- **Mutations**: Combine mutations with optimistic updates and proper error rollback
+- **Offline Support**: Configure proper stale times and cache times for offline-first experience
+
+
+## React Native Keyboard Controller
+- **KeyboardProvider**: Wrap your app with `KeyboardProvider` at the root level
+- **Keyboard Avoiding**: Use `KeyboardAvoidingView` or `KeyboardAwareScrollView` for proper keyboard handling
+- **Keyboard Events**: Listen to keyboard events with `useKeyboardHandler` hook
+- **Smooth Animations**: Use `useReanimatedKeyboardAnimation` for smooth keyboard animations
+- **Input Focus**: Implement proper focus management with `KeyboardController.setInputMode()`
+- **Keyboard Dismiss**: Handle keyboard dismissal with gestures and proper UX patterns
+- **Safe Areas**: Combine with safe area handling for proper layout management
+
+
+## Error Handling and Validation Best Practices
+- **Zod Integration**: Use Zod schemas for all user inputs and API responses
+- **Form Validation**: Combine Zod with TanStack Form for real-time validation
+- **Error Boundaries**: Implement React Error Boundaries for graceful failures
+- **User Feedback**: Show clear, actionable error messages using HeroUI components
+- **Logging**: Use structured logging for debugging and monitoring
+- **Offline Handling**: Gracefully handle network failures with React Query
+- **Validation Timing**: Validate on blur for better UX, not on every keystroke
+
+  Testing
+  - Write unit tests using Jest and React Native Testing Library.
+  - Implement integration tests for critical user flows using Detox.
+  - Use Expo's testing tools for running tests in different environments.
+  - Consider snapshot testing for components to ensure UI consistency.
+
+  Security
+  - Sanitize user inputs to prevent XSS attacks.
+  - Use react-native-encrypted-storage for secure storage of sensitive data.
+  - Ensure secure communication with APIs using HTTPS and proper authentication.
+  - Use Expo's Security guidelines to protect your app: https://docs.expo.dev/guides/security/
+
+  Internationalization (i18n)
+  - Use react-native-i18n or expo-localization for internationalization and localization.
+  - Support multiple languages and RTL layouts.
+  - Ensure text scaling and font adjustments for accessibility.
+
+## FitSense-Specific Patterns
+
+### Component Patterns
+- **Form Components**: Combine HeroUI Native components with TanStack Form and Zod validation
+- **Data Fetching**: Use React Query hooks with proper loading states and error handling
+- **Keyboard Handling**: Integrate keyboard controller with form components for smooth UX
+- **Theme Integration**: Always use theme colors and design tokens from HeroUI Native
+- **Validation Display**: Show validation errors inline with proper styling
+- **Optimistic Updates**: Implement optimistic updates for immediate user feedback
+- **Loading States**: Display appropriate loading indicators during async operations
+
+### Theme Utilization for FitSense
+- **Personalized Experience**: Allow users to choose themes that match their personality/mood
+- **Contextual Theme Suggestions**: 
+  - **Lavender Dream**: Relaxation, mindfulness, evening workouts
+  - **Mint Garden**: Energy, outdoor activities, nutrition focus
+  - **Sky Dream**: Calm focus, morning routines, goal tracking
+- **Theme Persistence**: Store user's theme preference in MMKV for consistency
+- **Onboarding Theme**: Let users select their preferred theme during onboarding
+- **Semantic Color Usage**: 
+  - Use `colors.success` for achievements, completed workouts, goals met
+  - Use `colors.warning` for reminders, approaching deadlines
+  - Use `colors.danger` for alerts, missed goals, health warnings
+  - Use `colors.accent` for primary actions, highlights, progress indicators
+- **Theme-Aware Illustrations**: Consider theme colors when showing fitness illustrations/icons
+- **Accessibility**: Ensure all themes maintain proper contrast ratios for accessibility
+
+### Error Handling
+- **Consistent Patterns**: Use try-catch blocks with proper loading states
+- **User Feedback**: Provide clear, actionable error messages
+- **Graceful Degradation**: Handle errors without breaking the app flow
+- **Retry Logic**: Implement retry mechanisms for network failures
+- **Error Boundaries**: Use React Error Boundaries for unexpected errors
+- **Validation Errors**: Display Zod validation errors inline with form fields
+
+## Key Conventions
+1. Use absolute imports with `@/*`, `~/backend/*`, and `~/shared/*`
+2. Follow HeroUI Native component patterns consistently
+3. **Zod Validation**: Define schemas for all data structures and user inputs
+4. **React Query**: Use query key factories and implement optimistic updates
+5. **Keyboard Handling**: Wrap app with KeyboardProvider and use proper keyboard avoiding views
+6. Implement proper loading states and error handling with user-friendly messages
+7. Use theme colors instead of hardcoded values
+8. Leverage Convex real-time capabilities for live updates
+9. Implement HIPAA-compliant data handling practices
+10. Prioritize accessibility and inclusive design
+11. Use TanStack Form with Zod for comprehensive form validation
+12. Implement proper TypeScript types for all data structures
+13. Follow React Native performance best practices with proper memoization
+14. Use consistent error boundaries and fallback UI patterns
+15. Handle offline states gracefully with React Query caching
+
+## Documentation
+- Expo: https://docs.expo.dev/
+- HeroUI Native: Component-specific documentation
+- Convex: https://docs.convex.dev/
+- Better Auth: https://www.better-auth.com/docs
+- TanStack React Query: https://tanstack.com/query/latest
+- TanStack Form: https://tanstack.com/form/latest
+- Zod: https://zod.dev/ | https://github.com/colinhacks/zod
+- React Native Keyboard Controller: https://github.com/kirillzyusko/react-native-keyboard-controller
+
+Remember: FitSense is a health and wellness app that must prioritize user privacy, data security, and accessibility while providing an exceptional user experience for fitness tracking and AI-powered insights.
+    

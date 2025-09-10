@@ -62,7 +62,9 @@ const createTestGoal = (_userId) => ({
   category: "weight",
   targetValue: 70,
   targetUnit: "kg",
-  targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+  targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0],
 });
 
 // Authentication helper
@@ -110,9 +112,13 @@ describe("FitSense API Contract Tests", () => {
         fitnessLevel: "intermediate",
       };
 
-      const response = await axios.put(`${API_BASE_URL}/users/profile`, updates, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.put(
+        `${API_BASE_URL}/users/profile`,
+        updates,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.data.displayName).toBe("Updated Test User");
@@ -125,9 +131,13 @@ describe("FitSense API Contract Tests", () => {
       // This test MUST fail initially
       const workoutData = createTestWorkout(testUserId);
 
-      const response = await axios.post(`${API_BASE_URL}/workouts`, workoutData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/workouts`,
+        workoutData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(201);
       expect(response.data).toHaveProperty("id");
@@ -151,9 +161,12 @@ describe("FitSense API Contract Tests", () => {
 
     test("GET /workouts/{workoutId} - should retrieve specific workout", async () => {
       // This test MUST fail initially
-      const response = await axios.get(`${API_BASE_URL}/workouts/${testWorkoutId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.get(
+        `${API_BASE_URL}/workouts/${testWorkoutId}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.data.id).toBe(testWorkoutId);
@@ -167,9 +180,13 @@ describe("FitSense API Contract Tests", () => {
         mood: "excellent",
       };
 
-      const response = await axios.put(`${API_BASE_URL}/workouts/${testWorkoutId}`, updates, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.put(
+        `${API_BASE_URL}/workouts/${testWorkoutId}`,
+        updates,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.data.name).toBe("Updated Test Workout");
@@ -178,9 +195,12 @@ describe("FitSense API Contract Tests", () => {
 
     test("DELETE /workouts/{workoutId} - should delete workout session", async () => {
       // This test MUST fail initially
-      const response = await axios.delete(`${API_BASE_URL}/workouts/${testWorkoutId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.delete(
+        `${API_BASE_URL}/workouts/${testWorkoutId}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(204);
     });
@@ -233,14 +253,20 @@ describe("FitSense API Contract Tests", () => {
       const requestData = {
         type: "workout_analysis",
         date_range: {
-          start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+          start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .split("T")[0],
           end: new Date().toISOString().split("T")[0],
         },
       };
 
-      const response = await axios.post(`${API_BASE_URL}/insights/generate`, requestData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/insights/generate`,
+        requestData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(202);
       expect(response.data).toHaveProperty("insight_id");
@@ -258,9 +284,13 @@ describe("FitSense API Contract Tests", () => {
         },
       };
 
-      const response = await axios.post(`${API_BASE_URL}/chat/messages`, messageData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/chat/messages`,
+        messageData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.data).toHaveProperty("response");
@@ -304,9 +334,13 @@ describe("FitSense API Contract Tests", () => {
         notes: "Good progress this week!",
       };
 
-      const response = await axios.post(`${API_BASE_URL}/goals/${testGoalId}/progress`, progressData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/goals/${testGoalId}/progress`,
+        progressData,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        },
+      );
 
       expect(response.status).toBe(200);
       expect(response.data.currentValue).toBe(74.5);
@@ -380,7 +414,7 @@ describe("FitSense API Contract Tests", () => {
           },
           {
             headers: { Authorization: `Bearer ${authToken}` },
-          }
+          },
         );
         fail("Should have thrown an error");
       } catch (error) {
