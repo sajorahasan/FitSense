@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Text } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
+import PasswordField from "@/components/password-field";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function SignUpRoute() {
@@ -112,55 +113,19 @@ export default function SignUpRoute() {
         </TextField.Input>
       </TextField>
       {/* password */}
-      <TextField isRequired>
-        <TextField.Input
-          className="rounded-3xl"
-          placeholder="Enter your password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        >
-          <TextField.InputStartContent className="pointer-events-none">
-            <Ionicons
-              name="lock-closed-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputStartContent>
-          <TextField.InputEndContent className="pointer-events-none">
-            <Ionicons
-              name="eye-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputEndContent>
-        </TextField.Input>
-      </TextField>
+      <PasswordField
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter your password"
+        isRequired
+      />
       {/* confirm password */}
-      <TextField isRequired>
-        <TextField.Input
-          className="rounded-3xl"
-          placeholder="Confirm your password"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        >
-          <TextField.InputStartContent className="pointer-events-none">
-            <Ionicons
-              name="lock-closed-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputStartContent>
-          <TextField.InputEndContent className="pointer-events-none">
-            <Ionicons
-              name="checkmark-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputEndContent>
-        </TextField.Input>
-      </TextField>
+      <PasswordField
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        placeholder="Confirm your password"
+        isRequired
+      />
       {/* submit button */}
       <Button
         onPress={handleSignUp}

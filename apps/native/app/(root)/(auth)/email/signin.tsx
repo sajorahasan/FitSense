@@ -4,6 +4,7 @@ import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
+import PasswordField from "@/components/password-field";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function SignInRoute() {
@@ -80,30 +81,12 @@ export default function SignInRoute() {
         </TextField.Input>
       </TextField>
       {/* password text-field */}
-      <TextField isRequired>
-        <TextField.Input
-          className="rounded-3xl"
-          placeholder="Enter your password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        >
-          <TextField.InputStartContent className="pointer-events-none">
-            <Ionicons
-              name="lock-closed-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputStartContent>
-          <TextField.InputEndContent className="pointer-events-none">
-            <Ionicons
-              name="eye-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputEndContent>
-        </TextField.Input>
-      </TextField>
+      <PasswordField
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter your password"
+        isRequired
+      />
       {/* submit button */}
       <Button
         onPress={handleSignIn}

@@ -1,10 +1,11 @@
-import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
-import { Button, Spinner, TextField, useTheme } from "heroui-native";
+import { Button, Spinner, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Text, View } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
+import PasswordField from "@/components/password-field";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function ResetPasswordRoute() {
@@ -118,55 +119,19 @@ export default function ResetPasswordRoute() {
         description="Enter your new password to complete the reset"
       />
       {/* new password */}
-      <TextField isRequired>
-        <TextField.Input
-          className="rounded-3xl"
-          placeholder="Enter your new password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        >
-          <TextField.InputStartContent className="pointer-events-none">
-            <Ionicons
-              name="lock-closed-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputStartContent>
-          <TextField.InputEndContent className="pointer-events-none">
-            <Ionicons
-              name="eye-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputEndContent>
-        </TextField.Input>
-      </TextField>
+      <PasswordField
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter your new password"
+        isRequired
+      />
       {/* confirm password */}
-      <TextField isRequired>
-        <TextField.Input
-          className="rounded-3xl"
-          placeholder="Confirm your new password"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-        >
-          <TextField.InputStartContent className="pointer-events-none">
-            <Ionicons
-              name="lock-closed-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputStartContent>
-          <TextField.InputEndContent className="pointer-events-none">
-            <Ionicons
-              name="checkmark-outline"
-              size={16}
-              color={colors.mutedForeground}
-            />
-          </TextField.InputEndContent>
-        </TextField.Input>
-      </TextField>
+      <PasswordField
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        placeholder="Confirm your new password"
+        isRequired
+      />
       {/* submit button */}
       <Button
         onPress={handleResetPassword}
