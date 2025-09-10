@@ -54,6 +54,7 @@ export default function OnboardingPersonal() {
       <FormHeader
         title="Tell us about yourself"
         description="This helps us personalize your experience"
+        containerClassName="mt-12"
       />
 
       {/* Progress indicator */}

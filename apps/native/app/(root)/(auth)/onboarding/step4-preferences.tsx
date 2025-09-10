@@ -91,6 +91,7 @@ export default function OnboardingPreferences() {
       <FormHeader
         title="Almost there!"
         description="Customize your preferences and choose your theme"
+        containerClassName="mt-12"
       />
 
       {/* Progress indicator */}

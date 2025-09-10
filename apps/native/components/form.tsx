@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { cn } from "@/lib/utils";
 
 /* ----------------------------- form container ----------------------------- */
 export function FormContainer({ children }: { children: React.ReactNode }) {
@@ -14,12 +15,14 @@ export function FormContainer({ children }: { children: React.ReactNode }) {
 export default function FormHeader({
   title,
   description,
+  containerClassName,
 }: {
   title: string;
   description: string;
+  containerClassName?: string;
 }) {
   return (
-    <View className="gap-2">
+    <View className={cn("gap-2", containerClassName)}>
       <Text className="font-extrabold text-4xl text-foreground">{title}</Text>
       <Text className="text-muted-foreground">{description}</Text>
     </View>

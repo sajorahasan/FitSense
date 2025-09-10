@@ -109,6 +109,7 @@ export default function OnboardingFitness() {
       <FormHeader
         title="Your Fitness Profile"
         description="Help us understand your fitness level and goals"
+        containerClassName="mt-12"
       />
 
       {/* Progress indicator */}

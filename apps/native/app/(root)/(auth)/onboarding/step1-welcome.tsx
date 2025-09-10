@@ -12,6 +12,7 @@ export default function OnboardingWelcome() {
       <FormHeader
         title="Welcome to FitSense!"
         description="Let's personalize your fitness journey"
+        containerClassName="mt-12"
       />
 
       {/* Welcome content */}
