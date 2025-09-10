@@ -1,6 +1,8 @@
 import { useConvexAuth, useQuery } from "convex/react";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { useTheme } from "heroui-native";
 import { useEffect } from "react";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { useNavigationOptions } from "@/hooks/useNavigationOptions";
@@ -14,6 +16,7 @@ export default function RootLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { root } = useNavigationOptions();
   const { syncThemeFromUser } = useAppTheme();
+  const { isDark } = useTheme();
 
   // Check if user has completed onboarding
   const user = useQuery(api.users.getCurrentUser);
@@ -38,32 +41,38 @@ export default function RootLayout() {
 
   /* --------------------------------- return --------------------------------- */
   return (
-    <Stack>
-      {/* AUTH STACK */}
-      <Stack.Protected guard={!isAuthenticated}>
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      </Stack.Protected>
+    <>
+      <StatusBar
+        key={`root-status-bar-${isDark ? "light" : "dark"}`}
+        style={isDark ? "light" : "dark"}
+      />
+      <Stack>
+        {/* AUTH STACK */}
+        <Stack.Protected guard={!isAuthenticated}>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        </Stack.Protected>
 
-      {/* ONBOARDING STACK - for authenticated users who haven't completed onboarding */}
-      <Stack.Protected guard={isAuthenticated && !hasCompletedOnboarding}>
-        <Stack.Screen
-          name="(auth)/onboarding"
-          options={{ headerShown: false }}
-        />
-      </Stack.Protected>
+        {/* ONBOARDING STACK - for authenticated users who haven't completed onboarding */}
+        <Stack.Protected guard={isAuthenticated && !hasCompletedOnboarding}>
+          <Stack.Screen
+            name="(auth)/onboarding"
+            options={{ headerShown: false }}
+          />
+        </Stack.Protected>
 
-      {/* AUTHENTICATED NESTED STACK */}
-      <Stack.Protected guard={!!(isAuthenticated && hasCompletedOnboarding)}>
-        {/* MAIN STACK*/}
-        <Stack.Screen
-          name="(main)"
-          options={{
-            title: "",
-            headerShown: false,
-            ...root,
-          }}
-        />
-      </Stack.Protected>
-    </Stack>
+        {/* AUTHENTICATED NESTED STACK */}
+        <Stack.Protected guard={!!(isAuthenticated && hasCompletedOnboarding)}>
+          {/* MAIN STACK*/}
+          <Stack.Screen
+            name="(main)"
+            options={{
+              title: "",
+              headerShown: false,
+              ...root,
+            }}
+          />
+        </Stack.Protected>
+      </Stack>
+    </>
   );
 }

@@ -2,6 +2,7 @@ import "../global.css";
 // import "expo-dev-client";
 
 import { Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -10,7 +11,6 @@ import {
   ReanimatedLogLevel,
 } from "react-native-reanimated";
 import { Toaster } from "sonner-native";
-import * as SplashScreen from 'expo-splash-screen';
 
 import { AppThemeProvider, useAppTheme } from "@/contexts/app-theme-context";
 import ConvexProvider from "@/providers/ConvexProvider";

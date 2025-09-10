@@ -22,6 +22,12 @@ export default function AuthLayout() {
           ...root,
         }}
       />
+      <Stack.Screen
+        name="onboarding"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
