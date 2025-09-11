@@ -90,7 +90,9 @@ export default function OnboardingFitness() {
       });
       router.push("/(root)/(auth)/onboarding/step4-preferences");
     } catch (error) {
-      toast.error(`Failed to save your fitness profile. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
+      toast.error(
+        `Failed to save your fitness profile. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
+      );
     } finally {
       setIsLoading(false);
     }

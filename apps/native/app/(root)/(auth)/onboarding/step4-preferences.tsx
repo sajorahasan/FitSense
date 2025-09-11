@@ -78,7 +78,9 @@ export default function OnboardingPreferences() {
       // Navigate to main app
       // router.replace("/(root)/(main)/index");
     } catch (error) {
-      toast.error(`Failed to complete setup. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
+      toast.error(
+        `Failed to complete setup. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
+      );
     } finally {
       setIsLoading(false);
     }

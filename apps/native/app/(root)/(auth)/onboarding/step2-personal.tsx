@@ -38,7 +38,9 @@ export default function OnboardingPersonal() {
       await updateProfile(updates);
       router.push("/(root)/(auth)/onboarding/step3-fitness");
     } catch (error) {
-      toast.error(`Failed to save your information. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`);
+      toast.error(
+        `Failed to save your information. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
+      );
     } finally {
       setIsLoading(false);
     }
