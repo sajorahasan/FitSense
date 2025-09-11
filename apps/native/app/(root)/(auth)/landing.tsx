@@ -20,7 +20,11 @@ export default function Landing() {
         {/* Hero section */}
         <View className="flex-1 items-center justify-center">
           {/* App logo */}
-          <Image source={require("../../../assets/app-logo.png")} style={{width: "40%", height: "40%"}} contentFit="cover" />
+          <Image
+            source={require("../../../assets/app-logo.png")}
+            style={{ width: "40%", height: "40%" }}
+            contentFit="cover"
+          />
 
           {/* App title and description */}
           <View className="mb-16 items-center">
