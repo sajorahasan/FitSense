@@ -1,22 +1,29 @@
 import { v } from "convex/values";
+import type { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
+import { betterAuthComponent } from "./auth";
+import { getAllUserData } from "./model/user";
 
 export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
+    // Use Better Auth to get the authenticated user
+    const authUser = await betterAuthComponent.getAuthUser(ctx);
+    if (!authUser) {
       return null;
     }
 
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier),
-      )
-      .unique();
-
+    // Get the user from our public users table
+    const user = await ctx.db.get(authUser.userId as Id<"users">);
     return user;
+  },
+});
+
+export const getAllUserDataQuery = query({
+  args: {},
+  handler: async (ctx) => {
+    const allUserData = await getAllUserData(ctx);
+    return allUserData;
   },
 });
 
@@ -93,18 +100,13 @@ export const updateUserProfile = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
+    // Use Better Auth to get the authenticated user
+    const authUser = await betterAuthComponent.getAuthUser(ctx);
+    if (!authUser) {
       throw new Error("Not authenticated");
     }
 
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier),
-      )
-      .unique();
-
+    const user = await ctx.db.get(authUser.userId as Id<"users">);
     if (!user) {
       throw new Error("User not found");
     }
@@ -121,18 +123,13 @@ export const updateUserProfile = mutation({
 export const completeOnboarding = mutation({
   args: {},
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
+    // Use Better Auth to get the authenticated user
+    const authUser = await betterAuthComponent.getAuthUser(ctx);
+    if (!authUser) {
       throw new Error("Not authenticated");
     }
 
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier),
-      )
-      .unique();
-
+    const user = await ctx.db.get(authUser.userId as Id<"users">);
     if (!user) {
       throw new Error("User not found");
     }

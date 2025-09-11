@@ -10,11 +10,14 @@ import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function SignUpRoute() {
   const { colors } = useTheme();
+
   /* ---------------------------------- state --------------------------------- */
-  const [name, setName] = useState("");
+  const [name, setName] = useState(__DEV__ ? "Hasan" : "");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState(__DEV__ ? "#Reset123" : "");
+  const [confirmPassword, setConfirmPassword] = useState(
+    __DEV__ ? "#Reset123" : "",
+  );
   const [isLoading, setIsLoading] = useState(false);
   /* ------------------------------ handle signup ----------------------------- */
   const handleSignUp = async () => {
@@ -59,9 +62,12 @@ export default function SignUpRoute() {
           setIsLoading(false);
           toast.error(ctx.error.message || "Failed to sign up");
         },
-        onSuccess: () => {
+        onSuccess: (ctx) => {
           setIsLoading(false);
-          console.log("success!");
+          console.log("success!", ctx);
+          toast.success(
+            `Welcome to FitSense, ${name}! Your account is ready. Let's complete your onboarding to start your fitness journey.`,
+          );
         },
       },
     );

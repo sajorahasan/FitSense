@@ -48,28 +48,15 @@ export default function RootLayout() {
       />
       <Stack>
         {/* AUTH STACK */}
-        <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Protected guard={!isAuthenticated || !hasCompletedOnboarding}>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        </Stack.Protected>
-
-        {/* ONBOARDING STACK - for authenticated users who haven't completed onboarding */}
-        <Stack.Protected guard={isAuthenticated && !hasCompletedOnboarding}>
-          <Stack.Screen
-            name="(auth)/onboarding"
-            options={{ headerShown: false }}
-          />
         </Stack.Protected>
 
         {/* AUTHENTICATED NESTED STACK */}
         <Stack.Protected guard={!!(isAuthenticated && hasCompletedOnboarding)}>
-          {/* MAIN STACK*/}
           <Stack.Screen
             name="(main)"
-            options={{
-              title: "",
-              headerShown: false,
-              ...root,
-            }}
+            options={{ title: "", headerShown: false, ...root }}
           />
         </Stack.Protected>
       </Stack>

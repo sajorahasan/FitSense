@@ -22,7 +22,7 @@ export const { createUser, deleteUser, updateUser, createSession } =
         // Basic auth fields
         name: user.name ?? "new user",
         ...(user.image && { image: user.image }),
-        tokenIdentifier: user.email,
+        tokenIdentifier: user.email, // Use email as tokenIdentifier
 
         // Onboarding defaults
         onboardingCompleted: false,

@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { toast } from "sonner-native";
@@ -9,9 +9,10 @@ import { authClient } from "@/lib/better-auth/auth-client";
 
 export default function SignInRoute() {
   const { colors } = useTheme();
+
   /* ---------------------------------- state --------------------------------- */
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(__DEV__ ? "sajorahasan@gmail.com" : "");
+  const [password, setPassword] = useState(__DEV__ ? "#Reset123" : "");
   const [isLoading, setIsLoading] = useState(false);
   /* ----------------------------- handle sign in ----------------------------- */
   const handleSignIn = async () => {
@@ -30,7 +31,7 @@ export default function SignInRoute() {
       return;
     }
 
-    const { data, error } = await authClient.signIn.email(
+    await authClient.signIn.email(
       {
         email: email.trim(),
         password: password,
@@ -45,13 +46,13 @@ export default function SignInRoute() {
           setIsLoading(false);
           toast.error(ctx.error.message || "Failed to sign in");
         },
-        onSuccess: () => {
+        onSuccess: (ctx) => {
           setIsLoading(false);
-          console.log("success!");
+          console.log("Sign in successful!", ctx.data?.user);
+          toast.success(`Welcome back! ${ctx.data?.user?.name || "User"}`);
         },
       },
     );
-    console.log(data, error);
   };
   /* --------------------------------- return --------------------------------- */
   return (
