@@ -5,14 +5,38 @@ import { Button, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { View } from "react-native";
 import { toast } from "sonner-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { api } from "~/backend/_generated/api";
+import {
+  dateStringToTimestamp,
+  timestampToDateString,
+} from "~/shared/utils/date";
+import { useOnboardingUser } from "./_layout";
 
 export default function OnboardingPersonal() {
   const { colors } = useTheme();
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const user = useOnboardingUser();
+
+  const [height, setHeight] = useState(user?.height?.toString() || "");
+  const [weight, setWeight] = useState(user?.weight?.toString() || "");
+  const [dateOfBirth, setDateOfBirth] = useState(() => {
+    if (user?.dateOfBirth) {
+      try {
+        // If dateOfBirth is a timestamp, convert it to DD/MM/YYYY format
+        if (typeof user.dateOfBirth === "number") {
+          return timestampToDateString(user.dateOfBirth);
+        }
+        // If it's an ISO string, convert it to DD/MM/YYYY format
+        if (typeof user.dateOfBirth === "string") {
+          return timestampToDateString(new Date(user.dateOfBirth).getTime());
+        }
+      } catch (error) {
+        console.warn("Failed to parse existing date of birth:", error);
+      }
+    }
+    return "";
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const updateProfile = useMutation(api.users.updateUserProfile);
@@ -32,7 +56,16 @@ export default function OnboardingPersonal() {
       };
 
       if (dateOfBirth.trim()) {
-        updates.dateOfBirth = new Date(dateOfBirth).getTime();
+        try {
+          // Convert DD/MM/YYYY format to timestamp
+          updates.dateOfBirth = dateStringToTimestamp(dateOfBirth);
+        } catch (error) {
+          toast.error(
+            `Invalid date format. Please use DD/MM/YYYY format. ${error instanceof Error ? error.message : "Unknown error"}`,
+          );
+          setIsLoading(false);
+          return;
+        }
       }
 
       await updateProfile(updates);
@@ -47,7 +80,7 @@ export default function OnboardingPersonal() {
   };
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-4 px-6">
       <FormHeader
         title="Tell us about yourself"
         description="This helps us personalize your experience"
@@ -96,7 +129,7 @@ export default function OnboardingPersonal() {
       <TextField>
         <TextField.Input
           className="rounded-3xl"
-          placeholder="Date of Birth (optional)"
+          placeholder="Date of Birth (DD/MM/YYYY)"
           value={dateOfBirth}
           onChangeText={setDateOfBirth}
         >
@@ -135,6 +168,6 @@ export default function OnboardingPersonal() {
           </Button>
         </Link>
       </View>
-    </FormContainer>
+    </ScreenScrollView>
   );
 }
