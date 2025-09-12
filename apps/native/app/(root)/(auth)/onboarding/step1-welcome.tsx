@@ -1,14 +1,38 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Button, useTheme } from "heroui-native";
+import { useEffect } from "react";
 import { Text, View } from "react-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
+import { useOnboardingUser } from "./_layout";
 
 export default function OnboardingWelcome() {
   const { colors } = useTheme();
+  const router = useRouter();
+  const user = useOnboardingUser();
+
+  // Check if user has already completed onboarding
+  useEffect(() => {
+    if (user?.onboardingCompleted) {
+      console.log(
+        "User has already completed onboarding, redirecting to main app",
+      );
+      router.replace("/(root)/(main)");
+    } else if (user?.onboardingStep === 1) {
+      console.log("User is on onboarding step 1, redirecting to step 2");
+      router.push("/(root)/(auth)/onboarding/step2-personal");
+    } else if (user?.onboardingStep === 2) {
+      console.log("User is on onboarding step 2, redirecting to step 3");
+      router.push("/(root)/(auth)/onboarding/step3-fitness");
+    } else if (user?.onboardingStep === 3) {
+      console.log("User is on onboarding step 3, redirecting to step 4");
+      router.push("/(root)/(auth)/onboarding/step4-preferences");
+    }
+  }, [user?.onboardingCompleted, user?.onboardingStep, router]);
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-4 px-6">
       <FormHeader
         title="Welcome to FitSense!"
         description="Let's personalize your fitness journey"
@@ -75,6 +99,6 @@ export default function OnboardingWelcome() {
           </Button.EndContent>
         </Button>
       </Link>
-    </FormContainer>
+    </ScreenScrollView>
   );
 }
