@@ -1,10 +1,11 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useMutation } from "convex/react";
-import { Button, Switch, useTheme } from "heroui-native";
+import { Button, DropShadowView, Switch, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { toast } from "sonner-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { api } from "~/backend/_generated/api";
 
@@ -76,7 +77,7 @@ export default function OnboardingPreferences() {
       await completeOnboarding();
 
       // Navigate to main app
-      // router.replace("/(root)/(main)/index");
+      // router.replace("/(root)/(main)");
     } catch (error) {
       toast.error(
         `Failed to complete setup. Please try again. ${error instanceof Error ? error?.message : "Unknown error"}`,
@@ -87,7 +88,7 @@ export default function OnboardingPreferences() {
   };
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-4 px-6">
       <FormHeader
         title="Almost there!"
         description="Customize your preferences and choose your theme"
@@ -113,62 +114,63 @@ export default function OnboardingPreferences() {
 
         <View className="gap-3">
           {availableThemes.map((theme) => (
-            <TouchableOpacity
-              key={theme.id}
-              onPress={() => setThemeById(theme.id)}
-              className={`rounded-2xl border-2 p-4 ${
-                currentThemeId === theme.id
-                  ? "border-accent bg-accent/5"
-                  : "border-border bg-surface"
-              }`}
-            >
-              <View className="flex-row items-center gap-3">
-                <View
-                  className={`rounded-full p-3 ${currentThemeId === theme.id ? "bg-accent" : "bg-muted"}`}
-                >
-                  <Ionicons
-                    name={
-                      theme.id === "lavender"
-                        ? "flower"
-                        : theme.id === "mint"
-                          ? "leaf"
-                          : theme.id === "sky"
-                            ? "cloud"
-                            : "color-palette"
-                    }
-                    size={20}
-                    color={
-                      currentThemeId === theme.id
-                        ? colors.background
-                        : colors.mutedForeground
-                    }
-                  />
-                </View>
-                <View className="flex-1">
-                  <Text
-                    className={`font-medium ${currentThemeId === theme.id ? "text-accent" : "text-foreground"}`}
+            <DropShadowView className="rounded-2xl" key={theme.id}>
+              <Pressable
+                onPress={() => setThemeById(theme.id)}
+                className={`rounded-2xl border-2 p-4 ${
+                  currentThemeId === theme.id
+                    ? "border-accent bg-accent/5"
+                    : "border-border bg-surface"
+                }`}
+              >
+                <View className="flex-row items-center gap-3">
+                  <View
+                    className={`rounded-full p-3 ${currentThemeId === theme.id ? "bg-accent" : "bg-muted"}`}
                   >
-                    {theme.name}
-                  </Text>
-                  <Text className="text-muted-foreground text-sm">
-                    {theme.id === "lavender" &&
-                      "Relaxing purple tones for mindfulness and evening routines"}
-                    {theme.id === "mint" &&
-                      "Fresh green hues for energy and outdoor activities"}
-                    {theme.id === "sky" &&
-                      "Calm blue shades for focus and morning routines"}
-                    {theme.id === "default" && "Clean and minimal design"}
-                  </Text>
+                    <Ionicons
+                      name={
+                        theme.id === "lavender"
+                          ? "flower"
+                          : theme.id === "mint"
+                            ? "leaf"
+                            : theme.id === "sky"
+                              ? "cloud"
+                              : "color-palette"
+                      }
+                      size={20}
+                      color={
+                        currentThemeId === theme.id
+                          ? colors.background
+                          : colors.mutedForeground
+                      }
+                    />
+                  </View>
+                  <View className="flex-1">
+                    <Text
+                      className={`font-medium ${currentThemeId === theme.id ? "text-accent" : "text-foreground"}`}
+                    >
+                      {theme.name}
+                    </Text>
+                    <Text className="text-muted-foreground text-sm">
+                      {theme.id === "lavender" &&
+                        "Relaxing purple tones for mindfulness and evening routines"}
+                      {theme.id === "mint" &&
+                        "Fresh green hues for energy and outdoor activities"}
+                      {theme.id === "sky" &&
+                        "Calm blue shades for focus and morning routines"}
+                      {theme.id === "default" && "Clean and minimal design"}
+                    </Text>
+                  </View>
+                  {currentThemeId === theme.id && (
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={24}
+                      color={colors.accent}
+                    />
+                  )}
                 </View>
-                {currentThemeId === theme.id && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={24}
-                    color={colors.accent}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
+              </Pressable>
+            </DropShadowView>
           ))}
         </View>
       </View>
@@ -186,36 +188,40 @@ export default function OnboardingPreferences() {
 
         <View className="gap-4">
           {notificationOptions.map((option) => (
-            <View
-              key={option.id}
-              className="flex-row items-center gap-4 rounded-2xl bg-panel p-4"
-            >
-              <View className="rounded-full bg-accent/10 p-2">
-                <Ionicons
-                  name={option.icon as any}
-                  size={20}
-                  color={colors.accent}
-                />
-              </View>
-
-              <View className="flex-1">
-                <Text className="font-medium text-foreground">
-                  {option.title}
-                </Text>
-                <Text className="text-muted-foreground text-sm">
-                  {option.description}
-                </Text>
-              </View>
-
-              <Switch
-                isSelected={
-                  notifications[option.id as keyof typeof notifications]
-                }
-                onSelectedChange={() =>
+            <DropShadowView className="rounded-2xl" key={option.id}>
+              <Pressable
+                onPress={() =>
                   toggleNotification(option.id as keyof typeof notifications)
                 }
-              />
-            </View>
+                className="flex-row items-center gap-4 rounded-2xl bg-panel p-4"
+              >
+                <View className="rounded-full bg-accent/10 p-2">
+                  <Ionicons
+                    name={option.icon as any}
+                    size={20}
+                    color={colors.accent}
+                  />
+                </View>
+
+                <View className="flex-1">
+                  <Text className="font-medium text-foreground">
+                    {option.title}
+                  </Text>
+                  <Text className="text-muted-foreground text-sm">
+                    {option.description}
+                  </Text>
+                </View>
+
+                <Switch
+                  isSelected={
+                    notifications[option.id as keyof typeof notifications]
+                  }
+                  onSelectedChange={() =>
+                    toggleNotification(option.id as keyof typeof notifications)
+                  }
+                />
+              </Pressable>
+            </DropShadowView>
           ))}
         </View>
       </View>
@@ -244,6 +250,6 @@ export default function OnboardingPreferences() {
           <Button.LabelContent>Use default settings</Button.LabelContent>
         </Button>
       </View>
-    </FormContainer>
+    </ScreenScrollView>
   );
 }
