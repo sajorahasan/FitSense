@@ -1,12 +1,14 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useMutation } from "convex/react";
 import { Link, router } from "expo-router";
-import { Button, useTheme } from "heroui-native";
+import { Button, DropShadowView, useTheme } from "heroui-native";
 import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { toast } from "sonner-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { api } from "~/backend/_generated/api";
+import { useOnboardingUser } from "./_layout";
 
 const fitnessLevels = [
   {
@@ -14,18 +16,21 @@ const fitnessLevels = [
     title: "Beginner",
     description: "New to fitness or getting back into it",
     icon: "walk",
+    color: "success", // Mint green for beginners
   },
   {
     id: "intermediate",
     title: "Intermediate",
     description: "Regular exercise, building strength",
     icon: "fitness",
+    color: "warning", // Golden yellow for intermediate
   },
   {
     id: "advanced",
     title: "Advanced",
     description: "Experienced, pushing limits",
     icon: "trophy",
+    color: "danger", // Soft rose for advanced
   },
 ] as const;
 
@@ -35,37 +40,47 @@ const goals = [
     title: "Weight Loss",
     description: "Lose weight and improve body composition",
     icon: "scale",
+    color: "success", // Mint green for weight loss
   },
   {
     id: "muscle_gain",
     title: "Muscle Gain",
     description: "Build muscle and strength",
     icon: "barbell",
+    color: "warning", // Golden yellow for muscle gain
   },
   {
     id: "maintenance",
     title: "Maintenance",
     description: "Maintain current fitness level",
     icon: "shield-checkmark",
+    color: "accent", // Purple for maintenance
   },
   {
     id: "endurance",
     title: "Endurance",
     description: "Improve cardiovascular fitness",
     icon: "heart",
+    color: "danger", // Soft rose for endurance
   },
   {
     id: "health_management",
     title: "Health Management",
     description: "Manage health conditions through fitness",
     icon: "medical",
+    color: "accent", // Purple for health management - better contrast
   },
 ] as const;
 
 export default function OnboardingFitness() {
   const { colors } = useTheme();
-  const [selectedLevel, setSelectedLevel] = useState<string>("");
-  const [selectedGoal, setSelectedGoal] = useState<string>("");
+  const user = useOnboardingUser();
+  const [selectedLevel, setSelectedLevel] = useState<string>(
+    user.fitnessLevel || "",
+  );
+  const [selectedGoal, setSelectedGoal] = useState<string>(
+    user.primaryGoal || "",
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const updateProfile = useMutation(api.users.updateUserProfile);
@@ -99,7 +114,7 @@ export default function OnboardingFitness() {
   };
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-4 px-6">
       <FormHeader
         title="Your Fitness Profile"
         description="Help us understand your fitness level and goals"
@@ -115,56 +130,82 @@ export default function OnboardingFitness() {
       </View>
 
       {/* Fitness Level Selection */}
-      <View className="mb-8">
+      <View className="mb-4">
         <Text className="mb-4 font-semibold text-foreground text-lg">
           What's your fitness level?
         </Text>
 
-        <View className="gap-3">
-          {fitnessLevels.map((level) => (
-            <TouchableOpacity
-              key={level.id}
-              onPress={() => setSelectedLevel(level.id)}
-              className={`rounded-2xl border-2 p-4 ${
-                selectedLevel === level.id
-                  ? "border-accent bg-accent/5"
-                  : "border-border bg-panel"
-              }`}
-            >
-              <View className="flex-row items-center gap-3">
-                <View
-                  className={`rounded-full p-2 ${selectedLevel === level.id ? "bg-accent" : "bg-muted"}`}
+        <View className="gap-4">
+          {fitnessLevels.map((level) => {
+            const levelColor = colors[level.color as keyof typeof colors];
+            const isSelected = selectedLevel === level.id;
+
+            return (
+              <DropShadowView className="rounded-2xl" key={level.id}>
+                <Pressable
+                  onPress={() => setSelectedLevel(level.id)}
+                  className="rounded-2xl border-1 p-4"
+                  style={{
+                    borderColor: isSelected ? levelColor : colors.border,
+                    backgroundColor: isSelected
+                      ? colors.panel // Use panel background for better readability
+                      : colors.panel,
+                    shadowColor: isSelected ? "#000000" : "transparent",
+                    shadowOffset: { width: 0, height: isSelected ? 2 : 0 },
+                    shadowOpacity: isSelected ? 0.1 : 0,
+                    shadowRadius: isSelected ? 8 : 0,
+                    elevation: isSelected ? 3 : 0,
+                  }}
                 >
-                  <Ionicons
-                    name={level.icon as any}
-                    size={20}
-                    color={
-                      selectedLevel === level.id
-                        ? colors.background
-                        : colors.mutedForeground
-                    }
-                  />
-                </View>
-                <View className="flex-1">
-                  <Text
-                    className={`font-medium ${selectedLevel === level.id ? "text-accent" : "text-foreground"}`}
-                  >
-                    {level.title}
-                  </Text>
-                  <Text className="text-muted-foreground text-sm">
-                    {level.description}
-                  </Text>
-                </View>
-                {selectedLevel === level.id && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={24}
-                    color={colors.accent}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
-          ))}
+                  <View className="flex-row items-center gap-3 overflow-hidden">
+                    <View
+                      style={{
+                        borderRadius: 999,
+                        overflow: "hidden",
+                        backgroundColor: isSelected ? levelColor : colors.panel,
+                        borderWidth: isSelected ? 0 : 1,
+                        borderColor: levelColor,
+                      }}
+                      className="p-3"
+                    >
+                      <Ionicons
+                        name={level.icon as any}
+                        size={20}
+                        color={isSelected ? colors.background : levelColor}
+                      />
+                    </View>
+                    <View className="flex-1">
+                      <Text
+                        className="font-medium"
+                        style={{
+                          color: isSelected ? levelColor : colors.foreground,
+                        }}
+                      >
+                        {level.title}
+                      </Text>
+                      <Text
+                        className="text-sm"
+                        style={{
+                          color: isSelected
+                            ? levelColor
+                            : colors.mutedForeground,
+                        }}
+                      >
+                        {level.description}
+                      </Text>
+                    </View>
+                    {isSelected && (
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={24}
+                        color={levelColor}
+                      />
+                    )}
+                  </View>
+                </Pressable>
+              </DropShadowView>
+            );
+          })}
         </View>
       </View>
 
@@ -174,51 +215,75 @@ export default function OnboardingFitness() {
           What's your primary goal?
         </Text>
 
-        <View className="gap-3">
-          {goals.map((goal) => (
-            <TouchableOpacity
-              key={goal.id}
-              onPress={() => setSelectedGoal(goal.id)}
-              className={`rounded-2xl border-2 p-4 ${
-                selectedGoal === goal.id
-                  ? "border-accent bg-accent/5"
-                  : "border-border bg-panel"
-              }`}
-            >
-              <View className="flex-row items-center gap-3">
-                <View
-                  className={`rounded-full p-2 ${selectedGoal === goal.id ? "bg-accent" : "bg-muted"}`}
+        <View className="gap-4">
+          {goals.map((goal) => {
+            const goalColor = colors[goal.color as keyof typeof colors];
+            const isSelected = selectedGoal === goal.id;
+
+            return (
+              <DropShadowView className="rounded-2xl" key={goal.id}>
+                <Pressable
+                  onPress={() => setSelectedGoal(goal.id)}
+                  className="rounded-2xl border-1 p-4"
+                  style={{
+                    borderColor: isSelected ? goalColor : colors.border,
+                    backgroundColor: isSelected
+                      ? colors.panel // Use panel background for better readability
+                      : colors.panel,
+                    shadowColor: isSelected ? "#000000" : "transparent",
+                    shadowOffset: { width: 0, height: isSelected ? 2 : 0 },
+                    shadowOpacity: isSelected ? 0.1 : 0,
+                    shadowRadius: isSelected ? 8 : 0,
+                    elevation: isSelected ? 3 : 0,
+                  }}
                 >
-                  <Ionicons
-                    name={goal.icon as any}
-                    size={20}
-                    color={
-                      selectedGoal === goal.id
-                        ? colors.background
-                        : colors.mutedForeground
-                    }
-                  />
-                </View>
-                <View className="flex-1">
-                  <Text
-                    className={`font-medium ${selectedGoal === goal.id ? "text-accent" : "text-foreground"}`}
-                  >
-                    {goal.title}
-                  </Text>
-                  <Text className="text-muted-foreground text-sm">
-                    {goal.description}
-                  </Text>
-                </View>
-                {selectedGoal === goal.id && (
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={24}
-                    color={colors.accent}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
-          ))}
+                  <View className="flex-row items-center gap-3">
+                    <View
+                      className="rounded-full p-3"
+                      style={{
+                        backgroundColor: isSelected ? goalColor : colors.panel,
+                        borderWidth: isSelected ? 0 : 1,
+                        borderColor: goalColor,
+                      }}
+                    >
+                      <Ionicons
+                        name={goal.icon as any}
+                        size={20}
+                        color={isSelected ? colors.background : goalColor}
+                      />
+                    </View>
+                    <View className="flex-1">
+                      <Text
+                        className="font-medium"
+                        style={{
+                          color: isSelected ? goalColor : colors.foreground,
+                        }}
+                      >
+                        {goal.title}
+                      </Text>
+                      <Text
+                        className="text-sm"
+                        style={{
+                          color: isSelected
+                            ? goalColor
+                            : colors.mutedForeground,
+                        }}
+                      >
+                        {goal.description}
+                      </Text>
+                    </View>
+                    {isSelected && (
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={24}
+                        color={goalColor}
+                      />
+                    )}
+                  </View>
+                </Pressable>
+              </DropShadowView>
+            );
+          })}
         </View>
       </View>
 
@@ -247,6 +312,6 @@ export default function OnboardingFitness() {
           </Button>
         </Link>
       </View>
-    </FormContainer>
+    </ScreenScrollView>
   );
 }

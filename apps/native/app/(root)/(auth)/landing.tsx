@@ -23,7 +23,7 @@ export default function Landing() {
           <Image
             source={require("../../../assets/app-logo.png")}
             style={{ width: "40%", height: "40%" }}
-            contentFit="cover"
+            contentFit="contain"
           />
 
           {/* App title and description */}
@@ -62,9 +62,9 @@ export default function Landing() {
           {/* Secondary CTA - Google */}
 
           <Button
-            className="h-14 w-full rounded-2xl border-2"
+            className="h-14 w-full rounded-2xl"
             size="lg"
-            // variant="secondary"
+            variant="secondary"
             accessibilityLabel="Continue with Google"
             accessibilityHint="Sign in using your Google account"
             onPress={() => {
@@ -85,14 +85,14 @@ export default function Landing() {
           </Button>
 
           {/* Divider */}
-          <View className="my-6 flex-row items-center">
+          {/* <View className="my-6 flex-row items-center">
             <View className="h-px flex-1 bg-border" />
             <Text className="px-4 text-muted-foreground text-sm">or</Text>
             <View className="h-px flex-1 bg-border" />
-          </View>
+          </View> */}
 
           {/* Test onboarding link */}
-          <Link href="/(root)/(auth)/onboarding/step1-welcome" asChild>
+          {/* <Link href="/(root)/(auth)/onboarding/step1-welcome" asChild>
             <Button
               variant="secondary"
               className="h-12 w-full rounded-2xl"
@@ -104,7 +104,7 @@ export default function Landing() {
                 Try Demo Onboarding
               </Button.LabelContent>
             </Button>
-          </Link>
+          </Link> */}
         </View>
       </View>
     </SafeAreaView>
