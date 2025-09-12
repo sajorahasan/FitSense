@@ -18,6 +18,7 @@ import ConvexProvider from "@/providers/ConvexProvider";
 SplashScreen.preventAutoHideAsync();
 
 SplashScreen.setOptions({
+  duration: 250,
   fade: true,
 });
 

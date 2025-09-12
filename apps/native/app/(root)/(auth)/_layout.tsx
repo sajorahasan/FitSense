@@ -7,7 +7,7 @@ export default function AuthLayout() {
   const { root, standard } = useNavigationOptions();
   const { isAuthenticated } = useConvexAuth();
   const user = useQuery(api.users.getCurrentUser);
-  const hasCompletedOnboarding = user?.onboardingCompleted;
+  const hasCompletedOnboarding = user?.onboardingCompleted || false;
 
   return (
     <Stack>

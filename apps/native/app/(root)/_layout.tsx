@@ -1,18 +1,22 @@
 import { useConvexAuth, useQuery } from "convex/react";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useTheme } from "heroui-native";
+import { Spinner, useTheme } from "heroui-native";
 import { useEffect } from "react";
+import { View } from "react-native";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { useNavigationOptions } from "@/hooks/useNavigationOptions";
 import { api } from "~/backend/_generated/api";
+import { delay } from "~/shared/utils/delay";
 
 export const unstable_settings = {
   anchor: "(main)/index",
 };
 
 export default function RootLayout() {
+  const [fontsLoaded, fontError] = useFonts({});
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { root } = useNavigationOptions();
   const { syncThemeFromUser } = useAppTheme();
@@ -29,14 +33,25 @@ export default function RootLayout() {
     }
   }, [user?.themeId, syncThemeFromUser]);
 
+  if (fontError) {
+    throw fontError;
+  }
+
   useEffect(() => {
-    if (!isLoading) {
-      SplashScreen.hide();
+    if (isLoading || !fontsLoaded) {
+      return;
     }
-  }, [isLoading]);
+    delay(350).then(() => {
+      SplashScreen.hideAsync();
+    });
+  }, [isLoading, fontsLoaded]);
 
   if (isLoading) {
-    return null;
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <Spinner size="lg" />
+      </View>
+    );
   }
 
   /* --------------------------------- return --------------------------------- */
