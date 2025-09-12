@@ -4,7 +4,7 @@ import React from "react";
 import { Text as RNText, type TextProps as RNTextProps } from "react-native";
 import { cn } from "@/lib/utils";
 
-export const AppText = React.forwardRef<RNText, RNTextProps>((props, ref) => {
+export const Text = React.forwardRef<RNText, RNTextProps>((props, ref) => {
   const { className, ...restProps } = props;
 
   return (
@@ -12,4 +12,4 @@ export const AppText = React.forwardRef<RNText, RNTextProps>((props, ref) => {
   );
 });
 
-AppText.displayName = "AppText";
+Text.displayName = "Text";
