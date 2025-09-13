@@ -85,30 +85,30 @@
   - **Success Criteria**: ✅ Schema matches data-model.md UserProfile interface
   - **Details**: ✅ `backend/convex/schema.ts` - define users table with indexes
 
-- [ ] **T007** [P] Implement Convex schema for WorkoutSession
+- [x] **T007** [P] Implement Convex schema for WorkoutSession
   - **Effort**: Low (1 hour)
   - **Dependencies**: T003
-  - **Success Criteria**: Full workout entity with exercise tracking
-  - **Details**: Define workouts table, exercise entries, performance metrics
+  - **Success Criteria**: ✅ Full workout entity with exercise tracking
+  - **Details**: ✅ Define workouts table, exercise entries, performance metrics
 
-- [ ] **T008** [P] Implement Convex schema for MealEntry
+- [x] **T008** [P] Implement Convex schema for MealEntry
   - **Effort**: Low (1 hour)
   - **Dependencies**: T003
-  - **Success Criteria**: Meal logging with nutrition tracking
-  - **Details**: Define meals table with food items and nutritional data
+  - **Success Criteria**: ✅ Meal logging with nutrition tracking
+  - **Details**: ✅ Define meals table with food items and nutritional data
 
-- [ ] **T009** [P] Implement Convex schema for HealthMetric
+- [x] **T009** [P] Implement Convex schema for HealthMetric
   - **Effort**: Low (1 hour)
   - **Dependencies**: T003
-  - **Success Criteria**: Vital signs and sensor data storage
-  - **Details**: Define healthMetrics table with timestamp indexing
+  - **Success Criteria**: ✅ Vital signs and sensor data storage
+  - **Details**: ✅ Define healthMetrics table with timestamp indexing
 
 ### Basic Logging Screens (Mobile App)
-- [ ] **T010** Create main dashboard screen
+- [x] **T010** Create main dashboard screen
   - **Effort**: Med (1-2 hours)
   - **Dependencies**: T004, T005
-  - **Success Criteria**: Shows recent activities, quick action buttons
-  - **Details**: `mobile/src/screens/Dashboard.tsx` with NativeWind styling
+  - **Success Criteria**: ✅ Shows recent activities, quick action buttons
+  - **Details**: ✅ Enhanced `apps/native/app/(root)/(main)/index.tsx` with NativeWind styling
 
 - [ ] **T011** Create workout logging screen
   - **Effort**: Med (1-2 hours)
@@ -388,15 +388,19 @@ Task: "Implement Convex schema for HealthMetric in backend/convex/schema.ts"
 ## Current Progress Summary
 *Updated: $(date +%Y-%m-%d)*
 
-### ✅ Completed Tasks (6/39)
+### ✅ Completed Tasks (10/39)
 - **T001**: ✅ Project bootstrap from convexpo template
 - **T002**: ✅ Development environment and scripts configured  
 - **T003**: ✅ Shared TypeScript types and utilities created
 - **T004**: ✅ Better Auth integration with session management verified
 - **T005**: ✅ User onboarding flow with 4-step profile setup
 - **T006**: ✅ Convex schema for UserProfile with contract compliance
+- **T007**: ✅ Convex schema for WorkoutSession with exercise tracking
+- **T008**: ✅ Convex schema for MealEntry with nutrition tracking
+- **T009**: ✅ Convex schema for HealthMetric with timestamp indexing
+- **T010**: ✅ Main dashboard screen with recent activities and quick actions
 
-### 🔄 Next Priority: T007-T009 - Core Data Layer (Convex Schemas)
-**Ready to start**: All dependencies (T001-T006) completed
-**Effort**: Low (1 hour each, can run in parallel)
-**Focus**: Implement Convex schemas for WorkoutSession, MealEntry, HealthMetric
+### 🔄 Next Priority: T011-T013 - Basic Logging Screens (Mobile App)
+**Ready to start**: All dependencies (T001-T010) completed
+**Effort**: Med (1-2 hours each)
+**Focus**: Create workout logging, meal logging, and health metrics screens
