@@ -1,5 +1,6 @@
 import { useConvexAuth, useQuery } from "convex/react";
 import { Stack } from "expo-router";
+import { OnboardingProvider } from "@/contexts/onboarding-context";
 import { useNavigationOptions } from "@/hooks/useNavigationOptions";
 import { api } from "~/backend/_generated/api";
 
@@ -10,19 +11,21 @@ export default function AuthLayout() {
   const hasCompletedOnboarding = user?.onboardingCompleted || false;
 
   return (
-    <Stack>
-      {/* ONBOARDING STACK - for authenticated users who haven't completed onboarding */}
-      <Stack.Protected guard={isAuthenticated && !hasCompletedOnboarding}>
-        <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-      </Stack.Protected>
-      <Stack.Screen
-        name="landing"
-        options={{ headerShown: true, title: "", ...standard }}
-      />
-      <Stack.Screen
-        name="email"
-        options={{ headerShown: false, presentation: "modal", ...root }}
-      />
-    </Stack>
+    <OnboardingProvider>
+      <Stack>
+        {/* ONBOARDING STACK - for authenticated users who haven't completed onboarding */}
+        <Stack.Protected guard={isAuthenticated && !hasCompletedOnboarding}>
+          <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Screen
+          name="landing"
+          options={{ headerShown: true, title: "", ...standard }}
+        />
+        <Stack.Screen
+          name="email"
+          options={{ headerShown: false, presentation: "modal", ...root }}
+        />
+      </Stack>
+    </OnboardingProvider>
   );
 }

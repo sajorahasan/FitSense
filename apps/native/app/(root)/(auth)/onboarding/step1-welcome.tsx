@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Text, View } from "react-native";
 import FormHeader from "@/components/form";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
-import { useOnboardingUser } from "./_layout";
+import { useOnboardingUser } from "@/contexts/onboarding-context";
 
 export default function OnboardingWelcome() {
   const { colors } = useTheme();
@@ -14,18 +14,21 @@ export default function OnboardingWelcome() {
 
   // Check if user has already completed onboarding
   useEffect(() => {
-    if (user?.onboardingCompleted) {
+    // Don't redirect if user data is still loading
+    if (!user) return;
+
+    if (user.onboardingCompleted) {
       console.log(
         "User has already completed onboarding, redirecting to main app",
       );
       router.replace("/(root)/(main)");
-    } else if (user?.onboardingStep === 1) {
+    } else if (user.onboardingStep === 1) {
       console.log("User is on onboarding step 1, redirecting to step 2");
       router.push("/(root)/(auth)/onboarding/step2-personal");
-    } else if (user?.onboardingStep === 2) {
+    } else if (user.onboardingStep === 2) {
       console.log("User is on onboarding step 2, redirecting to step 3");
       router.push("/(root)/(auth)/onboarding/step3-fitness");
-    } else if (user?.onboardingStep === 3) {
+    } else if (user.onboardingStep === 3) {
       console.log("User is on onboarding step 3, redirecting to step 4");
       router.push("/(root)/(auth)/onboarding/step4-preferences");
     }

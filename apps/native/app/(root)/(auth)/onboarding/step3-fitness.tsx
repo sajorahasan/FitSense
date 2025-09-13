@@ -7,8 +7,8 @@ import { Pressable, Text, View } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader from "@/components/form";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
+import { useOnboardingUser } from "@/contexts/onboarding-context";
 import { api } from "~/backend/_generated/api";
-import { useOnboardingUser } from "./_layout";
 
 const fitnessLevels = [
   {
