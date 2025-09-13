@@ -19,16 +19,27 @@ export const { createUser, deleteUser, updateUser, createSession } =
        * with default values for onboarding flow
        */
       const userId = await ctx.db.insert("users", {
-        // Basic auth fields
-        name: user.name ?? "new user",
-        ...(user.image && { image: user.image }),
+        // Basic auth fields (Better Auth integration)
         tokenIdentifier: user.email, // Use email as tokenIdentifier
 
-        // Onboarding defaults
-        onboardingCompleted: false,
-        onboardingStep: 1,
+        // User Profile fields (matching contract specification)
+        email: user.email,
+        displayName: user.name ?? "new user",
+        ...(user.image && { avatar: user.image }),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
 
-        // Default preferences
+        // Fitness Profile (required fields with defaults)
+        fitnessLevel: "beginner",
+        activityLevel: "sedentary",
+        primaryGoal: "health_management",
+
+        // Health Conditions & Preferences (required arrays with defaults)
+        healthConditions: [],
+        allergies: [],
+        dietaryPreferences: [],
+
+        // Privacy & Preferences (required fields with defaults)
         privacyLevel: "private",
         dataRetention: "forever",
         notifications: {
@@ -39,8 +50,13 @@ export const { createUser, deleteUser, updateUser, createSession } =
           weeklyReports: true,
         },
 
-        // Technical defaults
+        // Technical (required fields)
+        deviceId: `device_${Date.now()}`, // Generate a unique device ID
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+
+        // Onboarding defaults
+        onboardingCompleted: false,
+        onboardingStep: 1,
       });
       return userId;
     },

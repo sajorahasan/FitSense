@@ -79,11 +79,11 @@
   - **Details**: ✅ Complete 4-step onboarding flow + profile screen implemented with full profile viewing and editing capabilities
 
 ### Core Data Layer (Convex Backend)
-- [ ] **T006** [P] Implement Convex schema for UserProfile
+- [x] **T006** [P] Implement Convex schema for UserProfile
   - **Effort**: Low (1 hour)
   - **Dependencies**: T003
-  - **Success Criteria**: Schema matches data-model.md UserProfile interface
-  - **Details**: `backend/convex/schema.ts` - define users table with indexes
+  - **Success Criteria**: ✅ Schema matches data-model.md UserProfile interface
+  - **Details**: ✅ `backend/convex/schema.ts` - define users table with indexes
 
 - [ ] **T007** [P] Implement Convex schema for WorkoutSession
   - **Effort**: Low (1 hour)
@@ -388,14 +388,15 @@ Task: "Implement Convex schema for HealthMetric in backend/convex/schema.ts"
 ## Current Progress Summary
 *Updated: $(date +%Y-%m-%d)*
 
-### ✅ Completed Tasks (5/39)
+### ✅ Completed Tasks (6/39)
 - **T001**: ✅ Project bootstrap from convexpo template
 - **T002**: ✅ Development environment and scripts configured  
 - **T003**: ✅ Shared TypeScript types and utilities created
 - **T004**: ✅ Better Auth integration with session management verified
 - **T005**: ✅ User onboarding flow with 4-step profile setup
+- **T006**: ✅ Convex schema for UserProfile with contract compliance
 
-### 🔄 Next Priority: T006-T009 - Core Data Layer (Convex Schemas)
-**Ready to start**: All dependencies (T001-T005) completed
+### 🔄 Next Priority: T007-T009 - Core Data Layer (Convex Schemas)
+**Ready to start**: All dependencies (T001-T006) completed
 **Effort**: Low (1 hour each, can run in parallel)
-**Focus**: Implement Convex schemas for UserProfile, WorkoutSession, MealEntry, HealthMetric
+**Focus**: Implement Convex schemas for WorkoutSession, MealEntry, HealthMetric

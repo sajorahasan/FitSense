@@ -30,7 +30,11 @@ export const getAllUserDataQuery = query({
 
 export const updateUserProfile = mutation({
   args: {
+    // Basic profile fields
     name: v.optional(v.string()),
+    avatar: v.optional(v.string()),
+
+    // Personal Information
     dateOfBirth: v.optional(v.number()),
     gender: v.optional(
       v.union(
@@ -42,6 +46,8 @@ export const updateUserProfile = mutation({
     ),
     height: v.optional(v.number()),
     weight: v.optional(v.number()),
+
+    // Fitness Profile (required fields - can be updated)
     fitnessLevel: v.optional(
       v.union(
         v.literal("beginner"),
@@ -67,9 +73,13 @@ export const updateUserProfile = mutation({
         v.literal("health_management"),
       ),
     ),
+
+    // Health Conditions & Preferences (required arrays - can be updated)
     healthConditions: v.optional(v.array(v.string())),
     allergies: v.optional(v.array(v.string())),
     dietaryPreferences: v.optional(v.array(v.string())),
+
+    // Privacy & Preferences (required fields - can be updated)
     privacyLevel: v.optional(
       v.union(
         v.literal("private"),
@@ -89,8 +99,16 @@ export const updateUserProfile = mutation({
         weeklyReports: v.boolean(),
       }),
     ),
+
+    // Technical fields
+    deviceId: v.optional(v.string()),
+    timezone: v.optional(v.string()),
+
+    // Onboarding status
     onboardingCompleted: v.optional(v.boolean()),
     onboardingStep: v.optional(v.number()),
+
+    // Theme preference
     themeId: v.optional(
       v.union(
         v.literal("default"),
@@ -112,8 +130,16 @@ export const updateUserProfile = mutation({
       throw new Error("User not found");
     }
 
+    // Map 'name' field to 'displayName' for database storage
+    const updates: any = { ...args };
+    if (updates.name) {
+      updates.displayName = updates.name;
+      delete updates.name; // Remove the name field since schema uses displayName
+    }
+
     await ctx.db.patch(user._id, {
-      ...args,
+      ...updates,
+      updatedAt: Date.now(),
       lastSyncAt: Date.now(),
     });
 
@@ -137,10 +163,13 @@ export const getUserEmailStatus = query({
       return null;
     }
 
+    // Get the user profile from our database
+    const user = await ctx.db.get(authUser.userId as Id<"users">);
+
     return {
       email: authUser.email,
       emailVerified: authUser.emailVerified || false,
-      name: authUser.name,
+      name: user?.displayName || authUser.name,
     };
   },
 });
@@ -206,6 +235,7 @@ export const completeOnboarding = mutation({
     await ctx.db.patch(user._id, {
       onboardingCompleted: true,
       onboardingStep: 4, // Final step
+      updatedAt: Date.now(),
       lastSyncAt: Date.now(),
     });
 

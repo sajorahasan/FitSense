@@ -44,7 +44,7 @@ export default function ProfileRoute() {
   useState(() => {
     if (user) {
       setFormData({
-        name: user.name || "",
+        name: emailStatus?.name || "",
         height: user.height?.toString() || "",
         weight: user.weight?.toString() || "",
         dateOfBirth: user.dateOfBirth
@@ -101,7 +101,7 @@ export default function ProfileRoute() {
     // Reset form data to original values
     if (user) {
       setFormData({
-        name: user.name || "",
+        name: emailStatus?.name || "",
         height: user.height?.toString() || "",
         weight: user.weight?.toString() || "",
         dateOfBirth: user.dateOfBirth
@@ -151,7 +151,7 @@ export default function ProfileRoute() {
         </View>
         <View className="items-center">
           <Text className="font-bold text-2xl text-foreground">
-            {user.name}
+            {emailStatus?.name}
           </Text>
         </View>
       </View>
@@ -273,7 +273,7 @@ export default function ProfileRoute() {
                 </TextField>
               ) : (
                 <Text className="text-foreground">
-                  {user.name || "Not set"}
+                  {emailStatus?.name || "Not set"}
                 </Text>
               )}
             </View>
@@ -518,7 +518,7 @@ export default function ProfileRoute() {
                 Member Since
               </Text>
               <Text className="text-foreground">
-                {new Date(user._creationTime).toDateString()}
+                {new Date(user.createdAt).toDateString()}
               </Text>
             </View>
             <View>

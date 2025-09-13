@@ -11,10 +11,15 @@ export default defineSchema({
    * you can edit this as you want this to be
    */
   users: defineTable({
-    // Basic auth fields
-    name: v.optional(v.string()),
-    image: v.optional(v.string()),
+    // Basic auth fields (Better Auth integration)
     tokenIdentifier: v.string(),
+
+    // User Profile fields (matching contract specification)
+    email: v.string(),
+    displayName: v.optional(v.string()),
+    avatar: v.optional(v.string()),
+    createdAt: v.number(), // Date as timestamp
+    updatedAt: v.number(),
 
     // Personal Information
     dateOfBirth: v.optional(v.number()), // timestamp
@@ -29,69 +34,61 @@ export default defineSchema({
     height: v.optional(v.number()), // cm
     weight: v.optional(v.number()), // kg
 
-    // Fitness Profile
-    fitnessLevel: v.optional(
-      v.union(
-        v.literal("beginner"),
-        v.literal("intermediate"),
-        v.literal("advanced"),
-      ),
+    // Fitness Profile (required fields as per contract)
+    fitnessLevel: v.union(
+      v.literal("beginner"),
+      v.literal("intermediate"),
+      v.literal("advanced"),
     ),
-    activityLevel: v.optional(
-      v.union(
-        v.literal("sedentary"),
-        v.literal("lightly_active"),
-        v.literal("moderately_active"),
-        v.literal("very_active"),
-        v.literal("extremely_active"),
-      ),
+    activityLevel: v.union(
+      v.literal("sedentary"),
+      v.literal("lightly_active"),
+      v.literal("moderately_active"),
+      v.literal("very_active"),
+      v.literal("extremely_active"),
     ),
-    primaryGoal: v.optional(
-      v.union(
-        v.literal("weight_loss"),
-        v.literal("muscle_gain"),
-        v.literal("maintenance"),
-        v.literal("endurance"),
-        v.literal("health_management"),
-      ),
+    primaryGoal: v.union(
+      v.literal("weight_loss"),
+      v.literal("muscle_gain"),
+      v.literal("maintenance"),
+      v.literal("endurance"),
+      v.literal("health_management"),
     ),
 
-    // Health Conditions & Preferences
-    healthConditions: v.optional(v.array(v.string())),
-    allergies: v.optional(v.array(v.string())),
-    dietaryPreferences: v.optional(v.array(v.string())),
+    // Health Conditions & Preferences (required arrays as per contract)
+    healthConditions: v.array(v.string()),
+    allergies: v.array(v.string()),
+    dietaryPreferences: v.array(v.string()),
 
-    // Privacy & Preferences
-    privacyLevel: v.optional(
-      v.union(
-        v.literal("private"),
-        v.literal("friends_only"),
-        v.literal("public"),
-      ),
+    // Privacy & Preferences (required fields as per contract)
+    privacyLevel: v.union(
+      v.literal("private"),
+      v.literal("friends_only"),
+      v.literal("public"),
     ),
-    dataRetention: v.optional(
-      v.union(v.literal("1_year"), v.literal("2_years"), v.literal("forever")),
+    dataRetention: v.union(
+      v.literal("1_year"),
+      v.literal("2_years"),
+      v.literal("forever"),
     ),
-    notifications: v.optional(
-      v.object({
-        workoutReminders: v.boolean(),
-        mealReminders: v.boolean(),
-        goalCelebrations: v.boolean(),
-        aiInsights: v.boolean(),
-        weeklyReports: v.boolean(),
-      }),
-    ),
+    notifications: v.object({
+      workoutReminders: v.boolean(),
+      mealReminders: v.boolean(),
+      goalCelebrations: v.boolean(),
+      aiInsights: v.boolean(),
+      weeklyReports: v.boolean(),
+    }),
 
-    // Technical
+    // Technical (required fields as per contract)
     lastSyncAt: v.optional(v.number()), // timestamp
-    deviceId: v.optional(v.string()),
-    timezone: v.optional(v.string()),
+    deviceId: v.string(),
+    timezone: v.string(),
 
-    // Onboarding status
+    // Onboarding status (additional fields for app functionality)
     onboardingCompleted: v.optional(v.boolean()),
     onboardingStep: v.optional(v.number()),
 
-    // Theme preference
+    // Theme preference (additional field for app functionality)
     themeId: v.optional(
       v.union(
         v.literal("default"),
@@ -100,7 +97,10 @@ export default defineSchema({
         v.literal("sky"),
       ),
     ),
-  }).index("by_token", { fields: ["tokenIdentifier"] }),
+  })
+    .index("by_token", { fields: ["tokenIdentifier"] })
+    .index("by_email", { fields: ["email"] })
+    .index("by_device", { fields: ["deviceId"] }),
   /**
    * add your own tables here
    */
