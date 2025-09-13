@@ -31,22 +31,25 @@ export default function HomeRoute() {
           on {new Date(userData.userMetaData.createdAt).toDateString()}
         </Text>
       </View>
-      <Link href={"/(root)/(main)/settings"} asChild>
-        <Button
-          className="rounded-full"
-          size={"lg"}
-          onPress={() => console.log("Button pressed")}
-        >
-          <Button.LabelContent>Go to settings</Button.LabelContent>
-          <Button.EndContent>
-            <Ionicons
-              name="chevron-forward"
-              size={18}
-              color={colors.background}
-            />
-          </Button.EndContent>
-        </Button>
-      </Link>
+      <View className="gap-3">
+        <Link href={"/(root)/(main)/profile"} asChild>
+          <Button className="rounded-full" size={"lg"}>
+            <Button.LabelContent>View Profile</Button.LabelContent>
+            <Button.EndContent>
+              <Ionicons name="person" size={18} color={colors.background} />
+            </Button.EndContent>
+          </Button>
+        </Link>
+
+        <Link href={"/(root)/(main)/settings"} asChild>
+          <Button className="rounded-full" size={"lg"}>
+            <Button.LabelContent>Settings</Button.LabelContent>
+            <Button.EndContent>
+              <Ionicons name="settings" size={18} color={colors.foreground} />
+            </Button.EndContent>
+          </Button>
+        </Link>
+      </View>
     </View>
   );
 }

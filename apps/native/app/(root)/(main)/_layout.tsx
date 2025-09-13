@@ -15,6 +15,14 @@ export default function MainLayout() {
         }}
       />
       <Stack.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          headerLargeTitle: true,
+          ...standard,
+        }}
+      />
+      <Stack.Screen
         name="settings"
         options={{
           title: "Settings",

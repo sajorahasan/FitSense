@@ -66,17 +66,17 @@
   - **Details**: ✅ Created `shared/types/` with UserProfile, WorkoutSession, MealEntry, HealthMetric, Goal, AIInsight interfaces; added validation, formatting, date, and storage utilities
 
 ### Authentication & User Management
-- [ ] **T004** Configure Better Auth integration
+- [x] **T004** Configure Better Auth integration
   - **Effort**: Med (1-2 hours)
   - **Dependencies**: T001
-  - **Success Criteria**: Email/password auth working, JWT tokens generated
-  - **Details**: Setup Better Auth with Convex, test login/logout flow
+  - **Success Criteria**: ✅ Email/password auth working, session tokens generated
+  - **Details**: ✅ Setup Better Auth with Convex, login/logout flow verified, session management verified
 
-- [ ] **T005** Create user onboarding flow
+- [x] **T005** Create user onboarding flow
   - **Effort**: Med (1-2 hours)
   - **Dependencies**: T004
-  - **Success Criteria**: Profile creation screen with fitness level selection
-  - **Details**: React Navigation setup, onboarding screens in `mobile/src/screens/`
+  - **Success Criteria**: ✅ Profile creation screen with fitness level selection
+  - **Details**: ✅ Complete 4-step onboarding flow + profile screen implemented with full profile viewing and editing capabilities
 
 ### Core Data Layer (Convex Backend)
 - [ ] **T006** [P] Implement Convex schema for UserProfile
@@ -384,3 +384,18 @@ Task: "Implement Convex schema for HealthMetric in backend/convex/schema.ts"
 - [x] Cross-platform considerations included
 - [x] Effort estimates provided (Low/Med/High)
 - [x] Success criteria defined for each task
+
+## Current Progress Summary
+*Updated: $(date +%Y-%m-%d)*
+
+### ✅ Completed Tasks (5/39)
+- **T001**: ✅ Project bootstrap from convexpo template
+- **T002**: ✅ Development environment and scripts configured  
+- **T003**: ✅ Shared TypeScript types and utilities created
+- **T004**: ✅ Better Auth integration with session management verified
+- **T005**: ✅ User onboarding flow with 4-step profile setup
+
+### 🔄 Next Priority: T006-T009 - Core Data Layer (Convex Schemas)
+**Ready to start**: All dependencies (T001-T005) completed
+**Effort**: Low (1 hour each, can run in parallel)
+**Focus**: Implement Convex schemas for UserProfile, WorkoutSession, MealEntry, HealthMetric

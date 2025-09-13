@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { betterAuthComponent } from "./auth";
+import { sendEmailVerification as sendVerificationEmail } from "./lib/resend/emails";
 import { getAllUserData } from "./model/user";
 
 export const getCurrentUser = query({
@@ -117,6 +118,74 @@ export const updateUserProfile = mutation({
     });
 
     return { success: true };
+  },
+});
+
+export const getUserEmailStatus = query({
+  args: {},
+  returns: v.union(
+    v.null(),
+    v.object({
+      email: v.string(),
+      emailVerified: v.boolean(),
+      name: v.optional(v.string()),
+    }),
+  ),
+  handler: async (ctx) => {
+    const authUser = await betterAuthComponent.getAuthUser(ctx);
+    if (!authUser) {
+      return null;
+    }
+
+    return {
+      email: authUser.email,
+      emailVerified: authUser.emailVerified || false,
+      name: authUser.name,
+    };
+  },
+});
+
+export const sendEmailVerification = mutation({
+  args: {},
+  returns: v.object({
+    success: v.boolean(),
+    message: v.string(),
+  }),
+  handler: async (ctx) => {
+    const authUser = await betterAuthComponent.getAuthUser(ctx);
+    if (!authUser) {
+      throw new Error("Not authenticated");
+    }
+
+    // Check if email is already verified
+    if (authUser.emailVerified) {
+      return {
+        success: false,
+        message: "Email is already verified",
+      };
+    }
+
+    try {
+      // Generate verification URL - in a real app, this would be a proper verification endpoint
+      const verificationUrl = `${process.env.EXPO_MOBILE_URL || "http://localhost:8081"}/verify-email?token=${authUser.userId}`;
+
+      // Send verification email using the existing email function
+      await sendVerificationEmail(ctx, {
+        to: authUser.email,
+        url: verificationUrl,
+      });
+
+      return {
+        success: true,
+        message: "Verification email sent successfully",
+      };
+    } catch (error) {
+      console.error("Failed to send verification email:", error);
+      return {
+        success: false,
+        message: "Failed to send verification email. Please try again.",
+      };
+    }
   },
 });
 
