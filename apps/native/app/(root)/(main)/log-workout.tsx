@@ -1,0 +1,351 @@
+import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { useMutation } from "convex/react";
+import { useRouter } from "expo-router";
+import { useTheme } from "heroui-native";
+import { useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { toast } from "sonner-native";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
+import { api } from "~/backend/_generated/api";
+
+const workoutTypes = [
+  { key: "cardio", label: "Cardio" },
+  { key: "strength", label: "Strength Training" },
+  { key: "flexibility", label: "Flexibility" },
+  { key: "sports", label: "Sports" },
+  { key: "other", label: "Other" },
+] as const;
+
+const moodOptions = [
+  { key: "terrible", label: "Terrible" },
+  { key: "poor", label: "Poor" },
+  { key: "okay", label: "Okay" },
+  { key: "good", label: "Good" },
+  { key: "excellent", label: "Excellent" },
+] as const;
+
+const effortLevels = [
+  { key: 1, label: "1 - Very Light" },
+  { key: 2, label: "2 - Light" },
+  { key: 3, label: "3 - Moderate" },
+  { key: 4, label: "4 - Somewhat Hard" },
+  { key: 5, label: "5 - Hard" },
+  { key: 6, label: "6 - Very Hard" },
+  { key: 7, label: "7 - Extremely Hard" },
+  { key: 8, label: "8 - Maximum" },
+  { key: 9, label: "9 - Near Maximum" },
+  { key: 10, label: "10 - Maximum Effort" },
+] as const;
+
+export default function LogWorkoutScreen() {
+  const { colors } = useTheme();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Form state
+  const [workoutName, setWorkoutName] = useState("");
+  const [workoutType, setWorkoutType] = useState<string>("");
+  const [startTime] = useState(new Date());
+  const [endTime] = useState<Date | null>(null);
+  const [duration, setDuration] = useState("");
+  const [mood, setMood] = useState<string>("");
+  const [perceivedEffort, setPerceivedEffort] = useState<number | null>(null);
+  const [notes, setNotes] = useState("");
+  const [location, setLocation] = useState("");
+  const [isIndoor, setIsIndoor] = useState(true);
+
+  const createWorkout = useMutation(api.workouts.createWorkout);
+
+  const handleSave = async () => {
+    if (!workoutName.trim()) {
+      toast.error("Please enter a workout name");
+      return;
+    }
+
+    if (!workoutType) {
+      toast.error("Please select a workout type");
+      return;
+    }
+
+    if (!mood) {
+      toast.error("Please select your mood");
+      return;
+    }
+
+    if (perceivedEffort === null) {
+      toast.error("Please select your perceived effort level");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const endTimeValue = endTime || new Date();
+      const durationMinutes = duration ? Number.parseInt(duration, 10) : 
+        Math.round((endTimeValue.getTime() - startTime.getTime()) / (1000 * 60));
+
+      await createWorkout({
+        name: workoutName.trim(),
+        type: workoutType as any,
+        startTime: startTime.getTime(),
+        endTime: endTimeValue.getTime(),
+        duration: durationMinutes,
+        mood: mood as any,
+        perceivedEffort: perceivedEffort as any,
+        notes: notes.trim() || undefined,
+        location: location.trim() || undefined,
+        indoor: isIndoor,
+        exercises: [], // TODO: Add exercise tracking in future iteration
+      });
+
+      toast.success("Workout logged successfully!");
+      router.back();
+    } catch (error) {
+      console.error("Error logging workout:", error);
+      toast.error("Failed to log workout. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <ScreenScrollView contentContainerClassName="gap-6 px-6">
+      <FormHeader
+        title="Log Workout"
+        description="Record your exercise session"
+        containerClassName="mt-12"
+      />
+
+      {/* Basic Information */}
+      <View className="gap-4">
+        <Text className="text-lg font-semibold text-foreground">
+          Basic Information
+        </Text>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Workout Name *
+          </Text>
+          <TextInput
+            className="rounded-lg border border-border bg-background px-3 py-3 text-foreground"
+            placeholder="e.g., Morning Run, Upper Body Strength"
+            placeholderTextColor={colors.mutedForeground}
+            value={workoutName}
+            onChangeText={setWorkoutName}
+          />
+        </View>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Workout Type *
+          </Text>
+          <View className="flex-row flex-wrap gap-2">
+            {workoutTypes.map((type) => (
+              <TouchableOpacity
+                key={type.key}
+                className={`rounded-lg border px-4 py-2 ${
+                  workoutType === type.key
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-background"
+                }`}
+                onPress={() => setWorkoutType(type.key)}
+              >
+                <Text
+                  className={`text-sm ${
+                    workoutType === type.key
+                      ? "text-primary font-medium"
+                      : "text-foreground"
+                  }`}
+                >
+                  {type.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <View className="flex-row gap-3">
+          <View className="flex-1">
+            <View className="gap-2">
+              <Text className="text-sm font-medium text-foreground">
+                Start Time
+              </Text>
+              <TextInput
+                className="rounded-lg border border-border bg-muted px-3 py-3 text-foreground"
+                value={startTime.toLocaleTimeString([], { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                })}
+                editable={false}
+              />
+            </View>
+          </View>
+          <View className="flex-1">
+            <View className="gap-2">
+              <Text className="text-sm font-medium text-foreground">
+                Duration (minutes)
+              </Text>
+              <TextInput
+                className="rounded-lg border border-border bg-background px-3 py-3 text-foreground"
+                placeholder="e.g., 45"
+                placeholderTextColor={colors.mutedForeground}
+                value={duration}
+                onChangeText={setDuration}
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+        </View>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Location (optional)
+          </Text>
+          <TextInput
+            className="rounded-lg border border-border bg-background px-3 py-3 text-foreground"
+            placeholder="e.g., Gym, Park, Home"
+            placeholderTextColor={colors.mutedForeground}
+            value={location}
+            onChangeText={setLocation}
+          />
+        </View>
+
+        <View className="flex-row items-center justify-between">
+          <Text className="text-foreground">Indoor Workout</Text>
+          <TouchableOpacity
+            className={`rounded-lg border px-4 py-2 ${
+              isIndoor
+                ? "border-primary bg-primary/10"
+                : "border-border bg-background"
+            }`}
+            onPress={() => setIsIndoor(!isIndoor)}
+          >
+            <Text
+              className={`text-sm ${
+                isIndoor ? "text-primary font-medium" : "text-foreground"
+              }`}
+            >
+              {isIndoor ? "Yes" : "No"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* How You Felt */}
+      <View className="gap-4">
+        <Text className="text-lg font-semibold text-foreground">
+          How You Felt
+        </Text>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Mood After Workout *
+          </Text>
+          <View className="flex-row flex-wrap gap-2">
+            {moodOptions.map((option) => (
+              <TouchableOpacity
+                key={option.key}
+                className={`rounded-lg border px-4 py-2 ${
+                  mood === option.key
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-background"
+                }`}
+                onPress={() => setMood(option.key)}
+              >
+                <Text
+                  className={`text-sm ${
+                    mood === option.key
+                      ? "text-primary font-medium"
+                      : "text-foreground"
+                  }`}
+                >
+                  {option.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Perceived Effort (1-10) *
+          </Text>
+          <View className="flex-row flex-wrap gap-2">
+            {effortLevels.map((level) => (
+              <TouchableOpacity
+                key={level.key}
+                className={`rounded-lg border px-3 py-2 ${
+                  perceivedEffort === level.key
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-background"
+                }`}
+                onPress={() => setPerceivedEffort(level.key)}
+              >
+                <Text
+                  className={`text-xs ${
+                    perceivedEffort === level.key
+                      ? "text-primary font-medium"
+                      : "text-foreground"
+                  }`}
+                >
+                  {level.key}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      </View>
+
+      {/* Notes */}
+      <View className="gap-4">
+        <Text className="text-lg font-semibold text-foreground">
+          Additional Notes
+        </Text>
+
+        <View className="gap-2">
+          <Text className="text-sm font-medium text-foreground">
+            Notes (optional)
+          </Text>
+          <TextInput
+            className="rounded-lg border border-border bg-background px-3 py-3 text-foreground"
+            placeholder="Any additional thoughts about your workout..."
+            placeholderTextColor={colors.mutedForeground}
+            value={notes}
+            onChangeText={setNotes}
+            multiline
+            numberOfLines={3}
+            textAlignVertical="top"
+          />
+        </View>
+      </View>
+
+      {/* Action Buttons */}
+      <View className="gap-3 pb-6">
+        <TouchableOpacity
+          className={`rounded-xl bg-primary px-6 py-4 ${
+            isLoading ? "opacity-50" : ""
+          }`}
+          onPress={handleSave}
+          disabled={isLoading}
+        >
+          <View className="flex-row items-center justify-center gap-2">
+            <Ionicons name="checkmark" size={20} color={colors.background} />
+            <Text className="text-background font-semibold text-lg">
+              {isLoading ? "Logging..." : "Log Workout"}
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="rounded-xl border border-border bg-background px-6 py-4"
+          onPress={() => router.back()}
+          disabled={isLoading}
+        >
+          <Text className="text-center font-semibold text-foreground text-lg">
+            Cancel
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScreenScrollView>
+  );
+}

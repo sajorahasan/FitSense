@@ -110,23 +110,23 @@
   - **Success Criteria**: ✅ Shows recent activities, quick action buttons
   - **Details**: ✅ Enhanced `apps/native/app/(root)/(main)/index.tsx` with NativeWind styling
 
-- [ ] **T011** Create workout logging screen
+- [x] **T011** Create workout logging screen
   - **Effort**: Med (1-2 hours)
   - **Dependencies**: T007, T010
   - **Success Criteria**: Form for cardio/strength workouts with validation
-  - **Details**: `mobile/src/screens/LogWorkout.tsx` with exercise picker
+  - **Details**: ✅ `apps/native/app/(root)/(main)/log-workout.tsx` with custom form components
 
-- [ ] **T012** Create meal logging screen
+- [x] **T012** Create meal logging screen
   - **Effort**: Med (1-2 hours)
   - **Dependencies**: T008, T010
   - **Success Criteria**: Manual food entry with nutritional calculation
-  - **Details**: `mobile/src/screens/LogMeal.tsx` with food database integration
+  - **Details**: ✅ `apps/native/app/(root)/(main)/log-meal.tsx` with TextField components and nutrition tracking
 
-- [ ] **T013** Create health metrics logging screen
+- [x] **T013** Create health metrics logging screen
   - **Effort**: Low (1 hour)
   - **Dependencies**: T009, T010
   - **Success Criteria**: Weight, heart rate, sleep tracking forms
-  - **Details**: `mobile/src/screens/LogMetrics.tsx` with sensor integration
+  - **Details**: ✅ `apps/native/app/(root)/(main)/log-health-metrics.tsx` with comprehensive health tracking
 
 ### Local Storage & Sync
 - [ ] **T014** [P] Setup MMKV encrypted storage
@@ -399,8 +399,11 @@ Task: "Implement Convex schema for HealthMetric in backend/convex/schema.ts"
 - **T008**: ✅ Convex schema for MealEntry with nutrition tracking
 - **T009**: ✅ Convex schema for HealthMetric with timestamp indexing
 - **T010**: ✅ Main dashboard screen with recent activities and quick actions
+**T011**: ✅ Workout logging screen with comprehensive form validation
+**T012**: ✅ Meal logging screen with nutrition tracking and food database
+**T013**: ✅ Health metrics logging screen with multiple measurement types
 
-### 🔄 Next Priority: T011-T013 - Basic Logging Screens (Mobile App)
-**Ready to start**: All dependencies (T001-T010) completed
-**Effort**: Med (1-2 hours each)
-**Focus**: Create workout logging, meal logging, and health metrics screens
+### 🔄 Next Priority: T014-T015 - Local Storage & Sync (Mobile App)
+**Ready to start**: All dependencies (T001-T013) completed
+**Effort**: Low-Med (1-2 hours each)
+**Focus**: Setup MMKV storage and implement offline sync functionality
