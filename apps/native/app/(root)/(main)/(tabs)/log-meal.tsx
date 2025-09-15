@@ -5,7 +5,8 @@ import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { toast } from "sonner-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { useNetwork } from "@/contexts/network-context";
 import { SyncManager } from "@/lib/sync-manager";
 import { api } from "~/backend/_generated/api";
@@ -224,7 +225,7 @@ export default function LogMealScreen() {
   const totalNutrition = calculateTotalNutrition();
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-6 px-6">
       <FormHeader
         title="Log Meal"
         description="Record your food intake and nutrition"
@@ -623,7 +624,7 @@ export default function LogMealScreen() {
 
         <TextField>
           <TextField.Input
-            className="rounded-3xl"
+            className="rounded-xl"
             placeholder="Any additional thoughts about your meal..."
             value={notes}
             onChangeText={setNotes}
@@ -655,16 +656,7 @@ export default function LogMealScreen() {
             {isLoading ? <Spinner color={colors.background} /> : null}
           </Button.EndContent>
         </Button>
-
-        <Button
-          variant="ghost"
-          onPress={() => router.back()}
-          disabled={isLoading}
-          className="rounded-3xl"
-        >
-          <Button.LabelContent>Cancel</Button.LabelContent>
-        </Button>
       </View>
-    </FormContainer>
+    </ScreenScrollView>
   );
 }

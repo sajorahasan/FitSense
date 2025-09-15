@@ -5,7 +5,8 @@ import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { toast } from "sonner-native";
-import FormHeader, { FormContainer } from "@/components/form";
+import FormHeader from "@/components/form";
+import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { useNetwork } from "@/contexts/network-context";
 import { SyncManager } from "@/lib/sync-manager";
 import { api } from "~/backend/_generated/api";
@@ -184,7 +185,7 @@ export default function LogHealthMetricsScreen() {
   const currentMetric = getCurrentMetric();
 
   return (
-    <FormContainer>
+    <ScreenScrollView contentContainerClassName="gap-6 px-6">
       <FormHeader
         title="Log Health Metric"
         description="Record your health measurements"
@@ -404,7 +405,7 @@ export default function LogHealthMetricsScreen() {
 
         <TextField>
           <TextField.Input
-            className="rounded-3xl"
+            className="rounded-xl"
             placeholder="Notes (optional)"
             value={notes}
             onChangeText={setNotes}
@@ -432,29 +433,14 @@ export default function LogHealthMetricsScreen() {
         </Text>
       </View>
 
-      {/* Action Buttons */}
-      <View className="gap-3 pb-6">
-        <Button
-          onPress={handleSave}
-          disabled={isLoading}
-          className="rounded-3xl"
-        >
-          <Button.LabelContent>
-            {isLoading ? "Logging Metric..." : "Log Health Metric"}
-          </Button.LabelContent>
-          <Button.EndContent>
-            {isLoading ? <Spinner color={colors.background} /> : null}
-          </Button.EndContent>
-        </Button>
-
-        <Button
-          onPress={() => router.back()}
-          disabled={isLoading}
-          className="rounded-3xl border border-border bg-background"
-        >
-          <Button.LabelContent>Cancel</Button.LabelContent>
-        </Button>
-      </View>
-    </FormContainer>
+      <Button onPress={handleSave} disabled={isLoading} className="rounded-3xl">
+        <Button.LabelContent>
+          {isLoading ? "Logging Metric..." : "Log Health Metric"}
+        </Button.LabelContent>
+        <Button.EndContent>
+          {isLoading ? <Spinner color={colors.background} /> : null}
+        </Button.EndContent>
+      </Button>
+    </ScreenScrollView>
   );
 }
