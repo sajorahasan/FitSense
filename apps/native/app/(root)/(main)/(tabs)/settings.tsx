@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "convex/react";
 import { router } from "expo-router";
-import { Button, Card, Spinner, useTheme } from "heroui-native";
+import { Button, Card, Spinner, Switch, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Alert, Linking, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,27 +9,6 @@ import { toast } from "sonner-native";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { api } from "~/backend/_generated/api";
-
-// Simple Toggle Component
-const Toggle = ({
-  isSelected,
-  onValueChange,
-}: {
-  isSelected: boolean;
-  onValueChange: (value: boolean) => void;
-}) => (
-  <Pressable
-    onPress={() => onValueChange(!isSelected)}
-    className={`h-6 w-11 rounded-full ${isSelected ? "bg-primary" : "bg-muted"}`}
-  >
-    <View
-      className={`h-5 w-5 rounded-full bg-background shadow-sm transition-transform ${
-        isSelected ? "translate-x-5" : "translate-x-0.5"
-      }`}
-      style={{ marginTop: 0.5 }}
-    />
-  </Pressable>
-);
 
 export default function SettingsRoute() {
   const { colors } = useTheme();
@@ -42,13 +21,19 @@ export default function SettingsRoute() {
   const emailStatus = useQuery(api.users.getUserEmailStatus);
 
   // Settings state
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [metricUnits, setMetricUnits] = useState(true);
 
-  // Navigation function
+  // Navigation functions
   const handleNavigateToProfile = () => {
     router.push("/profile");
+  };
+
+  const handleNavigateToNotifications = () => {
+    router.push("/notification-preferences");
+  };
+
+  const handleNavigateToTheme = () => {
+    router.push("/theme-preferences");
   };
 
   // Settings handlers
@@ -137,8 +122,11 @@ export default function SettingsRoute() {
     >
       {/* App Header */}
       <View className="items-center py-6">
-        <View className="mb-3 h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg">
-          <Ionicons name="fitness" size={32} color={colors.background} />
+        <View
+          className="mb-3 h-16 w-16 items-center justify-center rounded-2xl shadow-lg"
+          style={{ backgroundColor: colors.accent }}
+        >
+          <Ionicons name="fitness" size={32} color={colors.accentForeground} />
         </View>
         <Text className="font-bold text-2xl text-foreground">FitSense</Text>
         <Text className="text-muted-foreground text-sm">
@@ -151,8 +139,15 @@ export default function SettingsRoute() {
         <Pressable onPress={handleNavigateToProfile}>
           <View className="flex-row items-center gap-4">
             {/* Profile Avatar with better styling */}
-            <View className="h-20 w-20 items-center justify-center rounded-full bg-primary shadow-lg">
-              <Ionicons name="person" size={32} color={colors.background} />
+            <View
+              className="h-20 w-20 items-center justify-center rounded-full shadow-lg"
+              style={{ backgroundColor: colors.accent }}
+            >
+              <Ionicons
+                name="person"
+                size={32}
+                color={colors.accentForeground}
+              />
             </View>
 
             {/* User Info with more details */}
@@ -190,15 +185,30 @@ export default function SettingsRoute() {
         </Text>
         <View className="flex-row justify-between">
           <View className="items-center">
-            <Text className="font-bold text-2xl text-primary">7</Text>
+            <Text
+              className="font-bold text-2xl"
+              style={{ color: colors.accent }}
+            >
+              7
+            </Text>
             <Text className="text-muted-foreground text-sm">Workouts</Text>
           </View>
           <View className="items-center">
-            <Text className="font-bold text-2xl text-primary">23</Text>
+            <Text
+              className="font-bold text-2xl"
+              style={{ color: colors.accent }}
+            >
+              23
+            </Text>
             <Text className="text-muted-foreground text-sm">Meals Logged</Text>
           </View>
           <View className="items-center">
-            <Text className="font-bold text-2xl text-primary">5</Text>
+            <Text
+              className="font-bold text-2xl"
+              style={{ color: colors.accent }}
+            >
+              5
+            </Text>
             <Text className="text-muted-foreground text-sm">Days Active</Text>
           </View>
         </View>
@@ -207,36 +217,41 @@ export default function SettingsRoute() {
       {/* App Preferences */}
       <Card className="p-4">
         <Text className="mb-4 font-bold text-foreground text-xl">
-          Preferences
+          App Preferences
         </Text>
-        <View className="gap-3">
-          <View className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="moon" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Dark Mode</Text>
+        <View className="gap-4">
+          <Pressable
+            className="flex-row items-center gap-4 rounded-2xl p-4"
+            onPress={handleNavigateToTheme}
+          >
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="color-palette" size={20} color={colors.accent} />
             </View>
-            <Toggle isSelected={isDarkMode} onValueChange={setIsDarkMode} />
-          </View>
-
-          <View className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
-              <Ionicons
-                name="notifications"
-                size={20}
-                color={colors.foreground}
-              />
-              <Text className="text-foreground">Notifications</Text>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">Theme</Text>
+              <Text className="text-muted-foreground text-sm">
+                Choose your preferred theme and colors
+              </Text>
             </View>
-            <Toggle
-              isSelected={notificationsEnabled}
-              onValueChange={setNotificationsEnabled}
+            <Ionicons
+              name="chevron-forward"
+              size={16}
+              color={colors.mutedForeground}
             />
-          </View>
+          </Pressable>
 
-          <Pressable className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="language" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Language</Text>
+          <Pressable
+            className="flex-row items-center gap-4 rounded-2xl p-4"
+            onPress={handleNavigateToNotifications}
+          >
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="notifications" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">Notifications</Text>
+              <Text className="text-muted-foreground text-sm">
+                Customize your notification preferences
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -252,19 +267,41 @@ export default function SettingsRoute() {
         <Text className="mb-4 font-bold text-foreground text-xl">
           Health & Fitness
         </Text>
-        <View className="gap-3">
-          <View className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="fitness" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Units (Metric/Imperial)</Text>
+        <View className="gap-4">
+          <Pressable
+            onPress={() => setMetricUnits(!metricUnits)}
+            className="flex-row items-center gap-4 rounded-2xl p-4"
+          >
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="fitness" size={20} color={colors.accent} />
             </View>
-            <Toggle isSelected={metricUnits} onValueChange={setMetricUnits} />
-          </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">
+                Units (Metric/Imperial)
+              </Text>
+              <Text className="text-muted-foreground text-sm">
+                {metricUnits
+                  ? "Using metric units (kg, cm)"
+                  : "Using imperial units (lbs, ft)"}
+              </Text>
+            </View>
+            <Switch
+              isSelected={metricUnits}
+              onSelectedChange={() => setMetricUnits(!metricUnits)}
+            />
+          </Pressable>
 
-          <Pressable className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="time" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Reminder Times</Text>
+          <Pressable className="flex-row items-center gap-4 rounded-2xl p-4">
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="time" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">
+                Reminder Times
+              </Text>
+              <Text className="text-muted-foreground text-sm">
+                Set custom reminder times for workouts and meals
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -280,18 +317,25 @@ export default function SettingsRoute() {
         <Text className="mb-4 font-bold text-foreground text-xl">
           Data & Privacy
         </Text>
-        <View className="gap-3">
+        <View className="gap-4">
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={() => handleOpenLink("https://fitsense.app/privacy")}
           >
-            <View className="flex-row items-center gap-3">
+            <View className="rounded-full bg-accent/10 p-2">
               <Ionicons
                 name="shield-checkmark"
                 size={20}
-                color={colors.foreground}
+                color={colors.accent}
               />
-              <Text className="text-foreground">Privacy Policy</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">
+                Privacy Policy
+              </Text>
+              <Text className="text-muted-foreground text-sm">
+                Learn how we protect your data
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -301,16 +345,19 @@ export default function SettingsRoute() {
           </Pressable>
 
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={() => handleOpenLink("https://fitsense.app/terms")}
           >
-            <View className="flex-row items-center gap-3">
-              <Ionicons
-                name="document-text"
-                size={20}
-                color={colors.foreground}
-              />
-              <Text className="text-foreground">Terms of Service</Text>
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="document-text" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">
+                Terms of Service
+              </Text>
+              <Text className="text-muted-foreground text-sm">
+                Read our terms and conditions
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -320,12 +367,17 @@ export default function SettingsRoute() {
           </Pressable>
 
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={handleExportData}
           >
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="download" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Export Data</Text>
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="download" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">Export Data</Text>
+              <Text className="text-muted-foreground text-sm">
+                Download your personal data
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -339,18 +391,19 @@ export default function SettingsRoute() {
       {/* Support & Info */}
       <Card className="p-4">
         <Text className="mb-4 font-bold text-foreground text-xl">Support</Text>
-        <View className="gap-3">
+        <View className="gap-4">
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={() => handleOpenLink("https://fitsense.app/help")}
           >
-            <View className="flex-row items-center gap-3">
-              <Ionicons
-                name="help-circle"
-                size={20}
-                color={colors.foreground}
-              />
-              <Text className="text-foreground">Help & FAQ</Text>
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="help-circle" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">Help & FAQ</Text>
+              <Text className="text-muted-foreground text-sm">
+                Find answers to common questions
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -360,12 +413,19 @@ export default function SettingsRoute() {
           </Pressable>
 
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={handleContactSupport}
           >
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="mail" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Contact Support</Text>
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="mail" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">
+                Contact Support
+              </Text>
+              <Text className="text-muted-foreground text-sm">
+                Get help from our support team
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -375,12 +435,17 @@ export default function SettingsRoute() {
           </Pressable>
 
           <Pressable
-            className="flex-row items-center justify-between py-2"
+            className="flex-row items-center gap-4 rounded-2xl p-4"
             onPress={handleRateApp}
           >
-            <View className="flex-row items-center gap-3">
-              <Ionicons name="star" size={20} color={colors.foreground} />
-              <Text className="text-foreground">Rate App</Text>
+            <View className="rounded-full bg-accent/10 p-2">
+              <Ionicons name="star" size={20} color={colors.accent} />
+            </View>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">Rate App</Text>
+              <Text className="text-muted-foreground text-sm">
+                Share your feedback with us
+              </Text>
             </View>
             <Ionicons
               name="chevron-forward"
@@ -389,16 +454,21 @@ export default function SettingsRoute() {
             />
           </Pressable>
 
-          <View className="flex-row items-center justify-between py-2">
-            <View className="flex-row items-center gap-3">
+          <View className="flex-row items-center gap-4 rounded-2xl p-4">
+            <View className="rounded-full bg-accent/10 p-2">
               <Ionicons
                 name="information-circle"
                 size={20}
-                color={colors.foreground}
+                color={colors.accent}
               />
-              <Text className="text-foreground">App Version</Text>
             </View>
-            <Text className="text-muted-foreground">1.0.0</Text>
+            <View className="flex-1">
+              <Text className="font-medium text-foreground">App Version</Text>
+              <Text className="text-muted-foreground text-sm">
+                Current version information
+              </Text>
+            </View>
+            <Text className="font-medium text-muted-foreground">1.0.0</Text>
           </View>
         </View>
       </Card>

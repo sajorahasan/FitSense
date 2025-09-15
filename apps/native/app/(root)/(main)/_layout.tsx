@@ -8,6 +8,8 @@ export default function MainLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="profile" options={{ headerShown: false }} />
+        <Stack.Screen name="notification-preferences" />
+        <Stack.Screen name="theme-preferences" />
       </Stack>
       <SyncStatusBar />
     </NetworkProvider>

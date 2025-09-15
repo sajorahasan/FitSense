@@ -146,8 +146,11 @@ export default function ProfileRoute() {
     <ScreenScrollView contentContainerClassName="gap-6 p-6">
       {/* Header */}
       <View className="items-center gap-4">
-        <View className="h-24 w-24 items-center justify-center rounded-full bg-primary">
-          <Ionicons name="person" size={40} color={colors.background} />
+        <View
+          className="h-24 w-24 items-center justify-center rounded-full"
+          style={{ backgroundColor: colors.accent }}
+        >
+          <Ionicons name="person" size={40} color={colors.accentForeground} />
         </View>
         <View className="items-center">
           <Text className="font-bold text-2xl text-foreground">

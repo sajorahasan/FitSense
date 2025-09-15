@@ -93,8 +93,8 @@ export default function HomeRoute() {
             {/* Placeholder for recent workouts */}
             <View className="rounded-xl border border-border bg-card p-4">
               <View className="flex-row items-center gap-3">
-                <View className="rounded-full bg-primary/10 p-2">
-                  <Ionicons name="fitness" size={20} color={colors.primary} />
+                <View className="rounded-full bg-accent/10 p-2">
+                  <Ionicons name="fitness" size={20} color={colors.accent} />
                 </View>
                 <View className="flex-1">
                   <Text className="font-medium text-foreground">
