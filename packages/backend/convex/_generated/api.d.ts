@@ -10,6 +10,7 @@
 
 import type * as auth from "../auth.js";
 import type * as healthCheck from "../healthCheck.js";
+import type * as healthMetrics from "../healthMetrics.js";
 import type * as http from "../http.js";
 import type * as lib_auth_index from "../lib/auth/index.js";
 import type * as lib_resend_emails_resetPassword from "../lib/resend/emails/resetPassword.js";
@@ -17,9 +18,11 @@ import type * as lib_resend_emails_verifyEmail from "../lib/resend/emails/verify
 import type * as lib_resend_emails_verifyOTP from "../lib/resend/emails/verifyOTP.js";
 import type * as lib_resend_emails from "../lib/resend/emails.js";
 import type * as lib_resend_sendEmails from "../lib/resend/sendEmails.js";
+import type * as meals from "../meals.js";
 import type * as model_user from "../model/user.js";
 import type * as users from "../users.js";
 import type * as util from "../util.js";
+import type * as workouts from "../workouts.js";
 
 import type {
   ApiFromModules,
@@ -38,6 +41,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   healthCheck: typeof healthCheck;
+  healthMetrics: typeof healthMetrics;
   http: typeof http;
   "lib/auth/index": typeof lib_auth_index;
   "lib/resend/emails/resetPassword": typeof lib_resend_emails_resetPassword;
@@ -45,9 +49,11 @@ declare const fullApi: ApiFromModules<{
   "lib/resend/emails/verifyOTP": typeof lib_resend_emails_verifyOTP;
   "lib/resend/emails": typeof lib_resend_emails;
   "lib/resend/sendEmails": typeof lib_resend_sendEmails;
+  meals: typeof meals;
   "model/user": typeof model_user;
   users: typeof users;
   util: typeof util;
+  workouts: typeof workouts;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
