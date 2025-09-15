@@ -246,4 +246,3 @@ export const getMealById = query({
     return meal;
   },
 });
-

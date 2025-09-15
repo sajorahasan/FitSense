@@ -32,7 +32,7 @@ export default function OnboardingWelcome() {
       console.log("User is on onboarding step 3, redirecting to step 4");
       router.push("/(root)/(auth)/onboarding/step4-preferences");
     }
-  }, [user?.onboardingCompleted, user?.onboardingStep, router]);
+  }, [user?.onboardingCompleted, user?.onboardingStep, router, user]);
 
   return (
     <ScreenScrollView contentContainerClassName="gap-4 px-6">

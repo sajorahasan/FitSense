@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { Button, Spinner, TextField, useTheme } from "heroui-native";
 import { useState } from "react";
 import { toast } from "sonner-native";

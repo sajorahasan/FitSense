@@ -193,4 +193,3 @@ export const getHealthMetricById = query({
     return metric;
   },
 });
-
