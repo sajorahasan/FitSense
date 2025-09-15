@@ -485,7 +485,7 @@ export default function LogMealScreen() {
                   <Ionicons
                     name="trash-outline"
                     size={16}
-                    color={colors.destructive}
+                    color={colors.danger}
                   />
                 </TouchableOpacity>
               </View>
@@ -634,7 +634,7 @@ export default function LogMealScreen() {
         </Button>
 
         <Button
-          variant="outline"
+          variant="ghost"
           onPress={() => router.back()}
           disabled={isLoading}
           className="rounded-3xl"

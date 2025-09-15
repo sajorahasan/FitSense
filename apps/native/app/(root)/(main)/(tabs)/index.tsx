@@ -22,7 +22,7 @@ export default function HomeRoute() {
         paddingBottom: insets.bottom,
       }}
     >
-      <View className="flex-1 gap-6 px-6 py-4">
+      <View className="flex-1 gap-6 px-2 py-4">
         {/* Welcome Section */}
         <View className="gap-2">
           <Text className="font-extrabold text-4xl text-foreground">
@@ -47,7 +47,7 @@ export default function HomeRoute() {
             Quick Actions
           </Text>
           <View className="gap-3">
-            <Link href={"/(root)/(main)/log-workout"} asChild>
+            <Link href={"/(root)/(main)/(tabs)/log-workout"} asChild>
               <Button className="rounded-xl" size={"lg"} color="primary">
                 <Button.StartContent>
                   <Ionicons
@@ -60,7 +60,7 @@ export default function HomeRoute() {
               </Button>
             </Link>
 
-            <Link href={"/(root)/(main)/log-meal"} asChild>
+            <Link href={"/(root)/(main)/(tabs)/log-meal"} asChild>
               <Button className="rounded-xl" size={"lg"} color="secondary">
                 <Button.StartContent>
                   <Ionicons
@@ -73,7 +73,7 @@ export default function HomeRoute() {
               </Button>
             </Link>
 
-            <Link href={"/(root)/(main)/log-metrics"} asChild>
+            <Link href={"/(root)/(main)/(tabs)/log-health-metrics"} asChild>
               <Button className="rounded-xl" size={"lg"} color="success">
                 <Button.StartContent>
                   <Ionicons name="heart" size={20} color={colors.background} />
@@ -145,27 +145,6 @@ export default function HomeRoute() {
               </View>
             </View>
           </View>
-        </View>
-
-        {/* Navigation */}
-        <View className="gap-3">
-          <Link href={"/(root)/(main)/profile"} asChild>
-            <Button className="rounded-xl" size={"lg"} variant="bordered">
-              <Button.StartContent>
-                <Ionicons name="person" size={18} color={colors.foreground} />
-              </Button.StartContent>
-              <Button.LabelContent>View Profile</Button.LabelContent>
-            </Button>
-          </Link>
-
-          <Link href={"/(root)/(main)/settings"} asChild>
-            <Button className="rounded-xl" size={"lg"} variant="bordered">
-              <Button.StartContent>
-                <Ionicons name="settings" size={18} color={colors.foreground} />
-              </Button.StartContent>
-              <Button.LabelContent>Settings</Button.LabelContent>
-            </Button>
-          </Link>
         </View>
       </View>
     </ScreenScrollView>
