@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { Button, DropShadowView, Spinner, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { useAppTheme } from "@/contexts/app-theme-context";
@@ -13,7 +12,6 @@ import { api } from "~/backend/_generated/api";
 export default function ThemePreferencesRoute() {
   const { colors, isDark } = useTheme();
   const { currentThemeId, setThemeById, availableThemes } = useAppTheme();
-  const insets = useSafeAreaInsets();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedThemeId, setSelectedThemeId] = useState(currentThemeId);
 
@@ -48,13 +46,7 @@ export default function ThemePreferencesRoute() {
   };
 
   return (
-    <ScreenScrollView
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-      contentContainerClassName="gap-6 p-6"
-    >
+    <ScreenScrollView contentContainerClassName="gap-6 p-6">
       {/* Header */}
       <View className="flex-row items-center gap-4">
         <Pressable

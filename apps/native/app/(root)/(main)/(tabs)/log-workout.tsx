@@ -4,7 +4,6 @@ import { useRouter } from "expo-router";
 import { useTheme } from "heroui-native";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
 import FormHeader from "@/components/form";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
@@ -47,7 +46,6 @@ export default function LogWorkoutScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const { isOnline } = useNetwork();
   const syncManager = SyncManager.getInstance();
-  const insets = useSafeAreaInsets();
 
   // Form state
   const [workoutName, setWorkoutName] = useState("");
@@ -141,13 +139,7 @@ export default function LogWorkoutScreen() {
   };
 
   return (
-    <ScreenScrollView
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-      contentContainerClassName="gap-6 px-6"
-    >
+    <ScreenScrollView contentContainerClassName="gap-6 px-6">
       <FormHeader
         title="Log Workout"
         description="Record your exercise session"
@@ -386,16 +378,6 @@ export default function LogWorkoutScreen() {
               {isLoading ? "Logging..." : "Log Workout"}
             </Text>
           </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="rounded-xl border border-border bg-background px-6 py-4"
-          onPress={() => router.back()}
-          disabled={isLoading}
-        >
-          <Text className="text-center font-semibold text-foreground text-lg">
-            Cancel
-          </Text>
         </TouchableOpacity>
       </View>
     </ScreenScrollView>

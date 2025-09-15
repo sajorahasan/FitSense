@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { Spinner, useTheme } from "heroui-native";
 import { useEffect } from "react";
 import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppTheme } from "@/contexts/app-theme-context";
 import { useNavigationOptions } from "@/hooks/useNavigationOptions";
 import { api } from "~/backend/_generated/api";
@@ -61,20 +62,24 @@ export default function RootLayout() {
         key={`root-status-bar-${isDark ? "light" : "dark"}`}
         style={isDark ? "light" : "dark"}
       />
-      <Stack>
-        {/* AUTH STACK */}
-        <Stack.Protected guard={!isAuthenticated || !hasCompletedOnboarding}>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        </Stack.Protected>
+      <SafeAreaView className="flex-1 bg-background">
+        <Stack>
+          {/* AUTH STACK */}
+          <Stack.Protected guard={!isAuthenticated || !hasCompletedOnboarding}>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          </Stack.Protected>
 
-        {/* AUTHENTICATED NESTED STACK */}
-        <Stack.Protected guard={!!(isAuthenticated && hasCompletedOnboarding)}>
-          <Stack.Screen
-            name="(main)"
-            options={{ title: "", headerShown: false, ...root }}
-          />
-        </Stack.Protected>
-      </Stack>
+          {/* AUTHENTICATED NESTED STACK */}
+          <Stack.Protected
+            guard={!!(isAuthenticated && hasCompletedOnboarding)}
+          >
+            <Stack.Screen
+              name="(main)"
+              options={{ title: "", headerShown: false, ...root }}
+            />
+          </Stack.Protected>
+        </Stack>
+      </SafeAreaView>
     </>
   );
 }

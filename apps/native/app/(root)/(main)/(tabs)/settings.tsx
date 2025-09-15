@@ -4,7 +4,6 @@ import { router } from "expo-router";
 import { Button, Card, Spinner, Switch, useTheme } from "heroui-native";
 import { useState } from "react";
 import { Alert, Linking, Pressable, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
 import { authClient } from "@/lib/better-auth/auth-client";
@@ -12,7 +11,6 @@ import { api } from "~/backend/_generated/api";
 
 export default function SettingsRoute() {
   const { colors } = useTheme();
-  const insets = useSafeAreaInsets();
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [isDeletingUser, setIsDeletingUser] = useState(false);
 
@@ -113,13 +111,7 @@ export default function SettingsRoute() {
   }
 
   return (
-    <ScreenScrollView
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-      contentContainerClassName="gap-6 p-6"
-    >
+    <ScreenScrollView contentContainerClassName="gap-6 p-6">
       {/* App Header */}
       <View className="items-center py-6">
         <View
@@ -529,14 +521,14 @@ export default function SettingsRoute() {
             }}
           >
             <Button.StartContent>
-              <Ionicons name="trash-outline" size={18} color="#ef4444" />
+              <Ionicons name="trash-outline" size={18} color={colors.danger} />
             </Button.StartContent>
             <Button.LabelContent className="text-red-500">
               {isDeletingUser ? "Deleting..." : "Delete Account"}
             </Button.LabelContent>
             {isDeletingUser && (
               <Button.EndContent>
-                <Spinner color="#ef4444" />
+                <Spinner color={colors.danger} />
               </Button.EndContent>
             )}
           </Button>

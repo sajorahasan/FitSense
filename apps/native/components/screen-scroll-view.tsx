@@ -2,7 +2,6 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import type { FC, PropsWithChildren } from "react";
 import { Platform, ScrollView, type ScrollViewProps } from "react-native";
 import Animated, { type AnimatedProps } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { cn } from "@/lib/utils";
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
@@ -18,7 +17,6 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
   contentContainerClassName,
   ...props
 }) => {
-  const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   return (
     <AnimatedScrollView
@@ -29,7 +27,7 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
           ios: headerHeight,
           android: 0,
         }),
-        paddingBottom: insets.bottom + 32,
+        paddingBottom: 32,
       }}
       showsVerticalScrollIndicator={false}
       {...props}

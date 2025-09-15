@@ -4,24 +4,16 @@ import { useQuery } from "convex/react";
 import { Link } from "expo-router";
 import { Button, useTheme } from "heroui-native";
 import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
 
 export default function HomeRoute() {
-  const insets = useSafeAreaInsets();
   const { colors } = useTheme();
   const userData = useQuery(api.users.getAllUserDataQuery);
 
   if (!userData) return null;
 
   return (
-    <ScreenScrollView
-      className="flex-1"
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
+    <ScreenScrollView className="flex-1">
       <View className="flex-1 gap-6 px-2 py-4">
         {/* Welcome Section */}
         <View className="gap-2">
@@ -48,7 +40,7 @@ export default function HomeRoute() {
           </Text>
           <View className="gap-3">
             <Link href={"/(root)/(main)/(tabs)/log-workout"} asChild>
-              <Button className="rounded-xl" size={"lg"} color="primary">
+              <Button className="rounded-xl" size={"lg"}>
                 <Button.StartContent>
                   <Ionicons
                     name="fitness"
@@ -61,7 +53,7 @@ export default function HomeRoute() {
             </Link>
 
             <Link href={"/(root)/(main)/(tabs)/log-meal"} asChild>
-              <Button className="rounded-xl" size={"lg"} color="secondary">
+              <Button className="rounded-xl" size={"lg"}>
                 <Button.StartContent>
                   <Ionicons
                     name="restaurant"
@@ -74,7 +66,7 @@ export default function HomeRoute() {
             </Link>
 
             <Link href={"/(root)/(main)/(tabs)/log-health-metrics"} asChild>
-              <Button className="rounded-xl" size={"lg"} color="success">
+              <Button className="rounded-xl" size={"lg"}>
                 <Button.StartContent>
                   <Ionicons name="heart" size={20} color={colors.background} />
                 </Button.StartContent>

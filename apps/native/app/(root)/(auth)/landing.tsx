@@ -3,7 +3,6 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Button, useTheme } from "heroui-native";
 import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useGoogleSignIn } from "@/lib/better-auth/oauth/googleHandler";
 
 export default function Landing() {
@@ -11,7 +10,7 @@ export default function Landing() {
   const { gSignIn } = useGoogleSignIn();
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <View className="flex-1 bg-background">
       {/* Background gradient overlay */}
       <View className="absolute inset-0" />
 
@@ -107,6 +106,6 @@ export default function Landing() {
           </Link> */}
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

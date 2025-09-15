@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useTheme } from "heroui-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabsLayout() {
   const { colors } = useTheme();
