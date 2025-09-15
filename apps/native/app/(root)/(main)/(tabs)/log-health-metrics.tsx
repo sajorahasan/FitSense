@@ -206,7 +206,7 @@ export default function LogHealthMetricsScreen() {
             {metricTypes.map((metric) => (
               <TouchableOpacity
                 key={metric.key}
-                className={`rounded-lg border px-4 py-3 ${
+                className={`min-w-[30%] flex-1 rounded-lg border px-3 py-3 ${
                   selectedMetric === metric.key
                     ? "border-accent bg-accent/10"
                     : "border-border bg-background"
