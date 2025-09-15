@@ -1,10 +1,13 @@
 import { useHeaderHeight } from "@react-navigation/elements";
 import type { FC, PropsWithChildren } from "react";
-import { Platform, ScrollView, type ScrollViewProps } from "react-native";
+import { Platform, type ScrollViewProps } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Animated, { type AnimatedProps } from "react-native-reanimated";
 import { cn } from "@/lib/utils";
 
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
+const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(
+  KeyboardAwareScrollView,
+);
 
 interface Props extends AnimatedProps<ScrollViewProps> {
   className?: string;
@@ -19,7 +22,7 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
 }) => {
   const headerHeight = useHeaderHeight();
   return (
-    <AnimatedScrollView
+    <AnimatedKeyboardAwareScrollView
       className={cn("bg-background", className)}
       contentContainerClassName={cn("px-5", contentContainerClassName)}
       contentContainerStyle={{
@@ -30,9 +33,11 @@ export const ScreenScrollView: FC<PropsWithChildren<Props>> = ({
         paddingBottom: 32,
       }}
       showsVerticalScrollIndicator={false}
+      bottomOffset={50}
+      extraKeyboardSpace={0}
       {...props}
     >
       {children}
-    </AnimatedScrollView>
+    </AnimatedKeyboardAwareScrollView>
   );
 };
