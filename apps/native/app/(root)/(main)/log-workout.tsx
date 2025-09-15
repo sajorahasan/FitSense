@@ -7,6 +7,8 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader from "@/components/form";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
+import { useNetwork } from "@/contexts/network-context";
+import { SyncManager } from "@/lib/sync-manager";
 import { api } from "~/backend/_generated/api";
 
 const workoutTypes = [
@@ -42,6 +44,8 @@ export default function LogWorkoutScreen() {
   const { colors } = useTheme();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { isOnline } = useNetwork();
+  const syncManager = SyncManager.getInstance();
 
   // Form state
   const [workoutName, setWorkoutName] = useState("");
@@ -81,10 +85,13 @@ export default function LogWorkoutScreen() {
     setIsLoading(true);
     try {
       const endTimeValue = endTime || new Date();
-      const durationMinutes = duration ? Number.parseInt(duration, 10) : 
-        Math.round((endTimeValue.getTime() - startTime.getTime()) / (1000 * 60));
+      const durationMinutes = duration
+        ? Number.parseInt(duration, 10)
+        : Math.round(
+            (endTimeValue.getTime() - startTime.getTime()) / (1000 * 60),
+          );
 
-      await createWorkout({
+      const workoutData = {
         name: workoutName.trim(),
         type: workoutType as any,
         startTime: startTime.getTime(),
@@ -96,9 +103,32 @@ export default function LogWorkoutScreen() {
         location: location.trim() || undefined,
         indoor: isIndoor,
         exercises: [], // TODO: Add exercise tracking in future iteration
-      });
+      };
 
-      toast.success("Workout logged successfully!");
+      if (isOnline) {
+        // Try to save online first
+        try {
+          await createWorkout(workoutData);
+          toast.success("Workout logged successfully!");
+        } catch (error) {
+          // If online save fails, fall back to offline
+          console.warn("Online save failed, saving offline:", error);
+          const _offlineId = syncManager.addWorkoutToQueue(
+            workoutData,
+            "create",
+          );
+          toast.success(
+            "Workout saved offline. Will sync when connection is restored.",
+          );
+        }
+      } else {
+        // Save offline
+        const _offlineId = syncManager.addWorkoutToQueue(workoutData, "create");
+        toast.success(
+          "Workout saved offline. Will sync when connection is restored.",
+        );
+      }
+
       router.back();
     } catch (error) {
       console.error("Error logging workout:", error);
@@ -118,12 +148,12 @@ export default function LogWorkoutScreen() {
 
       {/* Basic Information */}
       <View className="gap-4">
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="font-semibold text-foreground text-lg">
           Basic Information
         </Text>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Workout Name *
           </Text>
           <TextInput
@@ -136,7 +166,7 @@ export default function LogWorkoutScreen() {
         </View>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Workout Type *
           </Text>
           <View className="flex-row flex-wrap gap-2">
@@ -153,7 +183,7 @@ export default function LogWorkoutScreen() {
                 <Text
                   className={`text-sm ${
                     workoutType === type.key
-                      ? "text-primary font-medium"
+                      ? "font-medium text-primary"
                       : "text-foreground"
                   }`}
                 >
@@ -167,14 +197,14 @@ export default function LogWorkoutScreen() {
         <View className="flex-row gap-3">
           <View className="flex-1">
             <View className="gap-2">
-              <Text className="text-sm font-medium text-foreground">
+              <Text className="font-medium text-foreground text-sm">
                 Start Time
               </Text>
               <TextInput
                 className="rounded-lg border border-border bg-muted px-3 py-3 text-foreground"
-                value={startTime.toLocaleTimeString([], { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
+                value={startTime.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
                 editable={false}
               />
@@ -182,7 +212,7 @@ export default function LogWorkoutScreen() {
           </View>
           <View className="flex-1">
             <View className="gap-2">
-              <Text className="text-sm font-medium text-foreground">
+              <Text className="font-medium text-foreground text-sm">
                 Duration (minutes)
               </Text>
               <TextInput
@@ -198,7 +228,7 @@ export default function LogWorkoutScreen() {
         </View>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Location (optional)
           </Text>
           <TextInput
@@ -222,7 +252,7 @@ export default function LogWorkoutScreen() {
           >
             <Text
               className={`text-sm ${
-                isIndoor ? "text-primary font-medium" : "text-foreground"
+                isIndoor ? "font-medium text-primary" : "text-foreground"
               }`}
             >
               {isIndoor ? "Yes" : "No"}
@@ -233,12 +263,12 @@ export default function LogWorkoutScreen() {
 
       {/* How You Felt */}
       <View className="gap-4">
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="font-semibold text-foreground text-lg">
           How You Felt
         </Text>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Mood After Workout *
           </Text>
           <View className="flex-row flex-wrap gap-2">
@@ -255,7 +285,7 @@ export default function LogWorkoutScreen() {
                 <Text
                   className={`text-sm ${
                     mood === option.key
-                      ? "text-primary font-medium"
+                      ? "font-medium text-primary"
                       : "text-foreground"
                   }`}
                 >
@@ -267,7 +297,7 @@ export default function LogWorkoutScreen() {
         </View>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Perceived Effort (1-10) *
           </Text>
           <View className="flex-row flex-wrap gap-2">
@@ -284,7 +314,7 @@ export default function LogWorkoutScreen() {
                 <Text
                   className={`text-xs ${
                     perceivedEffort === level.key
-                      ? "text-primary font-medium"
+                      ? "font-medium text-primary"
                       : "text-foreground"
                   }`}
                 >
@@ -298,12 +328,12 @@ export default function LogWorkoutScreen() {
 
       {/* Notes */}
       <View className="gap-4">
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="font-semibold text-foreground text-lg">
           Additional Notes
         </Text>
 
         <View className="gap-2">
-          <Text className="text-sm font-medium text-foreground">
+          <Text className="font-medium text-foreground text-sm">
             Notes (optional)
           </Text>
           <TextInput
@@ -330,7 +360,7 @@ export default function LogWorkoutScreen() {
         >
           <View className="flex-row items-center justify-center gap-2">
             <Ionicons name="checkmark" size={20} color={colors.background} />
-            <Text className="text-background font-semibold text-lg">
+            <Text className="font-semibold text-background text-lg">
               {isLoading ? "Logging..." : "Log Workout"}
             </Text>
           </View>

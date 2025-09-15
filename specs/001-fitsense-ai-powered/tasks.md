@@ -129,17 +129,17 @@
   - **Details**: ✅ `apps/native/app/(root)/(main)/log-health-metrics.tsx` with comprehensive health tracking
 
 ### Local Storage & Sync
-- [ ] **T014** [P] Setup MMKV encrypted storage
+- [x] **T014** [P] Setup MMKV encrypted storage
   - **Effort**: Low (1 hour)
   - **Dependencies**: T001
   - **Success Criteria**: Secure local storage for offline data
-  - **Details**: Configure MMKV with encryption keys, HIPAA-compliant setup
+  - **Details**: ✅ Configured MMKV with encryption keys, HIPAA-compliant setup in `lib/storage.ts`
 
-- [ ] **T015** Implement offline-first data sync
+- [x] **T015** Implement offline-first data sync
   - **Effort**: High (2-3 hours)
   - **Dependencies**: T014, T006-T009
   - **Success Criteria**: Local changes sync to Convex when online
-  - **Details**: Conflict resolution, optimistic updates, sync status indicators
+  - **Details**: ✅ Implemented sync manager, network context, and offline-first logging screens
 
 ---
 
@@ -402,8 +402,10 @@ Task: "Implement Convex schema for HealthMetric in backend/convex/schema.ts"
 **T011**: ✅ Workout logging screen with comprehensive form validation
 **T012**: ✅ Meal logging screen with nutrition tracking and food database
 **T013**: ✅ Health metrics logging screen with multiple measurement types
+**T014**: ✅ MMKV encrypted storage with HIPAA-compliant configuration
+**T015**: ✅ Offline-first data sync with conflict resolution and sync status
 
-### 🔄 Next Priority: T014-T015 - Local Storage & Sync (Mobile App)
-**Ready to start**: All dependencies (T001-T013) completed
-**Effort**: Low-Med (1-2 hours each)
-**Focus**: Setup MMKV storage and implement offline sync functionality
+### 🔄 Next Priority: T016-T018 - AI Insights and Recommendations (Backend)
+**Ready to start**: All dependencies (T001-T015) completed
+**Effort**: Med-High (2-4 hours each)
+**Focus**: Setup OpenAI integration and implement AI-powered insights

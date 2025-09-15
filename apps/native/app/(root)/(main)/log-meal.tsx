@@ -6,6 +6,8 @@ import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
+import { useNetwork } from "@/contexts/network-context";
+import { SyncManager } from "@/lib/sync-manager";
 import { api } from "~/backend/_generated/api";
 
 const mealTypes = [
@@ -34,6 +36,8 @@ export default function LogMealScreen() {
   const { colors } = useTheme();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { isOnline } = useNetwork();
+  const syncManager = SyncManager.getInstance();
 
   // Form state
   const [mealName, setMealName] = useState("");
@@ -161,7 +165,7 @@ export default function LogMealScreen() {
     try {
       const totalNutrition = calculateTotalNutrition();
 
-      await createMeal({
+      const mealData = {
         name: mealName.trim(),
         type: mealType as any,
         mealTime: mealTime.getTime(),
@@ -185,9 +189,29 @@ export default function LogMealScreen() {
         source: source as any,
         notes: notes.trim() || undefined,
         photoUrls: [], // TODO: Add photo support in future iteration
-      });
+      };
 
-      toast.success("Meal logged successfully!");
+      if (isOnline) {
+        // Try to save online first
+        try {
+          await createMeal(mealData);
+          toast.success("Meal logged successfully!");
+        } catch (error) {
+          // If online save fails, fall back to offline
+          console.warn("Online save failed, saving offline:", error);
+          const _offlineId = syncManager.addMealToQueue(mealData, "create");
+          toast.success(
+            "Meal saved offline. Will sync when connection is restored.",
+          );
+        }
+      } else {
+        // Save offline
+        const _offlineId = syncManager.addMealToQueue(mealData, "create");
+        toast.success(
+          "Meal saved offline. Will sync when connection is restored.",
+        );
+      }
+
       router.back();
     } catch (error) {
       console.error("Error logging meal:", error);

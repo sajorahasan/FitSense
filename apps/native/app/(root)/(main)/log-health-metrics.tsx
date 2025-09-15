@@ -6,6 +6,8 @@ import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { toast } from "sonner-native";
 import FormHeader, { FormContainer } from "@/components/form";
+import { useNetwork } from "@/contexts/network-context";
+import { SyncManager } from "@/lib/sync-manager";
 import { api } from "~/backend/_generated/api";
 
 const metricTypes = [
@@ -62,6 +64,8 @@ export default function LogHealthMetricsScreen() {
   const { colors } = useTheme();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { isOnline } = useNetwork();
+  const syncManager = SyncManager.getInstance();
 
   // Form state
   const [selectedMetric, setSelectedMetric] = useState<string>("");
@@ -141,9 +145,33 @@ export default function LogHealthMetricsScreen() {
         metricData.quality = quality as any;
       }
 
-      await createHealthMetric(metricData);
+      if (isOnline) {
+        // Try to save online first
+        try {
+          await createHealthMetric(metricData);
+          toast.success("Health metric logged successfully!");
+        } catch (error) {
+          // If online save fails, fall back to offline
+          console.warn("Online save failed, saving offline:", error);
+          const _offlineId = syncManager.addHealthMetricToQueue(
+            metricData,
+            "create",
+          );
+          toast.success(
+            "Health metric saved offline. Will sync when connection is restored.",
+          );
+        }
+      } else {
+        // Save offline
+        const _offlineId = syncManager.addHealthMetricToQueue(
+          metricData,
+          "create",
+        );
+        toast.success(
+          "Health metric saved offline. Will sync when connection is restored.",
+        );
+      }
 
-      toast.success("Health metric logged successfully!");
       router.back();
     } catch (error) {
       console.error("Error logging health metric:", error);
@@ -190,7 +218,7 @@ export default function LogHealthMetricsScreen() {
                     size={20}
                     color={
                       selectedMetric === metric.key
-                        ? colors.primary
+                        ? "#007AFF" // iOS blue for primary
                         : colors.foreground
                     }
                   />
@@ -410,10 +438,9 @@ export default function LogHealthMetricsScreen() {
         </Button>
 
         <Button
-          variant="outline"
           onPress={() => router.back()}
           disabled={isLoading}
-          className="rounded-3xl"
+          className="rounded-3xl border border-border bg-background"
         >
           <Button.LabelContent>Cancel</Button.LabelContent>
         </Button>
@@ -421,4 +448,3 @@ export default function LogHealthMetricsScreen() {
     </FormContainer>
   );
 }
-
