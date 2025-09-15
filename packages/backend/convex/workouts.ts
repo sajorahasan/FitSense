@@ -1,5 +1,5 @@
-import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
 export const createWorkout = mutation({
   args: {
@@ -9,7 +9,7 @@ export const createWorkout = mutation({
       v.literal("strength"),
       v.literal("flexibility"),
       v.literal("sports"),
-      v.literal("other")
+      v.literal("other"),
     ),
     startTime: v.number(),
     endTime: v.number(),
@@ -19,7 +19,7 @@ export const createWorkout = mutation({
       v.literal("poor"),
       v.literal("okay"),
       v.literal("good"),
-      v.literal("excellent")
+      v.literal("excellent"),
     ),
     perceivedEffort: v.union(
       v.literal(1),
@@ -31,31 +31,41 @@ export const createWorkout = mutation({
       v.literal(7),
       v.literal(8),
       v.literal(9),
-      v.literal(10)
+      v.literal(10),
     ),
     notes: v.optional(v.string()),
     location: v.optional(v.string()),
     indoor: v.boolean(),
-    exercises: v.optional(v.array(v.object({
-      id: v.string(),
-      name: v.string(),
-      category: v.optional(v.string()),
-      sets: v.optional(v.array(v.object({
-        reps: v.optional(v.number()),
-        weight: v.optional(v.number()),
-        duration: v.optional(v.number()),
-        restTime: v.optional(v.number()),
-        completed: v.boolean(),
-      }))),
-      duration: v.optional(v.number()),
-      distance: v.optional(v.number()),
-      notes: v.optional(v.string()),
-      difficulty: v.optional(v.union(
-        v.literal("easy"),
-        v.literal("moderate"),
-        v.literal("hard")
-      )),
-    }))),
+    exercises: v.optional(
+      v.array(
+        v.object({
+          id: v.string(),
+          name: v.string(),
+          category: v.optional(v.string()),
+          sets: v.optional(
+            v.array(
+              v.object({
+                reps: v.optional(v.number()),
+                weight: v.optional(v.number()),
+                duration: v.optional(v.number()),
+                restTime: v.optional(v.number()),
+                completed: v.boolean(),
+              }),
+            ),
+          ),
+          duration: v.optional(v.number()),
+          distance: v.optional(v.number()),
+          notes: v.optional(v.string()),
+          difficulty: v.optional(
+            v.union(
+              v.literal("easy"),
+              v.literal("moderate"),
+              v.literal("hard"),
+            ),
+          ),
+        }),
+      ),
+    ),
     totalCalories: v.optional(v.number()),
     averageHeartRate: v.optional(v.number()),
     maxHeartRate: v.optional(v.number()),
@@ -105,21 +115,23 @@ export const getUserWorkouts = query({
   args: {
     limit: v.optional(v.number()),
   },
-  returns: v.array(v.object({
-    _id: v.id("workouts"),
-    _creationTime: v.number(),
-    name: v.string(),
-    type: v.string(),
-    startTime: v.number(),
-    endTime: v.optional(v.number()),
-    duration: v.optional(v.number()),
-    mood: v.string(),
-    perceivedEffort: v.number(),
-    notes: v.optional(v.string()),
-    location: v.optional(v.string()),
-    indoor: v.boolean(),
-    totalCalories: v.optional(v.number()),
-  })),
+  returns: v.array(
+    v.object({
+      _id: v.id("workouts"),
+      _creationTime: v.number(),
+      name: v.string(),
+      type: v.string(),
+      startTime: v.number(),
+      endTime: v.optional(v.number()),
+      duration: v.optional(v.number()),
+      mood: v.string(),
+      perceivedEffort: v.number(),
+      notes: v.optional(v.string()),
+      location: v.optional(v.string()),
+      indoor: v.boolean(),
+      totalCalories: v.optional(v.number()),
+    }),
+  ),
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
@@ -142,7 +154,7 @@ export const getUserWorkouts = query({
       .order("desc")
       .take(limit);
 
-    return workouts.map(workout => ({
+    return workouts.map((workout) => ({
       _id: workout._id,
       _creationTime: workout._creationTime,
       name: workout.name,
@@ -178,32 +190,40 @@ export const getWorkoutById = query({
       notes: v.optional(v.string()),
       location: v.optional(v.string()),
       indoor: v.boolean(),
-      exercises: v.array(v.object({
-        id: v.string(),
-        name: v.string(),
-        category: v.optional(v.string()),
-        sets: v.optional(v.array(v.object({
-          reps: v.optional(v.number()),
-          weight: v.optional(v.number()),
+      exercises: v.array(
+        v.object({
+          id: v.string(),
+          name: v.string(),
+          category: v.optional(v.string()),
+          sets: v.optional(
+            v.array(
+              v.object({
+                reps: v.optional(v.number()),
+                weight: v.optional(v.number()),
+                duration: v.optional(v.number()),
+                restTime: v.optional(v.number()),
+                completed: v.boolean(),
+              }),
+            ),
+          ),
           duration: v.optional(v.number()),
-          restTime: v.optional(v.number()),
-          completed: v.boolean(),
-        }))),
-        duration: v.optional(v.number()),
-        distance: v.optional(v.number()),
-        notes: v.optional(v.string()),
-        difficulty: v.optional(v.union(
-          v.literal("easy"),
-          v.literal("moderate"),
-          v.literal("hard")
-        )),
-      })),
+          distance: v.optional(v.number()),
+          notes: v.optional(v.string()),
+          difficulty: v.optional(
+            v.union(
+              v.literal("easy"),
+              v.literal("moderate"),
+              v.literal("hard"),
+            ),
+          ),
+        }),
+      ),
       totalCalories: v.optional(v.number()),
       averageHeartRate: v.optional(v.number()),
       maxHeartRate: v.optional(v.number()),
       weather: v.optional(v.string()),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
