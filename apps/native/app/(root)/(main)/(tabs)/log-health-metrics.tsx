@@ -207,7 +207,7 @@ export default function LogHealthMetricsScreen() {
                 key={metric.key}
                 className={`rounded-lg border px-4 py-3 ${
                   selectedMetric === metric.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setSelectedMetric(metric.key)}
@@ -218,16 +218,22 @@ export default function LogHealthMetricsScreen() {
                     size={20}
                     color={
                       selectedMetric === metric.key
-                        ? "#007AFF" // iOS blue for primary
+                        ? colors.accent
                         : colors.foreground
                     }
                   />
                   <Text
                     className={`text-center text-xs ${
                       selectedMetric === metric.key
-                        ? "font-medium text-primary"
+                        ? "font-medium"
                         : "text-foreground"
                     }`}
+                    style={{
+                      color:
+                        selectedMetric === metric.key
+                          ? colors.accent
+                          : colors.foreground,
+                    }}
                   >
                     {metric.label}
                   </Text>
@@ -348,17 +354,21 @@ export default function LogHealthMetricsScreen() {
                   key={option.key}
                   className={`rounded-lg border px-4 py-2 ${
                     quality === option.key
-                      ? "border-primary bg-primary/10"
+                      ? "border-accent bg-accent/10"
                       : "border-border bg-background"
                   }`}
                   onPress={() => setQuality(option.key)}
                 >
                   <Text
                     className={`text-sm ${
-                      quality === option.key
-                        ? "font-medium text-primary"
-                        : "text-foreground"
+                      quality === option.key ? "font-medium" : "text-foreground"
                     }`}
+                    style={{
+                      color:
+                        quality === option.key
+                          ? colors.accent
+                          : colors.foreground,
+                    }}
                   >
                     {option.label}
                   </Text>

@@ -1,7 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { useTheme } from "heroui-native";
 
 export default function TabsLayout() {
+  const { colors } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
@@ -12,8 +15,8 @@ export default function TabsLayout() {
           elevation: 0,
           shadowOpacity: 0,
         },
-        tabBarActiveTintColor: "#007AFF",
-        tabBarInactiveTintColor: "#8E8E93",
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.mutedForeground,
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "500",

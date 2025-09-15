@@ -9,7 +9,7 @@ export function FormContainer({ children }: { children: React.ReactNode }) {
    *
    * i think maybe that would be a good idea??
    */
-  return <View className="flex-1 gap-4 px-6">{children}</View>;
+  return <View className="flex-1 gap-4 bg-background px-3">{children}</View>;
 }
 /* ------------------------------- form header ------------------------------ */
 export default function FormHeader({

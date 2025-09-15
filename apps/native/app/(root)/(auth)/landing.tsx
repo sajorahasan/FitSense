@@ -11,7 +11,7 @@ export default function Landing() {
   const { gSignIn } = useGoogleSignIn();
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-background">
       {/* Background gradient overlay */}
       <View className="absolute inset-0" />
 

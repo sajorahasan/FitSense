@@ -264,17 +264,19 @@ export default function LogMealScreen() {
                 key={type.key}
                 className={`rounded-lg border px-4 py-2 ${
                   mealType === type.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setMealType(type.key)}
               >
                 <Text
                   className={`text-sm ${
-                    mealType === type.key
-                      ? "font-medium text-primary"
-                      : "text-foreground"
+                    mealType === type.key ? "font-medium" : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      mealType === type.key ? colors.accent : colors.foreground,
+                  }}
                 >
                   {type.label}
                 </Text>
@@ -305,15 +307,18 @@ export default function LogMealScreen() {
           <TouchableOpacity
             className={`rounded-lg border px-4 py-2 ${
               withOthers
-                ? "border-primary bg-primary/10"
+                ? "border-accent bg-accent/10"
                 : "border-border bg-background"
             }`}
             onPress={() => setWithOthers(!withOthers)}
           >
             <Text
               className={`text-sm ${
-                withOthers ? "font-medium text-primary" : "text-foreground"
+                withOthers ? "font-medium" : "text-foreground"
               }`}
+              style={{
+                color: withOthers ? colors.accent : colors.foreground,
+              }}
             >
               {withOthers ? "Yes" : "No"}
             </Text>
@@ -442,7 +447,8 @@ export default function LogMealScreen() {
           </View>
 
           <TouchableOpacity
-            className="rounded-xl bg-secondary px-4 py-3"
+            className="rounded-xl px-4 py-3"
+            style={{ backgroundColor: colors.accent }}
             onPress={addFoodItem}
           >
             <View className="flex-row items-center justify-center gap-2">
@@ -495,8 +501,17 @@ export default function LogMealScreen() {
 
         {/* Total Nutrition */}
         {foodItems.length > 0 && (
-          <View className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-            <Text className="mb-2 text-center font-semibold text-primary">
+          <View
+            className="rounded-lg border p-4"
+            style={{
+              borderColor: colors.accent + "33", // 20% opacity
+              backgroundColor: colors.accent + "0D", // 5% opacity
+            }}
+          >
+            <Text
+              className="mb-2 text-center font-semibold"
+              style={{ color: colors.accent }}
+            >
               Total Nutrition
             </Text>
             <View className="flex-row justify-around">
@@ -545,17 +560,19 @@ export default function LogMealScreen() {
                 key={option.key}
                 className={`rounded-lg border px-4 py-2 ${
                   mood === option.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setMood(option.key)}
               >
                 <Text
                   className={`text-sm ${
-                    mood === option.key
-                      ? "font-medium text-primary"
-                      : "text-foreground"
+                    mood === option.key ? "font-medium" : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      mood === option.key ? colors.accent : colors.foreground,
+                  }}
                 >
                   {option.label}
                 </Text>
@@ -572,7 +589,7 @@ export default function LogMealScreen() {
                 key={sourceOption.key}
                 className={`rounded-lg border px-4 py-2 ${
                   source === sourceOption.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setSource(sourceOption.key)}
@@ -580,9 +597,15 @@ export default function LogMealScreen() {
                 <Text
                   className={`text-sm ${
                     source === sourceOption.key
-                      ? "font-medium text-primary"
+                      ? "font-medium"
                       : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      source === sourceOption.key
+                        ? colors.accent
+                        : colors.foreground,
+                  }}
                 >
                   {sourceOption.label}
                 </Text>

@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useTheme } from "heroui-native";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
 import FormHeader from "@/components/form";
 import { ScreenScrollView } from "@/components/screen-scroll-view";
@@ -46,6 +47,7 @@ export default function LogWorkoutScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const { isOnline } = useNetwork();
   const syncManager = SyncManager.getInstance();
+  const insets = useSafeAreaInsets();
 
   // Form state
   const [workoutName, setWorkoutName] = useState("");
@@ -139,7 +141,13 @@ export default function LogWorkoutScreen() {
   };
 
   return (
-    <ScreenScrollView contentContainerClassName="gap-6 px-6">
+    <ScreenScrollView
+      style={{
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+      }}
+      contentContainerClassName="gap-6 px-6"
+    >
       <FormHeader
         title="Log Workout"
         description="Record your exercise session"
@@ -175,17 +183,21 @@ export default function LogWorkoutScreen() {
                 key={type.key}
                 className={`rounded-lg border px-4 py-2 ${
                   workoutType === type.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setWorkoutType(type.key)}
               >
                 <Text
                   className={`text-sm ${
-                    workoutType === type.key
-                      ? "font-medium text-primary"
-                      : "text-foreground"
+                    workoutType === type.key ? "font-medium" : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      workoutType === type.key
+                        ? colors.accent
+                        : colors.foreground,
+                  }}
                 >
                   {type.label}
                 </Text>
@@ -245,15 +257,18 @@ export default function LogWorkoutScreen() {
           <TouchableOpacity
             className={`rounded-lg border px-4 py-2 ${
               isIndoor
-                ? "border-primary bg-primary/10"
+                ? "border-accent bg-accent/10"
                 : "border-border bg-background"
             }`}
             onPress={() => setIsIndoor(!isIndoor)}
           >
             <Text
               className={`text-sm ${
-                isIndoor ? "font-medium text-primary" : "text-foreground"
+                isIndoor ? "font-medium" : "text-foreground"
               }`}
+              style={{
+                color: isIndoor ? colors.accent : colors.foreground,
+              }}
             >
               {isIndoor ? "Yes" : "No"}
             </Text>
@@ -277,17 +292,19 @@ export default function LogWorkoutScreen() {
                 key={option.key}
                 className={`rounded-lg border px-4 py-2 ${
                   mood === option.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setMood(option.key)}
               >
                 <Text
                   className={`text-sm ${
-                    mood === option.key
-                      ? "font-medium text-primary"
-                      : "text-foreground"
+                    mood === option.key ? "font-medium" : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      mood === option.key ? colors.accent : colors.foreground,
+                  }}
                 >
                   {option.label}
                 </Text>
@@ -306,7 +323,7 @@ export default function LogWorkoutScreen() {
                 key={level.key}
                 className={`rounded-lg border px-3 py-2 ${
                   perceivedEffort === level.key
-                    ? "border-primary bg-primary/10"
+                    ? "border-accent bg-accent/10"
                     : "border-border bg-background"
                 }`}
                 onPress={() => setPerceivedEffort(level.key)}
@@ -314,9 +331,15 @@ export default function LogWorkoutScreen() {
                 <Text
                   className={`text-xs ${
                     perceivedEffort === level.key
-                      ? "font-medium text-primary"
+                      ? "font-medium"
                       : "text-foreground"
                   }`}
+                  style={{
+                    color:
+                      perceivedEffort === level.key
+                        ? colors.accent
+                        : colors.foreground,
+                  }}
                 >
                   {level.key}
                 </Text>
@@ -352,9 +375,8 @@ export default function LogWorkoutScreen() {
       {/* Action Buttons */}
       <View className="gap-3 pb-6">
         <TouchableOpacity
-          className={`rounded-xl bg-primary px-6 py-4 ${
-            isLoading ? "opacity-50" : ""
-          }`}
+          className={`rounded-xl px-6 py-4 ${isLoading ? "opacity-50" : ""}`}
+          style={{ backgroundColor: colors.accent }}
           onPress={handleSave}
           disabled={isLoading}
         >

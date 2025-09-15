@@ -147,11 +147,19 @@ export default function SignUpRoute() {
       </Button>
       <Text className="px-14 text-center text-muted-foreground text-sm">
         by continuing you agree to our{" "}
-        <Link href="http://convex.dev" className="text-primary underline">
+        <Link
+          href="http://convex.dev"
+          className="underline"
+          style={{ color: colors.accent }}
+        >
           terms of service
         </Link>{" "}
         and{" "}
-        <Link href="http://convex.dev" className="text-primary underline">
+        <Link
+          href="http://convex.dev"
+          className="underline"
+          style={{ color: colors.accent }}
+        >
           privacy policy
         </Link>
       </Text>

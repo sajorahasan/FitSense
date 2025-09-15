@@ -89,8 +89,14 @@ export default function OnboardingPersonal() {
 
       {/* Progress indicator */}
       <View className="mb-6 flex-row items-center justify-center gap-2">
-        <View className="h-2 w-8 rounded-full bg-primary" />
-        <View className="h-2 w-8 rounded-full bg-primary" />
+        <View
+          className="h-2 w-8 rounded-full"
+          style={{ backgroundColor: colors.accent }}
+        />
+        <View
+          className="h-2 w-8 rounded-full"
+          style={{ backgroundColor: colors.accent }}
+        />
         <View className="h-2 w-8 rounded-full bg-muted" />
         <View className="h-2 w-8 rounded-full bg-muted" />
       </View>

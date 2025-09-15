@@ -382,7 +382,7 @@ export default function ProfileRoute() {
                       }
                       className={`rounded-xl border p-3 ${
                         formData.fitnessLevel === level
-                          ? "border-primary bg-primary/10"
+                          ? "border-accent bg-accent/10"
                           : "border-border bg-surface"
                       }`}
                     >
@@ -432,7 +432,7 @@ export default function ProfileRoute() {
                       }
                       className={`rounded-xl border p-3 ${
                         formData.primaryGoal === goal
-                          ? "border-primary bg-primary/10"
+                          ? "border-accent bg-accent/10"
                           : "border-border bg-surface"
                       }`}
                     >
@@ -477,7 +477,7 @@ export default function ProfileRoute() {
                       }
                       className={`rounded-xl border p-3 ${
                         formData.activityLevel === level
-                          ? "border-primary bg-primary/10"
+                          ? "border-accent bg-accent/10"
                           : "border-border bg-surface"
                       }`}
                     >
